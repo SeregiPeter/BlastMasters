@@ -2,8 +2,8 @@ package model.board.element.character;
 
 import model.board.Board;
 import model.board.element.Entity;
-
 import java.awt.*;
+
 
 public abstract class Monster extends Entity {
     protected Board board;
