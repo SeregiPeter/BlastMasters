@@ -35,4 +35,32 @@ public class Board {
     public Player getWinner(){
         return null;
     }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public ArrayList<Monster> getMonsters() {
+        return monsters;
+    }
+
+    public ArrayList<Wall> getWalls() {
+        return walls;
+    }
+
+    public ArrayList<Box> getBoxes() {
+        return boxes;
+    }
+
+    public ArrayList<Bonus> getBonuses() {
+        return bonuses;
+    }
+
+    public ArrayList<Bomb> getBombs() {
+        return bombs;
+    }
 }
