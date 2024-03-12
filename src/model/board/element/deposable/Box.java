@@ -10,4 +10,10 @@ public class Box extends Entity {
         super(x, y, width, height, velocity, image, alive, visible);
         this.bonus = bonus;
     }
+
+    @Override
+    public String toString() {
+        //return "B";
+        return "\uD83D\uDCE6";
+    }
 }

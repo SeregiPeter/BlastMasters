@@ -22,4 +22,9 @@ public class Bomb extends Entity {
         return null;
     }
     public void explode(){}
+
+    @Override
+    public String toString() {
+        return Character.toString(128_163);
+    }
 }

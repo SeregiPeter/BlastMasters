@@ -6,7 +6,6 @@ import java.awt.*;
 
 public class SemiIntelligentMonster extends Monster {
 
-
     public SemiIntelligentMonster(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, image, alive, visible, board);
     }
@@ -15,5 +14,10 @@ public class SemiIntelligentMonster extends Monster {
     @Override
     public void move() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Sm";
     }
 }

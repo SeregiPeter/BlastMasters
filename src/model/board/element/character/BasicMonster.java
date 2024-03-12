@@ -13,4 +13,9 @@ public class BasicMonster extends Monster {
     public void move() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Bm";
+    }
 }
