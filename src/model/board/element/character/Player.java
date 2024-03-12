@@ -7,13 +7,21 @@ import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.powerup.Bonus;
 
+import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import static model.board.Image.BOMB_IMG;
+import static model.board.Size.BOMB_HEIGHT;
+import static model.board.Size.BOMB_WIDTH;
+import static model.board.Velocity.BOMB_VEL;
 
 public class Player extends Entity {
 
     private String name;
     private int points;
+    private Board board;
     private List<Bomb> bombs;
     private List<Bonus> bonuses;
     private int maxNumberOfBombs;
@@ -26,28 +34,26 @@ public class Player extends Entity {
     private boolean hasToPlaceImmediately;
     private boolean canPlaceBombs;
     private int numberOfObstacles;
-    private int MaxNumberOfBombs;
-    private Board board;
     private Settings settings;
 
-    public Player(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, String name, int points, List<Bomb> bombs, List<Bonus> bonuses, int maxNumberOfBombs, boolean hasDetonator, boolean hasRoller, boolean immortal, boolean ghost, boolean canPlaceObstacles, boolean slowedDown, boolean hasToPlaceImmediately, boolean canPlaceBombs, int numberOfObstacles, int maxNumberOfBombs1, Board board, Settings settings) {
+    public Player(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.name = name;
-        this.points = points;
-        this.bombs = bombs;
-        this.bonuses = bonuses;
-        this.maxNumberOfBombs = maxNumberOfBombs;
-        this.hasDetonator = hasDetonator;
-        this.hasRoller = hasRoller;
-        this.immortal = immortal;
-        this.ghost = ghost;
-        this.canPlaceObstacles = canPlaceObstacles;
-        this.slowedDown = slowedDown;
-        this.hasToPlaceImmediately = hasToPlaceImmediately;
-        this.canPlaceBombs = canPlaceBombs;
-        this.numberOfObstacles = numberOfObstacles;
-        MaxNumberOfBombs = maxNumberOfBombs1;
         this.board = board;
+        points = 0;
+        bombs = new ArrayList<Bomb>();
+        addBomb();
+        bonuses = new ArrayList<Bonus>();
+        maxNumberOfBombs = 1;
+        this.hasDetonator = false;
+        this.hasRoller = false;
+        this.immortal = false;
+        this.ghost = false;
+        this.canPlaceObstacles = false;
+        this.slowedDown = false;
+        this.hasToPlaceImmediately = false;
+        this.canPlaceBombs = true;
+        this.numberOfObstacles = 0;
         this.settings = settings;
     }
 
@@ -59,8 +65,8 @@ public class Player extends Entity {
 
     }
 
-    public void addBomb(Bomb b) {
-        bombs.add(b);
+    public void addBomb() {
+        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getValue(), BOMB_HEIGHT.getValue(), BOMB_VEL.getValue(), new ImageIcon(BOMB_IMG.getUrl()).getImage(), false, false, this, this.board));
     }
 
     public void addBonus(Bonus b) {
