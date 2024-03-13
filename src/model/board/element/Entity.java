@@ -1,5 +1,7 @@
 package model.board.element;
 
+import model.board.Direction;
+
 import java.awt.*;
 
 public abstract class Entity {
@@ -91,5 +93,22 @@ public abstract class Entity {
 
     public void setVisible(boolean visible) {
         this.visible = visible;
+    }
+
+    public void moveTowardsDirection(Direction direction) {
+        switch(direction) {
+            case UP:
+                this.y -= this.velocity;
+                break;
+            case DOWN:
+                this.y += this.velocity;
+                break;
+            case LEFT:
+                this.x -= this.velocity;
+                break;
+            case RIGHT:
+                this.x += this.velocity;
+                break;
+        }
     }
 }
