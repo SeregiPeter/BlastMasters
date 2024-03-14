@@ -20,6 +20,7 @@ public class Board {
     private int bonusSize;
     private Player player1;
     private Player player2;
+    private ArrayList<Entity> entities;
     private ArrayList<Monster> monsters;
     private ArrayList<Wall> walls;
     private ArrayList<Box> boxes;
@@ -62,5 +63,8 @@ public class Board {
 
     public ArrayList<Bomb> getBombs() {
         return bombs;
+    }
+    public ArrayList<Entity> getEntities() {
+        return entities;
     }
 }
