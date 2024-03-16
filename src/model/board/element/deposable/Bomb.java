@@ -6,6 +6,8 @@ import model.board.element.character.Player;
 
 import java.awt.*;
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static model.board.Size.BOMB_HEIGHT;
 import static model.board.Size.BOMB_WIDTH;
@@ -21,11 +23,28 @@ public class Bomb extends Entity {
         this.board=board;
         id = ++bombCounter;
     }
-    public void plant(){}
+    public void plant(){
+        board.getEntities().add(this);
+
+        Timer Fuse=new Timer();
+        Fuse.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                explode();
+            }
+        }, 4*1000);                     // after 4 sec the bomb explodes
+
+
+    }
     public Entity getAllEntitiesInRange(){
         return null;
     }
-    public void explode(){}
+    public void explode(){
+
+        board.getEntFromXY();
+
+
+    }
     public int getId() { return id; }
 
     @Override
