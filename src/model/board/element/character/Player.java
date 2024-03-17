@@ -5,6 +5,8 @@ import model.board.Board;
 import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
+import model.board.element.deposable.Box;
+import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
 import javax.swing.*;
@@ -35,6 +37,8 @@ public class Player extends Entity {
     private boolean canPlaceBombs;
     private int numberOfObstacles;
     private Settings settings;
+    private Bomb lastPlantedBomb;
+    private boolean onBomb;
 
     public Player(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, image, alive, visible);
@@ -55,10 +59,14 @@ public class Player extends Entity {
         this.canPlaceBombs = true;
         this.numberOfObstacles = 0;
         this.settings = settings;
+        lastPlantedBomb = null;
+        onBomb = false;
     }
 
     public void plantBomb() {
 
+        // A lastPlantedBomb-ot itt egyenlővé kell tenni a lerakott bombával.
+        onBomb = true;
     }
 
     public void explodeBombs() {
@@ -73,13 +81,23 @@ public class Player extends Entity {
         bonuses.add(b);
     }
 
-    public void move(Direction d) {
+    /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk, akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
+    public void move(Direction direction) {
+        if(!this.isAlive()) return;
 
+        this.moveTowardsDirection(direction);
+
+        boolean shouldBePlacedBack = false;
+        for(Entity entity : board.getEntities()) {
+            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && (!entity.equals(lastPlantedBomb) || !onBomb))) && this.collides(entity)) {
+                shouldBePlacedBack = true;
+                break;
+            }
+        }
+        if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
+
+        if(shouldBePlacedBack) {
+            this.moveTowardsDirection(Direction.getOppositeDirection(direction));
+        }
     }
-
-    @Override
-    public String toString() {
-        return "P";
-    }
-
 }
