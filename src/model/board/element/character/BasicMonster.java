@@ -47,8 +47,9 @@ public class BasicMonster extends Monster {
         }
     }
 
-
-
-
+    @Override
+    public String toString() {
+        return "Bm";
+    }
 
 }

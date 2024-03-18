@@ -100,4 +100,9 @@ public class Player extends Entity {
             this.moveTowardsDirection(Direction.getOppositeDirection(direction));
         }
     }
+
+    @Override
+    public String toString() {
+        return "P";
+    }
 }

@@ -8,11 +8,19 @@ import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import static model.board.Size.*;
+
 public class Board {
-    private int broardSize;
+    private List<Entity> boardEntities;
+    private int boardSize;
     private int playerSize;
     private int monsterSize;
     private int wallSize;
@@ -28,9 +36,13 @@ public class Board {
     private ArrayList<Bomb> bombs;
     private Map<Entity,String> images;
 
-    public Board() {
+    public Board(int boardSize, int playerSize, int monsterSize, int wallSize, int boxSize, int bonusSize, String path) throws IOException {
+
     }
-    public void initialize(String Path){}
+
+    public void initialize(String path) throws IOException {
+
+    }
     public void movePlayer(int playerNumber,Direction d){}
     public void moveMonsters(){}
     public Player getWinner(){
