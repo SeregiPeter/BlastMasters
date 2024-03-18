@@ -36,6 +36,7 @@ public class Player extends Entity {
     private boolean hasToPlaceImmediately;
     private boolean canPlaceBombs;
     private int numberOfObstacles;
+    private int bombRange;
     private Settings settings;
     private Bomb lastPlantedBomb;
     private boolean onBomb;
@@ -61,6 +62,7 @@ public class Player extends Entity {
         this.settings = settings;
         lastPlantedBomb = null;
         onBomb = false;
+        bombRange = 2;
     }
 
     public void plantBomb() {
@@ -93,6 +95,9 @@ public class Player extends Entity {
                 shouldBePlacedBack = true;
                 break;
             }
+            if(entity instanceof Bonus && this.collides(entity)) {
+                ((Bonus) entity).use();
+            }
         }
         if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
 
@@ -107,6 +112,9 @@ public class Player extends Entity {
 
     public String getName() {
         return name;
+    }
+    public void incrementBombRange() {
+        this.bombRange++;
     }
 
     @Override
