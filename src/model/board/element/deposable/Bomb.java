@@ -11,8 +11,7 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static model.board.Size.BOMB_HEIGHT;
-import static model.board.Size.BOMB_WIDTH;
+import static model.board.Size.*;
 
 public class Bomb extends Entity {
     private static int bombCounter;
