@@ -103,7 +103,13 @@ public class Board {
         }
         br.close();
     }
-    public void movePlayer(int playerNumber,Direction d){}
+    public void movePlayer1(Direction d) {
+        player1.move(d);
+    }
+
+    public void movePlayer2(Direction d) {
+        player2.move(d);
+    }
     public void moveMonsters(){}
     public Player getWinner(){
         return null;
