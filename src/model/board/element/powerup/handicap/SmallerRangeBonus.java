@@ -1,7 +1,17 @@
 package model.board.element.powerup.handicap;
 
+import model.board.element.character.Player;
 import model.board.element.powerup.BonusWithTimer;
 
-public class SmallerRangeBonus extends BonusWithTimer {
+import java.awt.*;
 
+public class SmallerRangeBonus extends BonusWithTimer {
+    public SmallerRangeBonus(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner) {
+        super(x, y, width, height, velocity, image, alive, visible, owner);
+    }
+
+    @Override
+    public void use() {
+
+    }
 }
