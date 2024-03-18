@@ -2,6 +2,7 @@ package model.board.element.character;
 
 import model.board.Board;
 import model.board.Direction;
+import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
@@ -25,26 +26,10 @@ public class BasicMonster extends Monster {
         this.moveTowardsDirection(currentDirection);
 
         boolean needToChangeDirection = false;
-        for(Wall wall : board.getWalls()) {
-            if(this.collides(wall)) {
+        for(Entity entity : board.getEntities()) {
+            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb)) && this.collides(entity)) {
                 needToChangeDirection = true;
                 break;
-            }
-        }
-        if(!needToChangeDirection) {
-            for(Box box : board.getBoxes()) {
-                if(this.collides(box)) {
-                    needToChangeDirection = true;
-                    break;
-                }
-            }
-        }
-        if(!needToChangeDirection) {
-            for(Bomb bomb : board.getBombs()) {
-                if(this.collides(bomb)) {
-                    needToChangeDirection = true;
-                    break;
-                }
             }
         }
 
@@ -66,4 +51,5 @@ public class BasicMonster extends Monster {
     public String toString() {
         return "Bm";
     }
+
 }

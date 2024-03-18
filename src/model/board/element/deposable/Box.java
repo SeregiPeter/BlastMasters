@@ -13,7 +13,6 @@ public class Box extends Entity {
 
     @Override
     public String toString() {
-        //return "B";
         return "\uD83D\uDCE6";
     }
 }
