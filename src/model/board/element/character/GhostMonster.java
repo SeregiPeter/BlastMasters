@@ -10,4 +10,9 @@ public class GhostMonster extends Monster {
     @Override
     public void move() {
     }
+
+    @Override
+    public String toString() {
+        return "Gm";
+    }
 }
