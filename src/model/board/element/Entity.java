@@ -30,6 +30,11 @@ public abstract class Entity {
         Rectangle otherRect = new Rectangle(other.x, other.y, other.width, other.height);
         return rect.intersects(otherRect);
     }
+    public void draw(Graphics g) {
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.drawImage(image, x, y, width, height, null);
+        g2d.dispose();
+    }
 
     public int getX() {
         return x;
