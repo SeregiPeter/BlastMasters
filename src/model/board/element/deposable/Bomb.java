@@ -21,7 +21,7 @@ public class Bomb extends Entity {
     private Board board;
 
     public Bomb(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner, Board board) {
-        super(x, y, BOMB_WIDTH.getValue(), BOMB_HEIGHT.getValue(), velocity, image, alive, visible);
+        super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
         this.owner = owner;
         this.board = board;
         id = ++bombCounter;
@@ -58,19 +58,19 @@ public class Bomb extends Entity {
 
     public void explode() {
         detonated = true;
-        boolean right = contact(getEntFromXY(this.x + TILE_WIDTH.getValue(), this.y));
-        boolean left = contact(getEntFromXY(this.x - TILE_WIDTH.getValue(), this.y));
-        boolean down = contact(getEntFromXY(this.x, this.y + TILE_HEIGHT.getValue()));
-        boolean up = contact(getEntFromXY(this.x, this.y - TILE_HEIGHT.getValue()));
+        boolean right = contact(getEntFromXY(this.x + TILE_WIDTH.getSize(), this.y));
+        boolean left = contact(getEntFromXY(this.x - TILE_WIDTH.getSize(), this.y));
+        boolean down = contact(getEntFromXY(this.x, this.y + TILE_HEIGHT.getSize()));
+        boolean up = contact(getEntFromXY(this.x, this.y - TILE_HEIGHT.getSize()));
 
         Timer Timer = new Timer();
         Timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if (right) contact(getEntFromXY(x + 2 * TILE_WIDTH.getValue(), y));
-                if (left) contact(getEntFromXY(x - 2 * TILE_WIDTH.getValue(), y));
-                if (up) contact(getEntFromXY(x, y + 2 * TILE_HEIGHT.getValue()));
-                if (down) contact(getEntFromXY(x, y - 2 * TILE_HEIGHT.getValue()));
+                if (right) contact(getEntFromXY(x + 2 * TILE_WIDTH.getSize(), y));
+                if (left) contact(getEntFromXY(x - 2 * TILE_WIDTH.getSize(), y));
+                if (up) contact(getEntFromXY(x, y + 2 * TILE_HEIGHT.getSize()));
+                if (down) contact(getEntFromXY(x, y - 2 * TILE_HEIGHT.getSize()));
             }
         }, 300);
 
@@ -83,8 +83,8 @@ public class Bomb extends Entity {
                     new Bomb(
                             entity.getX(),
                             entity.getY(),
-                            BOMB_WIDTH.getValue(),
-                            BOMB_HEIGHT.getValue(),
+                            BOMB_WIDTH.getSize(),
+                            BOMB_HEIGHT.getSize(),
                             0,
                             null,
                             false,
@@ -101,8 +101,8 @@ public class Bomb extends Entity {
                     new Bomb(
                             entity.getX(),
                             entity.getY(),
-                            BOMB_WIDTH.getValue(),
-                            BOMB_HEIGHT.getValue(),
+                            BOMB_WIDTH.getSize(),
+                            BOMB_HEIGHT.getSize(),
                             0,
                             null,
                             false,

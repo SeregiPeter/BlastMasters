@@ -1,47 +1,107 @@
 package model.board;
 
 import model.board.element.Entity;
-import model.board.element.character.Monster;
-import model.board.element.character.Player;
+import model.board.element.character.*;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import javax.swing.*;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
+import static model.board.Image.*;
 import static model.board.Size.*;
+import static model.board.Velocity.*;
 
 public class Board {
-    private List<Entity> boardEntities;
-    private int boardSize;
-    private int playerSize;
-    private int monsterSize;
-    private int wallSize;
-    private int boxSize;
-    private int bonusSize;
+
+    private final int boardSize;
     private Player player1;
     private Player player2;
-    private ArrayList<Entity> entities;
+    private ArrayList<Entity> boardElements;
     private ArrayList<Monster> monsters;
     private ArrayList<Wall> walls;
     private ArrayList<Box> boxes;
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
-    private Map<Entity,String> images;
 
-    public Board(int boardSize, int playerSize, int monsterSize, int wallSize, int boxSize, int bonusSize, String path) throws IOException {
-
+    public Board(int boardSize, String path) throws IOException {
+        monsters = new ArrayList<>();
+        walls = new ArrayList<>();
+        boxes = new ArrayList<>();
+        bonuses = new ArrayList<>();
+        bombs = new ArrayList<>();
+        this.boardSize = boardSize;
+        initialize(path);
     }
 
     public void initialize(String path) throws IOException {
-
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        boardElements = new ArrayList<>();
+        int row = 0;
+        String line;
+        while((line = br.readLine()) != null) {
+            int col = 0;
+            for(char entityType : line.toCharArray()) {
+                int x = col * TILE_WIDTH.getSize();
+                int y = row * TILE_HEIGHT.getSize();
+                switch (entityType) {
+                    case 'W':
+                        Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
+                                new ImageIcon(WALL_IMG.getImageUrl()).getImage(), false, true);
+                        boardElements.add(wall);
+                        walls.add(wall);
+                        break;
+                    case 'B':
+                        Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
+                                new ImageIcon(BOX_IMG.getImageUrl()).getImage(), false, true, null);
+                        boardElements.add(box);
+                        boxes.add(box);
+                        break;
+                    case 'M':
+                        BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG.getImageUrl()).getImage(), true, true, this);
+                        boardElements.add(basicMonster);
+                        monsters.add(basicMonster);
+                        break;
+                    case 'G':
+                        GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG.getImageUrl()).getImage(), true, true, this);
+                        boardElements.add(ghostMonster);
+                        monsters.add(ghostMonster);
+                        break;
+                    case 'S':
+                        SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
+                                MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG.getImageUrl()).getImage(), true, true, this);
+                        boardElements.add(semiIntelligentMonster);
+                        monsters.add(semiIntelligentMonster);
+                        break;
+                    case 'I':
+                        IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG.getImageUrl()).getImage(), true, true, this);
+                        boardElements.add(intelligentMonster);
+                        monsters.add(intelligentMonster);
+                        break;
+                    case '1':
+                        player1 = new Player(x, y, PLAYER_SIZE.getSize(), PLAYER_SIZE.getSize(), PLAYER_VEL.getVelocity(),
+                                new ImageIcon(PLAYER1_IMG.getImageUrl()).getImage(), true, true, "Player1", this, null);
+                        boardElements.add(player1);
+                        break;
+                    case '2':
+                        player2 = new Player(x, y, PLAYER_SIZE.getSize(), PLAYER_SIZE.getSize(), PLAYER_VEL.getVelocity(),
+                                new ImageIcon(PLAYER2_IMG.getImageUrl()).getImage(), true, true, "Player2", this, null);
+                        boardElements.add(player2);
+                        break;
+                }
+                col++;
+            }
+            row++;
+        }
+        br.close();
     }
     public void movePlayer1(Direction d) {
         player1.move(d);
@@ -83,6 +143,30 @@ public class Board {
         return bombs;
     }
     public ArrayList<Entity> getEntities() {
-        return entities;
+        return boardElements;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("Board Information:\n");
+        sb.append("Size: ").append(boardSize).append("\n");
+
+        // Players
+        sb.append("Player 1: ").append(player1.getName()).append("\n");
+        sb.append("Player 2: ").append(player2.getName()).append("\n");
+
+        // Monsters
+        sb.append("Number of Monsters: ").append(monsters.size()).append("\n");
+
+        // Board Elements
+        sb.append("Number of Board Elements: ").append(boardElements.size()).append("\n");
+        sb.append("Walls: ").append(walls.size()).append("\n");
+        sb.append("Boxes: ").append(boxes.size()).append("\n");
+        sb.append("Bonuses: ").append(bonuses.size()).append("\n");
+        sb.append("Bombs: ").append(bombs.size()).append("\n");
+
+        return sb.toString();
     }
 }
