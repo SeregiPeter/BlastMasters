@@ -17,4 +17,9 @@ public class IntelligentMonster extends Monster {
     public void move() {
 
     }
+
+    @Override
+    public String toString() {
+        return "Im";
+    }
 }
