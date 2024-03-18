@@ -117,6 +117,10 @@ public class Player extends Entity {
         this.bombRange++;
     }
 
+    public void increaseMaxNumberOfBombs() {
+        this.maxNumberOfBombs++;
+    }
+
     @Override
     public String toString() {
         return "P";

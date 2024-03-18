@@ -12,6 +12,6 @@ public class MaxBombsBonus extends Bonus {
 
     @Override
     public void use() {
-
+        this.owner.increaseMaxNumberOfBombs();
     }
 }
