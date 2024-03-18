@@ -74,7 +74,7 @@ public class Player extends Entity {
     }
 
     public void addBomb() {
-        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getValue(), BOMB_HEIGHT.getValue(), BOMB_VEL.getValue(), new ImageIcon(BOMB_IMG.getUrl()).getImage(), false, false, this, this.board));
+        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
     }
 
     public void addBonus(Bonus b) {
@@ -99,6 +99,14 @@ public class Player extends Entity {
         if(shouldBePlacedBack) {
             this.moveTowardsDirection(Direction.getOppositeDirection(direction));
         }
+    }
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public String getName() {
+        return name;
     }
 
     @Override

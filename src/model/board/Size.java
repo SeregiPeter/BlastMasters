@@ -1,7 +1,5 @@
 package model.board;
 
-import javax.management.ValueExp;
-
 public enum Size {
     BOARD_SIZE(200),
     PLAYER_SIZE(20),
@@ -13,14 +11,14 @@ public enum Size {
     BOMB_WIDTH(20),
     TILE_WIDTH(30),
     TILE_HEIGHT(30);
-    private int value;
+    private final int size;
 
-    Size(int value) {
-        this.value = value;
+    Size(int size) {
+        this.size = size;
     }
 
-    public int getValue() {
-        return value;
+    public int getSize() {
+        return size;
     }
 
 }
