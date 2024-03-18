@@ -110,7 +110,13 @@ public class Board {
     public void movePlayer2(Direction d) {
         player2.move(d);
     }
-    public void moveMonsters(){}
+    public void moveMonsters() {
+        for(Monster monster : monsters) {
+            if(monster.isAlive()) {
+                monster.move();
+            }
+        }
+    }
     public Player getWinner(){
         return null;
     }
