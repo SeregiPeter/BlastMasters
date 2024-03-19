@@ -41,19 +41,16 @@ public class Bomb extends Entity {
 
             }
         }, 4 * 1000);                     // after 4 sec the bomb explodes
-
-
     }
 
     public Entity getEntFromXY(int x, int y) {
-        ArrayList<Entity> Ents = new ArrayList<>();
+        ArrayList<Entity> entities = new ArrayList<>();
         for (Entity entity : board.getEntities()) {
             if (entity.getX() == x && entity.getY() == y) {
-                Ents.add(entity);
+                entities.add(entity);
             }
         }
-        return Ents.get(Ents.size() - 1);
-
+        return entities.get(entities.size() - 1);
     }
 
     public void explode() {
