@@ -16,8 +16,9 @@ public class GameWindow extends JPanel {
     private Board board;
     private Timer frametimer;
     private Image background;
-    public GameWindow(){
+    public GameWindow(Board board){
         super();
+        this.board=board;
         background=new ImageIcon(BACKGROUND_IMG.getImageUrl()).getImage();
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
