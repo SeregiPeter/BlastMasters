@@ -158,6 +158,13 @@ public class Board {
         return boardElements;
     }
 
+    public void addBomb(Bomb bomb) {
+        bombs.add(bomb);
+    }
+
+    public void addEntity(Entity entity) {
+        boardElements.add(entity);
+    }
 
     public void putBonusesInBoxes() {
         Random random = new Random();

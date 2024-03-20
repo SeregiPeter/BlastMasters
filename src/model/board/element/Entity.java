@@ -1,8 +1,10 @@
 package model.board.element;
 
 import model.board.Direction;
+import model.board.element.deposable.Bomb;
 
 import java.awt.*;
+import java.util.Objects;
 
 public abstract class Entity {
     protected int x;
@@ -13,6 +15,8 @@ public abstract class Entity {
     protected Image image;
     protected boolean alive;
     protected boolean visible;
+    protected int id;
+    protected static int entityCounter = 0;
 
     public Entity(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible) {
         this.x = x;
@@ -23,6 +27,7 @@ public abstract class Entity {
         this.image = image;
         this.alive = alive;
         this.visible = visible;
+        this.id = ++entityCounter;
     }
 
     public boolean collides(Entity other) {
@@ -117,5 +122,18 @@ public abstract class Entity {
                 this.x += this.velocity;
                 break;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Entity entity = (Entity) o;
+        return id == entity.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
