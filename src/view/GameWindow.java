@@ -18,7 +18,7 @@ public class GameWindow extends JPanel {
     private Image background;
     public GameWindow(){
         super();
-        background=new ImageIcon(String.valueOf(BACKGROUND_IMG)).getImage();
+        background=new ImageIcon(BACKGROUND_IMG.getImageUrl()).getImage();
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
@@ -37,56 +37,56 @@ public class GameWindow extends JPanel {
         this.getActionMap().put("pressed left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer2().move(Direction.LEFT);
+                board.movePlayer2(Direction.LEFT);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "pressed right");
         this.getActionMap().put("pressed right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer2().move(Direction.RIGHT);;
+                board.movePlayer2(Direction.RIGHT);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "pressed up");
         this.getActionMap().put("pressed up", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer2().move(Direction.UP);
+                board.movePlayer2(Direction.UP);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "pressed down");
         this.getActionMap().put("pressed down", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer2().move(Direction.DOWN);
+                board.movePlayer2(Direction.DOWN);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed a");
         this.getActionMap().put("pressed a", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer1().move(Direction.LEFT);
+                board.movePlayer1(Direction.LEFT);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed d");
         this.getActionMap().put("pressed d", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer1().move(Direction.RIGHT);;
+                board.movePlayer1(Direction.RIGHT);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed w");
         this.getActionMap().put("pressed w", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer1().move(Direction.UP);
+                board.movePlayer1(Direction.UP);
             }
         });
         this.getInputMap().put(KeyStroke.getKeyStroke("S"), "pressed s");
         this.getActionMap().put("pressed s", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                board.getPlayer1().move(Direction.DOWN);
+                board.movePlayer1(Direction.DOWN);
             }
         });
 
