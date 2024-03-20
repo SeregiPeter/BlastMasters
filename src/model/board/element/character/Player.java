@@ -96,7 +96,7 @@ public class Player extends Entity {
                 break;
             }
             if(entity instanceof Bonus && this.collides(entity)) {
-                ((Bonus) entity).use();
+                this.runIntoBonus((Bonus) entity);
             }
         }
         if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
