@@ -121,6 +121,12 @@ public class Player extends Entity {
         this.maxNumberOfBombs++;
     }
 
+    public void runIntoBonus(Bonus bonus) {
+        if(bonus.getOwner() == null && bonus.isVisible()) {
+            bonus.getUsedByPlayer(this);
+        }
+    }
+
     @Override
     public String toString() {
         return "P";

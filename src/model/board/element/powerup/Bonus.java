@@ -14,4 +14,17 @@ public abstract class Bonus extends Entity {
     }
 
     public abstract void use();
+
+    public Player getOwner() {
+        return this.owner;
+    }
+
+    public void setOwner(Player owner) {
+        this.owner = owner;
+    }
+    public void getUsedByPlayer(Player player) {
+        this.owner = player;
+        this.visible = false;
+        this.use();
+    }
 }

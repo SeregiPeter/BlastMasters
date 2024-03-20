@@ -11,6 +11,10 @@ public class Box extends Entity {
         this.bonus = bonus;
     }
 
+    public void setBonus(Bonus bonus) {
+        this.bonus = bonus;
+    }
+
     @Override
     public String toString() {
         return "\uD83D\uDCE6";

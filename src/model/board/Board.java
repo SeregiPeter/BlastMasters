@@ -6,12 +6,17 @@ import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
+import model.board.element.powerup.benefit.BiggerRangeBonus;
+import model.board.element.powerup.benefit.MaxBombsBonus;
 
 import javax.swing.*;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
 
 import static model.board.Image.*;
 import static model.board.Size.*;
@@ -37,6 +42,7 @@ public class Board {
         bombs = new ArrayList<>();
         this.boardSize = boardSize;
         initialize(path);
+        putBonusesInBoxes();
     }
 
     public void initialize(String path) throws IOException {
@@ -151,6 +157,26 @@ public class Board {
     public ArrayList<Entity> getEntities() {
         return boardElements;
     }
+
+
+    public void putBonusesInBoxes() {
+        Random random = new Random();
+        int numberOfBonuses = boxes.size() / 3;
+        Collections.shuffle(boxes);
+        ArrayList<Box> boxesWithBonuses = new ArrayList<>(boxes.subList(0, numberOfBonuses));
+        for(Box box : boxesWithBonuses) {
+            Bonus bonus;
+            if(random.nextDouble() < 0.5) {
+                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+            } else {
+                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+            }
+            box.setBonus(bonus);
+            boardElements.add(bonus);
+            bonuses.add(bonus);
+        }
+    }
+
 
     @Override
     public String toString() {
