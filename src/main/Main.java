@@ -4,6 +4,7 @@ import model.board.Board;
 import model.board.Direction;
 import model.board.Image;
 import view.GameWindow;
+import view.NewGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,6 +20,7 @@ public class Main {
         // Create a new Board object
         Board board = new Board(15, filePath);
 
+
         //test base game
         JFrame frame;
         frame = new JFrame("Tron");
@@ -30,6 +32,8 @@ public class Main {
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
+
+
 
     }
 }
