@@ -1,10 +1,7 @@
 package main;
 
 import model.board.Board;
-import model.board.Direction;
-import model.board.Image;
 import view.GameWindow;
-import view.NewGame;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +20,7 @@ public class Main {
 
         //test base game
         JFrame frame;
-        frame = new JFrame("Tron");
+        frame = new JFrame("BlastMasters");
         frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
         GameWindow gameArea = new GameWindow(board);

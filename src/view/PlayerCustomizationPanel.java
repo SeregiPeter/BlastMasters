@@ -131,7 +131,7 @@ public class PlayerCustomizationPanel extends JPanel {
         add(controlButtonsPanel);
 
         try {
-            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("bomberman1.png")));
+            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman1.png")));
             Image image = bombermanIcon.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(image);
             characterPreviewLabel.setIcon(scaledIcon);

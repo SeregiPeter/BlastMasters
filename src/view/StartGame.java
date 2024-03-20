@@ -32,7 +32,7 @@ public class StartGame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         try {
-            backgroundImage = ImageIO.read(new File("bomberblur.png"));
+            backgroundImage = ImageIO.read(new File("src/resources/assets/menu/bomberblur.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -52,7 +52,7 @@ public class StartGame extends JFrame {
         mapImages = new Image[mapNames.length];
         for (int i = 0; i < mapNames.length; i++) {
             try {
-                mapImages[i] = ImageIO.read(new File("map" + (i + 1) + ".png"));
+                mapImages[i] = ImageIO.read(new File("src/resources/assets/menu/map" + (i + 1) + ".png"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,7 +93,7 @@ public class StartGame extends JFrame {
         playerPanel2.setPlayerName("Player 2");
         playerPanel2.setControls("↑←↓→OP");
         try {
-            ImageIcon bombermanIcon2 = new ImageIcon(ImageIO.read(new File("bomberman2.png")));
+            ImageIcon bombermanIcon2 = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman2.png")));
             Image image = bombermanIcon2.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(image);
             playerPanel2.setPlayerImage(scaledIcon);
