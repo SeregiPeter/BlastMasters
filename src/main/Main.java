@@ -3,7 +3,10 @@ package main;
 import model.board.Board;
 import model.board.Direction;
 import model.board.Image;
+import view.GameWindow;
 
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -16,8 +19,17 @@ public class Main {
         // Create a new Board object
         Board board = new Board(15, filePath);
 
-        // Print the toString representation of the board
-        System.out.println(board.toString());
+        /*//test base game
+        JFrame frame;
+        frame = new JFrame("Tron");
+        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
+        GameWindow gameArea = new GameWindow(board);
+        frame.getContentPane().add(gameArea);
+        frame.setPreferredSize(new Dimension(800, 600));
+        frame.setResizable(false);
+        frame.pack();
+        frame.setVisible(true);
+        */
     }
 }
