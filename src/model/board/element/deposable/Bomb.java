@@ -14,8 +14,6 @@ import java.util.TimerTask;
 import static model.board.Size.*;
 
 public class Bomb extends Entity {
-    private static int bombCounter;
-    private int id;
     private boolean detonated = false;
     private Player owner;
     private Board board;
@@ -24,12 +22,12 @@ public class Bomb extends Entity {
         super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
         this.owner = owner;
         this.board = board;
-        id = ++bombCounter;
     }
 
     public void plant() {
-        board.getEntities().add(this);
-        board.getBombs().add(this);
+        this.setVisible(true);
+        board.addEntity(this);
+        board.addBomb(this);
 
         Timer Fuse = new Timer();
         Fuse.schedule(new TimerTask() {
@@ -71,6 +69,7 @@ public class Bomb extends Entity {
             }
         }, 300);
 
+        this.owner.incrementNumberOfPlaceableBombs();
     }
 
     private boolean contact(Entity entity) {         //returns true if the explosion can continue in that direction
@@ -113,23 +112,6 @@ public class Bomb extends Entity {
 
     private boolean getDetonated() {
         return detonated;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Bomb bomb = (Bomb) o;
-        return id == bomb.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id);
     }
 
     @Override

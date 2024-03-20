@@ -14,9 +14,9 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
-import static model.board.Size.BOMB_HEIGHT;
-import static model.board.Size.BOMB_WIDTH;
+import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
 
 public class Player extends Entity {
@@ -27,6 +27,7 @@ public class Player extends Entity {
     private List<Bomb> bombs;
     private List<Bonus> bonuses;
     private int maxNumberOfBombs;
+    private int numberOfPlaceableBombs;
     private boolean hasDetonator;
     private boolean hasRoller;
     private boolean immortal;
@@ -50,6 +51,7 @@ public class Player extends Entity {
         addBomb();
         bonuses = new ArrayList<Bonus>();
         maxNumberOfBombs = 1;
+        numberOfPlaceableBombs = 1;
         this.hasDetonator = false;
         this.hasRoller = false;
         this.immortal = false;
@@ -65,9 +67,36 @@ public class Player extends Entity {
         bombRange = 2;
     }
 
-    public void plantBomb() {
+    public Point getCenterCoordinate() {
+        return new Point((x+width)/2, (y+height)/2);
+    }
 
-        // A lastPlantedBomb-ot itt egyenlővé kell tenni a lerakott bombával.
+    public int getColumn() {
+        return x/TILE_WIDTH.getSize();
+    }
+
+    public int getRow() {
+        return y/TILE_HEIGHT.getSize();
+    }
+
+    public Point getThePositionOfTheBombToBePlaced() {
+        return new Point(BOMB_WIDTH.getSize() * getColumn(), BOMB_HEIGHT.getSize() * getRow());
+    }
+
+
+    public void plantBomb() {
+        if(numberOfPlaceableBombs == 0) {
+            return;
+        }
+        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(),  new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        for(Entity entity : board.getEntities()) {
+            if(!(entity.equals(this)) && entity.collides(bomb)) {
+                return;
+            }
+        }
+        numberOfPlaceableBombs--;
+        bomb.plant();
+        lastPlantedBomb = bomb;
         onBomb = true;
     }
 
@@ -118,8 +147,12 @@ public class Player extends Entity {
         this.bombRange++;
     }
 
-    public void increaseMaxNumberOfBombs() {
+    public void incrementMaxNumberOfBombs() {
         this.maxNumberOfBombs++;
+    }
+
+    public void incrementNumberOfPlaceableBombs() {
+        this.numberOfPlaceableBombs++;
     }
 
     public void runIntoBonus(Bonus bonus) {
