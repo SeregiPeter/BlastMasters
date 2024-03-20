@@ -71,6 +71,7 @@ public class Player extends Entity {
         onBomb = true;
     }
 
+    //Detonator bónusz esetén
     public void explodeBombs() {
 
     }
