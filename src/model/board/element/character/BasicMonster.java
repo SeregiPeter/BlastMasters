@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class BasicMonster extends Monster {
     Direction currentDirection;
+    //komment
     Random random;
     public BasicMonster(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, image, alive, visible, board);

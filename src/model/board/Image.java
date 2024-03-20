@@ -7,7 +7,8 @@ public enum Image {
     BOX_IMG("src/resources/assets/box.png"),
     MONSTER_IMG("src/resources/assets/monster.png"),
     BACKGROUND_IMG("src/resources/assets/background.png"),
-    WALL_IMG("src/resources/assets/wall.png");
+    WALL_IMG("src/resources/assets/wall.png"),
+    POSITIVE_BONUS_IMG("src/resources/assets/positivebonus.png");
 
     private final String url;
 
