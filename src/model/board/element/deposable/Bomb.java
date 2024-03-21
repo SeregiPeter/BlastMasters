@@ -18,7 +18,7 @@ public class Bomb extends Entity {
     private Player owner;
     private Board board;
 
-    public Bomb(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner, Board board) {
+    public Bomb(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner, Board board) {
         super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
         this.owner = owner;
         this.board = board;

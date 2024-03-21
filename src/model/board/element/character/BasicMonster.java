@@ -14,7 +14,7 @@ public class BasicMonster extends Monster {
     Direction currentDirection;
     //komment
     Random random;
-    public BasicMonster(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Board board) {
+    public BasicMonster(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, image, alive, visible, board);
         this.currentDirection = Direction.UP;
         this.random = new Random();
@@ -43,7 +43,7 @@ public class BasicMonster extends Monster {
     }
 
     public void changeDirectionRandomly() {
-        if(random.nextDouble() < 0.1) {
+        if(random.nextDouble() < 0.005) {
             this.currentDirection = Direction.getDirectionExcept(this.currentDirection);
         }
     }

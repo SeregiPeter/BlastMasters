@@ -93,12 +93,12 @@ public class Board {
                         monsters.add(intelligentMonster);
                         break;
                     case '1':
-                        player1 = new Player(x, y, PLAYER_SIZE.getSize(), PLAYER_SIZE.getSize(), PLAYER_VEL.getVelocity(),
+                        player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
                                 new ImageIcon(PLAYER1_IMG.getImageUrl()).getImage(), true, true, "Player1", this, null);
                         boardElements.add(player1);
                         break;
                     case '2':
-                        player2 = new Player(x, y, PLAYER_SIZE.getSize(), PLAYER_SIZE.getSize(), PLAYER_VEL.getVelocity(),
+                        player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
                                 new ImageIcon(PLAYER2_IMG.getImageUrl()).getImage(), true, true, "Player2", this, null);
                         boardElements.add(player2);
                         break;

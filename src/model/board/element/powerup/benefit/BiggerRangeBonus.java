@@ -6,7 +6,7 @@ import model.board.element.powerup.Bonus;
 import java.awt.*;
 
 public class BiggerRangeBonus extends Bonus {
-    public BiggerRangeBonus(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public BiggerRangeBonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible, owner);
     }
 

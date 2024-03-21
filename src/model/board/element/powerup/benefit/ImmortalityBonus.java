@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ImmortalityBonus extends BonusWithTimer {
 
-    public ImmortalityBonus(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public ImmortalityBonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible, owner);
     }
 
