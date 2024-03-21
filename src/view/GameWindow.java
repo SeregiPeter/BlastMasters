@@ -46,6 +46,8 @@ public class GameWindow extends JPanel {
         for (Entity entity:board.getEntities()) {
             entity.draw(grphcs);
         }
+        board.getPlayer1().draw(grphcs);
+        board.getPlayer2().draw(grphcs);
     }
     public void handleKeyPresses() {
         this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "pressed left");
@@ -158,6 +160,20 @@ public class GameWindow extends JPanel {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(DOWN,false);
+            }
+        });
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0, true), "pressed t");
+        this.getActionMap().put("pressed t", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                board.player2PlantsBomb();
+            }
+        });
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, true), "pressed p");
+        this.getActionMap().put("pressed p", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                board.player1PlantsBomb();
             }
         });
 
