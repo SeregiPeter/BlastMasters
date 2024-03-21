@@ -69,15 +69,15 @@ public class Player extends Entity {
     }
 
     public Point getCenterCoordinate() {
-        return new Point((x+width)/2, (y+height)/2);
+        return new Point((x+(width/2)), (y+(height/2)));
     }
 
     public int getColumn() {
-        return x/TILE_WIDTH.getSize();
+        return (int)getCenterCoordinate().getX()/TILE_WIDTH.getSize();
     }
 
     public int getRow() {
-        return y/TILE_HEIGHT.getSize();
+        return (int)getCenterCoordinate().getY()/TILE_HEIGHT.getSize();
     }
 
     public Point getThePositionOfTheBombToBePlaced() {
