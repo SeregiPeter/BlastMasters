@@ -76,7 +76,7 @@ public class PlayerCustomizationPanel extends JPanel {
 
         JPanel additionalControlsPanel = new JPanel(new GridLayout(2, 2));
         additionalControlsPanel.setOpaque(false);
-        controlBoxTextField = new JTextField("Q");
+        controlBoxTextField = new JTextField("R");
         controlBoxTextField.setEditable(false);
         controlBoxTextField.setHorizontalAlignment(JTextField.CENTER);
         controlBoxTextField.setBorder(null);
@@ -85,14 +85,14 @@ public class PlayerCustomizationPanel extends JPanel {
         boxLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         boxLabel.setHorizontalAlignment(JLabel.RIGHT);
 
-        controlWallTextField = new JTextField("E");
+        controlWallTextField = new JTextField("T");
         controlWallTextField.setEditable(false);
         controlWallTextField.setHorizontalAlignment(JTextField.CENTER);
         controlWallTextField.setBorder(null);
 
-        JLabel wallLabel = new JLabel("Wall:");
-        wallLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
-        wallLabel.setHorizontalAlignment(JLabel.RIGHT);
+        JLabel bombLabel = new JLabel("Bomb:");
+        bombLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
+        bombLabel.setHorizontalAlignment(JLabel.RIGHT);
 
         JPanel controlButtonsPanel = new JPanel(new FlowLayout());
         controlButtonsPanel.setOpaque(false);
@@ -120,7 +120,7 @@ public class PlayerCustomizationPanel extends JPanel {
 
         additionalControlsPanel.add(boxLabel);
         additionalControlsPanel.add(controlBoxTextField);
-        additionalControlsPanel.add(wallLabel);
+        additionalControlsPanel.add(bombLabel);
         additionalControlsPanel.add(controlWallTextField);
 
 
