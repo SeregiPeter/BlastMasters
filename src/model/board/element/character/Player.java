@@ -42,7 +42,7 @@ public class Player extends Entity {
     private Bomb lastPlantedBomb;
     private boolean onBomb;
 
-    public Player(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
+    public Player(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.name = name;
         this.board = board;

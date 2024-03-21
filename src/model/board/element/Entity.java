@@ -11,14 +11,14 @@ public abstract class Entity {
     protected int y;
     protected int width;
     protected int height;
-    protected int velocity;
+    protected double velocity;
     protected Image image;
     protected boolean alive;
     protected boolean visible;
     protected int id;
     protected static int entityCounter = 0;
 
-    public Entity(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible) {
+    public Entity(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -75,11 +75,11 @@ public abstract class Entity {
         this.height = height;
     }
 
-    public int getVelocity() {
+    public double getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(int velocity) {
+    public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
 

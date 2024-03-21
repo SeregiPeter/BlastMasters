@@ -8,7 +8,7 @@ import java.awt.*;
 public abstract class Bonus extends Entity {
     protected Player owner;
 
-    public Bonus(int x, int y, int width, int height, int velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public Bonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.owner = owner;
     }
