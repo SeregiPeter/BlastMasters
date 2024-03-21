@@ -11,12 +11,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import static model.board.Direction.*;
 import static model.board.Direction.UP;
 import static model.board.Image.BACKGROUND_IMG;
+import static model.board.Image.PLAYER2_IMG;
+import static model.board.Velocity.PLAYER_VEL;
 
 public class GameWindow extends JPanel {
 
@@ -34,6 +37,7 @@ public class GameWindow extends JPanel {
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
+
     }
     @Override
     protected void paintComponent(Graphics grphcs) {
@@ -42,8 +46,6 @@ public class GameWindow extends JPanel {
         for (Entity entity:board.getEntities()) {
             entity.draw(grphcs);
         }
-        board.getPlayer1().draw(grphcs);
-        board.getPlayer2().draw(grphcs);
     }
     public void handleKeyPresses() {
         this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "pressed left");
@@ -158,20 +160,7 @@ public class GameWindow extends JPanel {
                 Player2Movement.put(DOWN,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0, true), "pressed t");
-        this.getActionMap().put("pressed t", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                board.player2PlantsBomb();
-            }
-        });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, true), "pressed p");
-        this.getActionMap().put("pressed p", new AbstractAction() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                board.player1PlantsBomb();
-            }
-        });
+
     }
     class FrameListener implements ActionListener {
 
@@ -185,8 +174,23 @@ public class GameWindow extends JPanel {
     }
 
     private void handlePlayerMovement(Player player, Map<Direction, Boolean> playerMovement) {
+        int movesAtTheSameTime=0;
+        ArrayList<Direction> moves=new ArrayList<>();
         for (Direction d:playerMovement.keySet()) {
             if(playerMovement.get(d)){
+                movesAtTheSameTime++;
+                moves.add(d);
+            }
+        }
+        for (Direction d: moves) {
+            if(movesAtTheSameTime>1){
+                if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
+
+                    board.movePlayer1(d,1);                      //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
+                }else {
+                    board.movePlayer2(d,1);
+                }
+            }else{
                 if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
 
                     board.movePlayer1(d);

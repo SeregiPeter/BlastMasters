@@ -18,6 +18,7 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
+import static model.board.Velocity.PLAYER_VEL;
 
 public class Player extends Entity {
 
@@ -112,7 +113,12 @@ public class Player extends Entity {
     public void addBonus(Bonus b) {
         bonuses.add(b);
     }
-
+    public void move(Direction d, double velocity) {
+        this.velocity=velocity;
+        System.out.println(velocity);
+        move(d);
+        this.velocity=PLAYER_VEL.getVelocity();
+    }
     /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk, akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
     public void move(Direction direction) {
         if(!this.isAlive()) return;

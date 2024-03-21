@@ -112,9 +112,14 @@ public class Board {
     public void movePlayer1(Direction d) {
         player1.move(d);
     }
-
+    public void movePlayer1(Direction d, double velocity) {
+        player1.move(d,velocity);
+    }
     public void movePlayer2(Direction d) {
         player2.move(d);
+    }
+    public void movePlayer2(Direction d, double velocity) {
+        player2.move(d,velocity);
     }
     public void moveMonsters() {
         for(Monster monster : monsters) {
@@ -217,4 +222,6 @@ public class Board {
 
         return sb.toString();
     }
+
+
 }
