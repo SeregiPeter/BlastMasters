@@ -123,6 +123,15 @@ public class Board {
             }
         }
     }
+
+    public void player1PlantsBomb() {
+        this.player1.plantBomb();
+    }
+
+    public void player2PlantsBomb() {
+        this.player2.plantBomb();
+    }
+
     public Player getWinner(){
         return null;
     }

@@ -4,7 +4,7 @@ public enum Size {
     BOARD_SIZE(200),
     PLAYER_HEIGHT(30),
     PLAYER_WIDTH(17),
-    MONSTER_SIZE(25),
+    MONSTER_SIZE(40),
     WALL_SIZE(40),
     BOX_SIZE(40),
     BONUS_SIZE(20),

@@ -84,7 +84,7 @@ public class StartGame extends JFrame {
     private PlayerCustomizationPanel createPlayerPanel1() {
         playerPanel1 = new PlayerCustomizationPanel();
         playerPanel1.setPlayerName("Player 1");
-        playerPanel1.setControls("WASDQE");
+        playerPanel1.setControls("WASDRT");
         return playerPanel1;
     }
 

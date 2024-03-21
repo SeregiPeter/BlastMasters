@@ -28,7 +28,7 @@ public class StartPanel extends JPanel {
 
     private void initializeTitleLabel() {
         try {
-            Image titleImage = ImageIO.read(new File("blastmasterstitlesmall.png"));
+            Image titleImage = ImageIO.read(new File("src/resources/assets/menu/blastmasterstitlesmall.png"));
             titleLabel = new JLabel(new ImageIcon(titleImage));
             titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
             add(titleLabel);
