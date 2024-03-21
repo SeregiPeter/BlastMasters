@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 
 import static model.board.Image.*;
@@ -64,7 +65,7 @@ public class Board {
                         break;
                     case 'B':
                         Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
-                                new ImageIcon(BOX_IMG.getImageUrl()).getImage(), false, true, null);
+                                new ImageIcon(BOX_IMG.getImageUrl()).getImage(), false, true, null, this);
                         boardElements.add(box);
                         boxes.add(box);
                         break;
@@ -195,6 +196,14 @@ public class Board {
             box.setBonus(bonus);
             boardElements.add(bonus);
             bonuses.add(bonus);
+        }
+    }
+
+    public void removeRemovableEntities() {
+        Iterator<Entity> iterator = boardElements.iterator();
+        while(iterator.hasNext()) {
+            Entity entity = iterator.next();
+            if(entity.isRemovable()) iterator.remove();
         }
     }
 

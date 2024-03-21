@@ -182,10 +182,11 @@ public class GameWindow extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            repaint();
+            board.removeRemovableEntities();
             handlePlayerMovement(board.getPlayer1(),Player1Movement);
             handlePlayerMovement(board.getPlayer2(),Player2Movement);
             board.moveMonsters();
-            repaint();
         }
     }
 

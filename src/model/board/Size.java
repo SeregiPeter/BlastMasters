@@ -11,7 +11,9 @@ public enum Size {
     BOMB_HEIGHT(40),
     BOMB_WIDTH(40),
     TILE_WIDTH(40),
-    TILE_HEIGHT(40);
+    TILE_HEIGHT(40),
+    FLAME_HEIGHT(40),
+    FLAME_WIDTH(40);
     private final int size;
 
     Size(int size) {

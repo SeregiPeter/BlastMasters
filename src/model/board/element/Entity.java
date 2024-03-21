@@ -1,5 +1,6 @@
 package model.board.element;
 
+import model.board.Board;
 import model.board.Direction;
 import model.board.element.deposable.Bomb;
 
@@ -15,8 +16,10 @@ public abstract class Entity {
     protected Image image;
     protected boolean alive;
     protected boolean visible;
+    protected boolean explodable;
     protected int id;
     protected static int entityCounter = 0;
+    protected boolean removable;
 
     public Entity(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
         this.x = x;
@@ -28,6 +31,7 @@ public abstract class Entity {
         this.alive = alive;
         this.visible = visible;
         this.id = ++entityCounter;
+        this.removable = false;
     }
 
     public boolean collides(Entity other) {
@@ -107,6 +111,14 @@ public abstract class Entity {
         this.visible = visible;
     }
 
+    public boolean isRemovable() {
+        return removable;
+    }
+
+    public void setRemovable(boolean removable) {
+        this.removable = removable;
+    }
+
     public void moveTowardsDirection(Direction direction) {
         switch(direction) {
             case UP:
@@ -122,6 +134,14 @@ public abstract class Entity {
                 this.x += this.velocity;
                 break;
         }
+    }
+
+    public boolean isExplodable() {
+        return explodable;
+    }
+
+    public void setExplodable(boolean explodable) {
+        this.explodable = explodable;
     }
 
     @Override

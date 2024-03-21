@@ -11,6 +11,7 @@ public abstract class Bonus extends Entity {
     public Bonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.owner = owner;
+        this.explodable = false;
     }
 
     public abstract void use();

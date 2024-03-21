@@ -65,7 +65,8 @@ public class Player extends Entity {
         this.settings = settings;
         lastPlantedBomb = null;
         onBomb = false;
-        bombRange = 2;
+        bombRange = 4;
+        this.explodable = true;
     }
 
     public Point getCenterCoordinate() {
@@ -115,7 +116,6 @@ public class Player extends Entity {
     }
     public void move(Direction d, double velocity) {
         this.velocity=velocity;
-        System.out.println(velocity);
         move(d);
         this.velocity=PLAYER_VEL.getVelocity();
     }
@@ -159,6 +159,10 @@ public class Player extends Entity {
 
     public void incrementNumberOfPlaceableBombs() {
         this.numberOfPlaceableBombs++;
+    }
+
+    public int getBombRange() {
+        return bombRange;
     }
 
     public void runIntoBonus(Bonus bonus) {
