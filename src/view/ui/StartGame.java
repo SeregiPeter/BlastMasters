@@ -32,7 +32,7 @@ public class StartGame extends JFrame {
 
         setTitle("Blast Masters");
         setSize(1520, 747);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
             backgroundImage = ImageIO.read(new File("src/resources/assets/menu/bomberblur.png"));
@@ -135,7 +135,11 @@ public class StartGame extends JFrame {
                 try {
                     Board board = new Board(15, mapFilePath, selectedMapIndex);
                     gameEngine = new GameEngine(board);
-                    setContentPane(gameEngine);
+
+                    getContentPane().removeAll();
+                    getContentPane().add(gameEngine);
+                    gameEngine.requestFocusInWindow();
+
                     revalidate();
                     repaint();
                 } catch (IOException ex) {
@@ -151,6 +155,7 @@ public class StartGame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                System.exit(0);
             }
         });
     }
