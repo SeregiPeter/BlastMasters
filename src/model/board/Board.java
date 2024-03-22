@@ -30,7 +30,9 @@ public class Board {
     public int selectedMapIndex;
     private final int boardSize;
     private boolean onlyOneAlive;
-    private boolean secondPlaxerCheck;
+    private boolean player1Check;
+    private boolean player2Check;
+    private GameState finalState;
     private Timer afterDeathTimer;
     private GameState state;
     private Player player1;
@@ -51,9 +53,11 @@ public class Board {
         this.boardSize = boardSize;
         this.selectedMapIndex = selectedMapIndex;
         onlyOneAlive=false;
-        secondPlaxerCheck=false;
+        player1Check=false;
+        player2Check=false;
+        finalState= BOTH_ALIVE;
         state=BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(10, new timerListener());
+        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
 
@@ -254,53 +258,23 @@ public class Board {
     }
 
     public void statusCheck() {
-
+        if (finalState!=BOTH_ALIVE){
+            state=finalState;
+            return;
+        }
         if (player1.isAlive() && player2.isAlive()) {
             state=BOTH_ALIVE;
         }else if (!player1.isAlive()) {
-            if (!onlyOneAlive) {
+            if (!onlyOneAlive){
+                player1Check=true;
                 onlyOneAlive = true;
                 afterDeathTimer.start();
-                /*Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (!player2.isAlive()) {
-                            state=PLAYER1_WON;
-                        } else {
-                            state= DRAW;
-                        }
-                    }
-                }, 3 * 1000);*/
-            }else if(secondPlaxerCheck){
-                if (!player2.isAlive()) {
-                    state=PLAYER1_WON;
-                } else {
-                    state=DRAW;
-                }
             }
-        }
-        if (!player2.isAlive()) {                   //Duplicated code fragment
-            if (!onlyOneAlive) {
+        }else if(!player2.isAlive()){
+            if (!onlyOneAlive){
+                player2Check=true;
                 onlyOneAlive = true;
                 afterDeathTimer.start();
-                /*Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        if (!player1.isAlive()) {
-                            state=PLAYER2_WON;
-                        } else {
-                            state=DRAW;
-                        }
-                    }
-                }, 3 * 1000);*/
-            }else if(secondPlaxerCheck){
-                if (!player1.isAlive()) {
-                    state=PLAYER2_WON;
-                } else {
-                    state=DRAW;
-                }
             }
         }
     }
@@ -309,13 +283,21 @@ public class Board {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
-
+            if(player1Check&&!player2Check){
+                if(player2.isAlive()){
+                    finalState=PLAYER2_WON;
+                }else{
+                    finalState=DRAW;
+                }
+            }else if(!player1Check&&player2Check){
+                if(player1.isAlive()){
+                    finalState=PLAYER1_WON;
+                }else{
+                    finalState=DRAW;
+                }
+            }
         }
     }
-
-
-
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
