@@ -65,7 +65,7 @@ public class Player extends Entity {
         this.settings = settings;
         lastPlantedBomb = null;
         onBomb = false;
-        bombRange = 4;
+        bombRange = 2;
         this.explodable = true;
     }
 

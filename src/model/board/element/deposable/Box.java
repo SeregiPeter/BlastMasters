@@ -27,6 +27,10 @@ public class Box extends Entity {
         }
     }
 
+    public Bonus getBonus() {
+        return bonus;
+    }
+
     @Override
     public String toString() {
         return "\uD83D\uDCE6";

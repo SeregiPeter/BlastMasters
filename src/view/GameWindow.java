@@ -43,7 +43,8 @@ public class GameWindow extends JPanel {
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
         grphcs.drawImage(background, 0, 0, 800, 600, null);
-        for (Entity entity:board.getEntities()) {
+        ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
+        for (Entity entity : entities) {
             entity.draw(grphcs);
         }
         board.getPlayer1().draw(grphcs);

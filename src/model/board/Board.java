@@ -200,11 +200,11 @@ public class Board {
     }
 
     public void removeRemovableEntities() {
-        Iterator<Entity> iterator = boardElements.iterator();
-        while(iterator.hasNext()) {
-            Entity entity = iterator.next();
-            if(entity.isRemovable()) iterator.remove();
+        ArrayList<Entity> removables = new ArrayList<>();
+        for(Entity entity : boardElements) {
+            if(entity.isRemovable()) removables.add(entity);
         }
+        boardElements.removeAll(removables);
     }
 
 

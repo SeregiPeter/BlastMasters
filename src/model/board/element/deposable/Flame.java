@@ -4,8 +4,10 @@ import model.board.Board;
 import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.field.Wall;
+import model.board.element.powerup.Bonus;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -30,14 +32,18 @@ public class Flame extends Entity {
     }
 
     public boolean markEntitiesRemovable() {
-        for(Entity entity : board.getEntities()) {
+        ArrayList<Bonus> bonuses = new ArrayList<>();
+        ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
+        for(Entity entity : entities) {
             if(entity.collides(this)) {
                 if(entity.isExplodable()) {
                     entity.setRemovable(true);
+                    System.out.println(entity);
                 }
                 if(entity instanceof Box) {
-                    ((Box) entity).explodedByBomb();
-                    return false;
+                    if(((Box) entity).getBonus() != null) {
+                        bonuses.add(((Box) entity).getBonus());
+                    }
                 }
                 if(entity instanceof Wall) return false;
                 if(entity instanceof Bomb) {
@@ -45,6 +51,11 @@ public class Flame extends Entity {
                 }
 
             }
+        }
+        for(Bonus bonus : bonuses) {
+            bonus.setExplodable(true);
+            bonus.setVisible(true);
+            board.addEntity(bonus);
         }
         return true;
     }
@@ -66,27 +77,51 @@ public class Flame extends Entity {
                 width += TILE_WIDTH.getSize();
                 break;
         }
+        boolean needToBePlacedBack = false;
+        ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
+        for(Entity entity : entities) {
+            if(entity instanceof Wall && entity.collides(this)) needToBePlacedBack = true;
+        }
+        if(needToBePlacedBack) {
+            switch(direction) {
+                case UP:
+                    y += TILE_HEIGHT.getSize();
+                    height -= TILE_HEIGHT.getSize();
+                    break;
+                case DOWN:
+                    height -= TILE_HEIGHT.getSize();
+                    break;
+                case LEFT:
+                    x += TILE_WIDTH.getSize();
+                    width -= TILE_WIDTH.getSize();
+                    break;
+                case RIGHT:
+                    width -= TILE_WIDTH.getSize();
+                    break;
+            }
+        }
     }
 
     public void expand() {
         Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+        TimerTask task = new TimerTask() {
+            int expansions = 0;
+
             @Override
             public void run() {
-                if(markEntitiesRemovable()) {
+                if (expansions < numberOfExpansions + 1 && markEntitiesRemovable()) {
                     expandOneTile();
+                    expansions++;
                 } else {
-                    //timer.cancel();
-                    timer.schedule(new TimerTask() {
-                        @Override
-                        public void run() {
-                            removable = true;
-                        }
-                    }, 1000);
+                    removable = true;
+                    timer.cancel();
+                    timer.purge();
                 }
             }
-        }, 1000, numberOfExpansions);
+        };
 
+        // Schedule the task to run every second
+        timer.schedule(task, 0, 250);
     }
 
 }
