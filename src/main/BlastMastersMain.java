@@ -1,33 +1,17 @@
 package main;
 
-import model.board.Board;
-import view.state.GameEngine;
+import view.ui.MainMenu;
 
 import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
 public class BlastMastersMain {
     public static void main(String[] args) throws IOException {
-        // Provide the path to the input file
-        String filePath = "src/resources/maps/map1.txt";
-
-        // Create a new Board object
-        Board board = new Board(15, filePath);
-
-
-        //test base game
-        JFrame frame;
-        frame = new JFrame("BlastMasters");
-        frame.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-
-        GameEngine gameArea = new GameEngine(board);
-        frame.getContentPane().add(gameArea);
-        frame.setPreferredSize(new Dimension(1520, 747));
-        frame.setResizable(false);
-        frame.pack();
-        frame.setVisible(true);
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.setContentPane(mainMenu.panelMain);
+        mainMenu.setTitle("Blast Masters");
+        mainMenu.setSize(1520, 747);
+        mainMenu.setVisible(true);
+        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }

@@ -1,5 +1,8 @@
 package view.ui;
 
+import model.board.Board;
+import view.state.GameEngine;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -10,11 +13,11 @@ import javax.imageio.ImageIO;
 
 public class StartGame extends JFrame {
 
+    private GameEngine gameEngine;
     private PlayerCustomizationPanel playerPanel1;
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
     private ButtonPanel buttonPanel;
-
     private Image backgroundImage;
     private Image[] mapImages;
     private String[] mapNames = {"Map 1", "Map 2", "Map 3"};
@@ -27,8 +30,8 @@ public class StartGame extends JFrame {
             e.printStackTrace();
         }
 
-        setTitle("Start Game");
-        setSize(1500, 751);
+        setTitle("Blast Masters");
+        setSize(1520, 747);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         try {
@@ -125,7 +128,20 @@ public class StartGame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int roundsToWin = buttonPanel.getRoundsToWin();
-                JOptionPane.showMessageDialog(null, "Starting the game with " + roundsToWin + " rounds to win...");
+                int selectedMapIndex = mapSelectorPanel.getCurrentMapIndex();
+
+                String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
+
+                try {
+                    Board board = new Board(15, mapFilePath, selectedMapIndex);
+                    gameEngine = new GameEngine(board);
+                    setContentPane(gameEngine);
+                    revalidate();
+                    repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error loading map file.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
@@ -136,13 +152,6 @@ public class StartGame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 dispose();
             }
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            StartGame startGame = new StartGame();
-            startGame.setVisible(true);
         });
     }
 }

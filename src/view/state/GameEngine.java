@@ -34,7 +34,6 @@ public class GameEngine extends JPanel {
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
-
     }
     @Override
     protected void paintComponent(Graphics grphcs) {
