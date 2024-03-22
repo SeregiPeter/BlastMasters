@@ -181,4 +181,16 @@ public class Player extends Entity {
     public String toString() {
         return "P";
     }
+
+    public void incrementPoints() {
+        points++;
+    }
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoitns(int tempPlayerPoints) {
+        points=tempPlayerPoints;
+    }
 }
