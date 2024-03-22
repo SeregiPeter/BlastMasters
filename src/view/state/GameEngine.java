@@ -18,6 +18,7 @@ import static model.board.Direction.*;
 import static model.board.Direction.UP;
 import static model.board.Image.BACKGROUND_IMG_MAP1;
 
+
 public class GameEngine extends JPanel {
 
     private Board board;
@@ -179,11 +180,11 @@ public class GameEngine extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+
             repaint();
-            board.removeRemovableEntities();
-            handlePlayerMovement(board.getPlayer1(),Player1Movement);
-            handlePlayerMovement(board.getPlayer2(),Player2Movement);
-            board.moveMonsters();
+            board.statusCheck();
+            handleGameState(board.getGameState());
+
         }
     }
 
@@ -213,6 +214,34 @@ public class GameEngine extends JPanel {
                 }
             }
         }
+    }
+    private void handleGameState(GameState state){
+        switch (state){
+            case DRAW :
+                System.out.println(state);
+                board.removeRemovableEntities();
+                break;
+            case PAUSED:
+
+                break;
+
+            case PLAYER1_WON:
+                board.removeRemovableEntities();
+                System.out.println(state);
+                break;
+            case PLAYER2_WON :
+                board.removeRemovableEntities();
+                System.out.println(state);
+                break;
+            case BOTH_ALIVE :
+                board.removeRemovableEntities();
+                handlePlayerMovement(board.getPlayer1(),Player1Movement);
+                handlePlayerMovement(board.getPlayer2(),Player2Movement);
+                board.moveMonsters();
+                break;
+            default:
+        }
+
     }
 
 }

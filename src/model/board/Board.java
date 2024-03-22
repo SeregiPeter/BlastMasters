@@ -8,21 +8,29 @@ import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.BiggerRangeBonus;
 import model.board.element.powerup.benefit.MaxBombsBonus;
+import view.state.GameEngine;
+import view.state.GameState;
 
 import javax.swing.*;
+import javax.swing.Timer;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Random;
+import java.util.*;
 
 import static model.board.Image.*;
 import static model.board.Size.*;
 import static model.board.Velocity.*;
+import static view.state.GameState.*;
 
 public class Board {
     private final int boardSize;
+    private boolean onlyOneAlive;
+    private boolean secondPlaxerCheck;
+    private Timer afterDeathTimer;
+    private GameState state;
     private Player player1;
     private Player player2;
     private ArrayList<Entity> boardElements;
@@ -39,8 +47,13 @@ public class Board {
         bonuses = new ArrayList<>();
         bombs = new ArrayList<>();
         this.boardSize = boardSize;
+        onlyOneAlive=false;
+        secondPlaxerCheck=false;
+        state=BOTH_ALIVE;
+        afterDeathTimer = new javax.swing.Timer(10, new timerListener());
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
+
     }
 
     public void initialize(String path, int selectedMapIndex) throws IOException {
@@ -233,6 +246,68 @@ public class Board {
         boardElements.removeAll(removables);
     }
 
+    public void statusCheck() {
+
+        if (player1.isAlive() && player2.isAlive()) {
+            state=BOTH_ALIVE;
+        }else if (!player1.isAlive()) {
+            if (!onlyOneAlive) {
+                onlyOneAlive = true;
+                afterDeathTimer.start();
+                /*Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!player2.isAlive()) {
+                            state=PLAYER1_WON;
+                        } else {
+                            state= DRAW;
+                        }
+                    }
+                }, 3 * 1000);*/
+            }else if(secondPlaxerCheck){
+                if (!player2.isAlive()) {
+                    state=PLAYER1_WON;
+                } else {
+                    state=DRAW;
+                }
+            }
+        }
+        if (!player2.isAlive()) {                   //Duplicated code fragment
+            if (!onlyOneAlive) {
+                onlyOneAlive = true;
+                afterDeathTimer.start();
+                /*Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if (!player1.isAlive()) {
+                            state=PLAYER2_WON;
+                        } else {
+                            state=DRAW;
+                        }
+                    }
+                }, 3 * 1000);*/
+            }else if(secondPlaxerCheck){
+                if (!player1.isAlive()) {
+                    state=PLAYER2_WON;
+                } else {
+                    state=DRAW;
+                }
+            }
+        }
+    }
+     class timerListener implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+
+
+        }
+    }
+
+
+
 
     @Override
     public String toString() {
@@ -259,4 +334,7 @@ public class Board {
     }
 
 
+    public GameState getGameState() {
+        return state;
+    }
 }
