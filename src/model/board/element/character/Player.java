@@ -6,6 +6,7 @@ import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
@@ -133,6 +134,9 @@ public class Player extends Entity {
             }
             if(entity instanceof Bonus && this.collides(entity)) {
                 this.runIntoBonus((Bonus) entity);
+            }
+            if(entity instanceof Flame && entity.collides(this)) {
+                this.alive = false;
             }
         }
         if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;

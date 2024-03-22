@@ -72,6 +72,8 @@ public class Bomb extends Entity {
         flameLeft.expand();
         flameRight.expand();
 
+        owner.incrementNumberOfPlaceableBombs();
+
 
 
 

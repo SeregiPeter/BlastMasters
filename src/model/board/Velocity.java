@@ -6,7 +6,7 @@ public enum Velocity {
     BOX_VEL(0),
     PLAYER_VEL(2), // jelenleg csak egész értékkel működik
     BONUS_VEL(0),
-    MONSTER_VEL(0);
+    MONSTER_VEL(1);
 
     private final double velocity;
 

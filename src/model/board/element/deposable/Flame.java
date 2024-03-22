@@ -3,6 +3,7 @@ package model.board.element.deposable;
 import model.board.Board;
 import model.board.Direction;
 import model.board.element.Entity;
+import model.board.element.character.Player;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
@@ -41,11 +42,15 @@ public class Flame extends Entity {
                     System.out.println(entity);
                     if(entity instanceof Box) {
                         if(((Box) entity).getBonus() != null) {
-                            bonus = ((Box) entity).getBonus();bonus.setExplodable(true);
+                            bonus = ((Box) entity).getBonus();
+                            bonus.setExplodable(true);
                             bonus.setVisible(true);
                             board.addEntity(bonus);
                         }
                         return false;
+                    }
+                    if(entity instanceof Player) {
+                        entity.setAlive(false);
                     }
                 }
                 if(entity instanceof Wall) return false;
@@ -55,6 +60,7 @@ public class Flame extends Entity {
 
             }
         }
+        //expandOneTile();
         return true;
     }
 
@@ -109,10 +115,11 @@ public class Flame extends Entity {
             @Override
             public void run() {
                 if (!mainConditionMet) {
-                    expandOneTile();
                     if (expansions < numberOfExpansions && markEntitiesRemovable()) {
                         expansions++;
+                        expandOneTile();
                     } else {
+                        markEntitiesRemovable();
                         mainConditionMet = true; // Set the flag to true
                         // Schedule the else branch to run after 5 milliseconds
                         timer.schedule(new TimerTask() {

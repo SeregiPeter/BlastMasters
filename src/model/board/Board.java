@@ -183,7 +183,7 @@ public class Board {
 
     public void putBonusesInBoxes() {
         Random random = new Random();
-        int numberOfBonuses = boxes.size() / 3;
+        int numberOfBonuses = boxes.size();
         Collections.shuffle(boxes);
         ArrayList<Box> boxesWithBonuses = new ArrayList<>(boxes.subList(0, numberOfBonuses));
         for(Box box : boxesWithBonuses) {
