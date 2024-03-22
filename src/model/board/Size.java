@@ -7,7 +7,7 @@ public enum Size {
     MONSTER_SIZE(40),
     WALL_SIZE(40),
     BOX_SIZE(40),
-    BONUS_SIZE(20),
+    BONUS_SIZE(30),
     BOMB_HEIGHT(40),
     BOMB_WIDTH(40),
     TILE_WIDTH(40),

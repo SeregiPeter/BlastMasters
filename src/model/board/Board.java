@@ -26,6 +26,8 @@ import static model.board.Velocity.*;
 import static view.state.GameState.*;
 
 public class Board {
+
+    public int selectedMapIndex;
     private final int boardSize;
     private boolean onlyOneAlive;
     private boolean secondPlaxerCheck;
@@ -47,6 +49,7 @@ public class Board {
         bonuses = new ArrayList<>();
         bombs = new ArrayList<>();
         this.boardSize = boardSize;
+        this.selectedMapIndex = selectedMapIndex;
         onlyOneAlive=false;
         secondPlaxerCheck=false;
         state=BOTH_ALIVE;
@@ -146,6 +149,10 @@ public class Board {
             default ->
                     new ImageIcon(MONSTER_IMG_MAP1.getImageUrl());
         };
+    }
+
+    public int getSelectedMapIndex() {
+        return selectedMapIndex;
     }
 
     public void movePlayer1(Direction d) {
