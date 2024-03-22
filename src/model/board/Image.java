@@ -2,8 +2,8 @@ package model.board;
 
 public enum Image {
     BOMB_IMG("src/resources/assets/bomb_explode.gif"),
-    PLAYER1_IMG("src/resources/assets/bomberman1_proba.png"),
-    PLAYER2_IMG("src/resources/assets/bomberman2_proba.png"),
+    PLAYER1_IMG("src/resources/assets/bomberman1.png"),
+    PLAYER2_IMG("src/resources/assets/bomberman2.png"),
     BOX_IMG("src/resources/assets/ice_box.png"),
     MONSTER_IMG("src/resources/assets/ice_monster.png"),
     BACKGROUND_IMG("src/resources/assets/ice_background.png"),

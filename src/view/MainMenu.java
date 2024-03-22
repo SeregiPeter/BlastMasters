@@ -8,14 +8,14 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class MenuWindow extends JFrame {
+public class MainMenu extends JFrame {
     private JButton btnExit;
     private JPanel panelMain;
     private JButton btnNewGame;
     private JLabel titleImageLabel;
     private Image backgroundImage;
 
-    public MenuWindow() {
+    public MainMenu() {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
@@ -97,12 +97,12 @@ public class MenuWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        MenuWindow menuWindow = new MenuWindow();
-        menuWindow.setContentPane(menuWindow.panelMain);
-        menuWindow.setTitle("Blast Masters");
-        menuWindow.setSize(1500, 751);
-        menuWindow.setVisible(true);
-        menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        MainMenu mainMenu = new MainMenu();
+        mainMenu.setContentPane(mainMenu.panelMain);
+        mainMenu.setTitle("Blast Masters");
+        mainMenu.setSize(1500, 751);
+        mainMenu.setVisible(true);
+        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 
