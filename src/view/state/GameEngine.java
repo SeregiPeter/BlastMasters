@@ -1,8 +1,7 @@
-package view;
+package view.state;
 
 import model.board.Board;
 import model.board.Direction;
-import model.board.Size;
 import model.board.element.Entity;
 import model.board.element.character.Player;
 
@@ -17,23 +16,21 @@ import java.util.Map;
 
 import static model.board.Direction.*;
 import static model.board.Direction.UP;
-import static model.board.Image.BACKGROUND_IMG;
-import static model.board.Image.PLAYER2_IMG;
-import static model.board.Velocity.PLAYER_VEL;
+import static model.board.Image.BACKGROUND_IMG_MAP1;
 
-public class GameWindow extends JPanel {
+public class GameEngine extends JPanel {
 
     private Board board;
     private Timer frametimer;
     private Image background;
     private Map<Direction,Boolean> Player1Movement;
     private Map<Direction,Boolean> Player2Movement;
-    public GameWindow(Board board){
+    public GameEngine(Board board){
         super();
         Player1Movement= new HashMap<>();//Map.of("UP",false,"DOWN",false,"LEFT",false,"RIGHT",false);
         Player2Movement= new HashMap<>();//Map.of("UP",false,"DOWN",false,"LEFT",false,"RIGHT",false);
         this.board=board;
-        background=new ImageIcon(BACKGROUND_IMG.getImageUrl()).getImage();
+        background=new ImageIcon(BACKGROUND_IMG_MAP1.getImageUrl()).getImage();
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();

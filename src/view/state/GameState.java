@@ -1,4 +1,4 @@
-package view;
+package view.state;
 
 public enum GameState {
 

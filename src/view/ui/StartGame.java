@@ -1,4 +1,4 @@
-package view;
+package view.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class StartGame extends JFrame {
     private PlayerCustomizationPanel playerPanel1;
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
-    private StartPanel startPanel;
+    private ButtonPanel buttonPanel;
 
     private Image backgroundImage;
     private Image[] mapImages;
@@ -115,23 +115,23 @@ public class StartGame extends JFrame {
         return mapSelectorPanel;
     }
 
-    private StartPanel createStartPanel() {
-        startPanel = new StartPanel();
-        return startPanel;
+    private ButtonPanel createStartPanel() {
+        buttonPanel = new ButtonPanel();
+        return buttonPanel;
     }
 
     private void addStartButtonActionListener() {
-        startPanel.addStartButtonActionListener(new ActionListener() {
+        buttonPanel.addStartButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int roundsToWin = startPanel.getRoundsToWin();
+                int roundsToWin = buttonPanel.getRoundsToWin();
                 JOptionPane.showMessageDialog(null, "Starting the game with " + roundsToWin + " rounds to win...");
             }
         });
     }
 
     private void addExitButtonActionListener() {
-        startPanel.addExitButtonActionListener(new ActionListener() {
+        buttonPanel.addExitButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
