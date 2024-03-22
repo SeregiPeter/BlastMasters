@@ -25,7 +25,7 @@ public class Main {
 
         GameWindow gameArea = new GameWindow(board);
         frame.getContentPane().add(gameArea);
-        frame.setPreferredSize(new Dimension(800, 650));
+        frame.setPreferredSize(new Dimension(1520, 747));
         frame.setResizable(false);
         frame.pack();
         frame.setVisible(true);
