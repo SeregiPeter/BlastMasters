@@ -12,6 +12,7 @@ import model.board.element.powerup.Bonus;
 
 import javax.swing.*;
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +44,7 @@ public class Player extends Entity {
     private Settings settings;
     private Bomb lastPlantedBomb;
     private boolean onBomb;
+    private ArrayList<Bomb> onBombs;
 
     public Player(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, image, alive, visible);
@@ -68,6 +70,7 @@ public class Player extends Entity {
         onBomb = false;
         bombRange = 2;
         this.explodable = true;
+        onBombs = new ArrayList<>();
     }
 
     public Point getCenterCoordinate() {
@@ -99,7 +102,8 @@ public class Player extends Entity {
         }
         numberOfPlaceableBombs--;
         bomb.plant();
-        lastPlantedBomb = bomb;
+        //lastPlantedBomb = bomb;
+        onBombs.add(bomb);
         onBomb = true;
     }
 
@@ -129,7 +133,7 @@ public class Player extends Entity {
         boolean shouldBePlacedBack = false;
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         for(Entity entity : entities) {
-            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && (!entity.equals(lastPlantedBomb) || !onBomb))) && this.collides(entity)) {
+            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && !onBombs.contains(entity))) && this.collides(entity)) {
                 shouldBePlacedBack = true;
                 break;
             }
@@ -140,7 +144,11 @@ public class Player extends Entity {
                 this.alive = false;
             }
         }
-        if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
+        //if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
+        ArrayList<Bomb> bombsToBeChecked = new ArrayList<>(onBombs);
+        for(Bomb bomb : bombsToBeChecked) {
+            if(!this.collides(bomb)) onBombs.remove(bomb);
+        }
 
         if(shouldBePlacedBack) {
             this.moveTowardsDirection(Direction.getOppositeDirection(direction));
@@ -168,6 +176,9 @@ public class Player extends Entity {
 
     public int getBombRange() {
         return bombRange;
+    }
+    public ArrayList<Bomb> getOnBombs() {
+        return onBombs;
     }
 
     public void runIntoBonus(Bonus bonus) {
