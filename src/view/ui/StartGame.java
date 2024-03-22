@@ -1,4 +1,7 @@
-package view;
+package view.ui;
+
+import model.board.Board;
+import view.state.GameEngine;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,11 +13,11 @@ import javax.imageio.ImageIO;
 
 public class StartGame extends JFrame {
 
+    private GameEngine gameEngine;
     private PlayerCustomizationPanel playerPanel1;
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
-    private StartPanel startPanel;
-
+    private ButtonPanel buttonPanel;
     private Image backgroundImage;
     private Image[] mapImages;
     private String[] mapNames = {"Map 1", "Map 2", "Map 3"};
@@ -27,9 +30,9 @@ public class StartGame extends JFrame {
             e.printStackTrace();
         }
 
-        setTitle("Start Game");
-        setSize(1500, 751);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setTitle("Blast Masters");
+        setSize(1520, 747);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
             backgroundImage = ImageIO.read(new File("src/resources/assets/menu/bomberblur.png"));
@@ -115,34 +118,45 @@ public class StartGame extends JFrame {
         return mapSelectorPanel;
     }
 
-    private StartPanel createStartPanel() {
-        startPanel = new StartPanel();
-        return startPanel;
+    private ButtonPanel createStartPanel() {
+        buttonPanel = new ButtonPanel();
+        return buttonPanel;
     }
 
     private void addStartButtonActionListener() {
-        startPanel.addStartButtonActionListener(new ActionListener() {
+        buttonPanel.addStartButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int roundsToWin = startPanel.getRoundsToWin();
-                JOptionPane.showMessageDialog(null, "Starting the game with " + roundsToWin + " rounds to win...");
+                int roundsToWin = buttonPanel.getRoundsToWin();
+                int selectedMapIndex = mapSelectorPanel.getCurrentMapIndex();
+
+                String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
+
+                try {
+                    Board board = new Board(15, mapFilePath, selectedMapIndex);
+                    gameEngine = new GameEngine(board);
+
+                    getContentPane().removeAll();
+                    getContentPane().add(gameEngine);
+                    gameEngine.requestFocusInWindow();
+
+                    revalidate();
+                    repaint();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error loading map file.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
     }
 
     private void addExitButtonActionListener() {
-        startPanel.addExitButtonActionListener(new ActionListener() {
+        buttonPanel.addExitButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
+                System.exit(0);
             }
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            StartGame startGame = new StartGame();
-            startGame.setVisible(true);
         });
     }
 }

@@ -1,19 +1,18 @@
-package view;
+package view.ui;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class StartPanel extends JPanel {
+public class ButtonPanel extends JPanel {
     private JLabel titleLabel;
     private JButton startButton;
     private JButton exitButton;
     private JSpinner roundSpinner;
 
-    public StartPanel() {
+    public ButtonPanel() {
         setLayout(new GridLayout(4, 1));
         setOpaque(false);
 

@@ -127,7 +127,8 @@ public class Player extends Entity {
         this.moveTowardsDirection(direction);
 
         boolean shouldBePlacedBack = false;
-        for(Entity entity : board.getEntities()) {
+        ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
+        for(Entity entity : entities) {
             if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && (!entity.equals(lastPlantedBomb) || !onBomb))) && this.collides(entity)) {
                 shouldBePlacedBack = true;
                 break;

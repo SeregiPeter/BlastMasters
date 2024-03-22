@@ -35,6 +35,10 @@ public class BasicMonster extends Monster {
             }
             if(entity instanceof Flame && entity.collides(this)) {
                 this.alive = false;
+                this.removable=true;
+            }
+            if(entity instanceof Player && entity.collides(this)) {
+                entity.setAlive(false);                                     //may violate the oop
             }
         }
 

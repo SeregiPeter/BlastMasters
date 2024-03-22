@@ -1,4 +1,4 @@
-package view;
+package view.ui;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionListener;
@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 public class MapSelectorPanel extends JPanel {
     private JLabel mapPreviewLabel;
     private JComboBox<String> mapComboBox;
-    private Image[] mapImages;
-    private String[] mapNames;
+    private final Image[] mapImages;
+    private final String[] mapNames;
 
     public MapSelectorPanel(String[] mapNames, Image[] mapImages, ActionListener actionListener) {
         this.mapNames = mapNames;

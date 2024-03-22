@@ -1,4 +1,4 @@
-package view;
+package view.ui;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,14 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-public class MenuWindow extends JFrame {
+public class MainMenu extends JFrame {
+
     private JButton btnExit;
-    private JPanel panelMain;
+    public JPanel panelMain;
     private JButton btnNewGame;
     private JLabel titleImageLabel;
     private Image backgroundImage;
 
-    public MenuWindow() {
+    public MainMenu() {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         } catch (Exception e) {
@@ -55,7 +56,9 @@ public class MenuWindow extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 StartGame startGame = new StartGame();
                 startGame.setVisible(true);
-                dispose();
+                setVisible(false);
+                startGame.revalidate();
+                startGame.repaint();
             }
         });
     }
@@ -94,15 +97,6 @@ public class MenuWindow extends JFrame {
         buttonPanel.add(btnExit);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 90, 0));
         panelMain.add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    public static void main(String[] args) {
-        MenuWindow menuWindow = new MenuWindow();
-        menuWindow.setContentPane(menuWindow.panelMain);
-        menuWindow.setTitle("Blast Masters");
-        menuWindow.setSize(1500, 751);
-        menuWindow.setVisible(true);
-        menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 
