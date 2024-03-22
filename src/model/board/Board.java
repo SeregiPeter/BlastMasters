@@ -189,9 +189,9 @@ public class Board {
         for(Box box : boxesWithBonuses) {
             Bonus bonus;
             if(random.nextDouble() < 0.5) {
-                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
             } else {
-                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
             }
             box.setBonus(bonus);
             boardElements.add(bonus);

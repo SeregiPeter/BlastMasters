@@ -28,6 +28,7 @@ public abstract class Bonus extends Entity {
     public void getUsedByPlayer(Player player) {
         this.owner = player;
         this.visible = false;
+        this.removable = true;
         this.use();
     }
 

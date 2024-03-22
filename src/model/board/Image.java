@@ -9,7 +9,10 @@ public enum Image {
     BACKGROUND_IMG("src/resources/assets/background.png"),
     WALL_IMG("src/resources/assets/wall.png"),
     POSITIVE_BONUS_IMG("src/resources/assets/positivebonus.png"),
-    FLAME_IMG("src/resources/assets/monster.png");
+    FLAME_IMG("src/resources/assets/monster.png"),
+    BIGGER_RANGE_BONUS_IMG("src/resources/assets/bigger_range.png"),
+    BOMB_UP_BONUS_IMG("src/resources/assets/bomb_up.png");
+
 
     private final String url;
 

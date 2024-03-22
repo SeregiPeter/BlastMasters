@@ -88,7 +88,7 @@ public class Player extends Entity {
 
 
     public void plantBomb() {
-        if(numberOfPlaceableBombs == 0) {
+        if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
         Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(),  new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
@@ -135,7 +135,7 @@ public class Player extends Entity {
             if(entity instanceof Bonus && this.collides(entity)) {
                 this.runIntoBonus((Bonus) entity);
             }
-            if(entity instanceof Flame && entity.collides(this)) {
+            if((entity instanceof Flame || entity instanceof Monster) && entity.collides(this)) {
                 this.alive = false;
             }
         }
@@ -172,6 +172,7 @@ public class Player extends Entity {
     public void runIntoBonus(Bonus bonus) {
         if(bonus.getOwner() == null && bonus.isVisible()) {
             bonus.getUsedByPlayer(this);
+            System.out.println(this + " felvette: " + bonus);
         }
     }
 
