@@ -32,17 +32,20 @@ public class Flame extends Entity {
     }
 
     public boolean markEntitiesRemovable() {
-        ArrayList<Bonus> bonuses = new ArrayList<>();
+        Bonus bonus = null;
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         for(Entity entity : entities) {
             if(entity.collides(this)) {
                 if(entity.isExplodable()) {
                     entity.setRemovable(true);
                     System.out.println(entity);
-                }
-                if(entity instanceof Box) {
-                    if(((Box) entity).getBonus() != null) {
-                        bonuses.add(((Box) entity).getBonus());
+                    if(entity instanceof Box) {
+                        if(((Box) entity).getBonus() != null) {
+                            bonus = ((Box) entity).getBonus();bonus.setExplodable(true);
+                            bonus.setVisible(true);
+                            board.addEntity(bonus);
+                        }
+                        return false;
                     }
                 }
                 if(entity instanceof Wall) return false;
@@ -51,11 +54,6 @@ public class Flame extends Entity {
                 }
 
             }
-        }
-        for(Bonus bonus : bonuses) {
-            bonus.setExplodable(true);
-            bonus.setVisible(true);
-            board.addEntity(bonus);
         }
         return true;
     }
@@ -106,22 +104,31 @@ public class Flame extends Entity {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
             int expansions = 0;
+            boolean mainConditionMet = false;
 
             @Override
             public void run() {
-                if (expansions < numberOfExpansions + 1 && markEntitiesRemovable()) {
+                if (!mainConditionMet) {
                     expandOneTile();
-                    expansions++;
-                } else {
-                    removable = true;
-                    timer.cancel();
-                    timer.purge();
+                    if (expansions < numberOfExpansions && markEntitiesRemovable()) {
+                        expansions++;
+                    } else {
+                        mainConditionMet = true; // Set the flag to true
+                        // Schedule the else branch to run after 5 milliseconds
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                removable = true;
+                                timer.cancel();
+                                timer.purge();
+                            }
+                        }, 1500);
+                    }
                 }
             }
         };
-
-        // Schedule the task to run every second
-        timer.schedule(task, 0, 250);
+        timer.schedule(task, 0, 500);
     }
+
 
 }

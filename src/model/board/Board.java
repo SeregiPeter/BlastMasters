@@ -201,7 +201,8 @@ public class Board {
 
     public void removeRemovableEntities() {
         ArrayList<Entity> removables = new ArrayList<>();
-        for(Entity entity : boardElements) {
+        ArrayList<Entity> elements = new ArrayList<>(boardElements);
+        for(Entity entity : elements) {
             if(entity.isRemovable()) removables.add(entity);
         }
         boardElements.removeAll(removables);
