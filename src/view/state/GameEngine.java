@@ -17,17 +17,20 @@ import java.util.Map;
 import static model.board.Direction.*;
 import static model.board.Direction.UP;
 import static model.board.Image.*;
+import static view.state.GameState.PAUSED;
 
 
 public class GameEngine extends JPanel {
-
+    private boolean paused;
     private Board board;
     private Timer frametimer;
     private Image background;
     private Map<Direction,Boolean> Player1Movement;
     private Map<Direction,Boolean> Player2Movement;
+
     public GameEngine(Board board){
         super();
+        paused=false;
         Player1Movement= new HashMap<>();
         Player2Movement= new HashMap<>();
         this.board=board;
@@ -184,6 +187,17 @@ public class GameEngine extends JPanel {
                 board.player1PlantsBomb();
             }
         });
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, true), "pressed esc");
+        this.getActionMap().put("pressed esc", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (paused){
+                    paused=false;
+                }else{
+                    paused=true;
+                }
+            }
+        });
 
     }
     class FrameListener implements ActionListener {
@@ -193,6 +207,10 @@ public class GameEngine extends JPanel {
 
             repaint();
             board.statusCheck();
+            if(paused){
+                handleGameState(PAUSED);
+                return;
+            }
             handleGameState(board.getGameState());
 
         }
@@ -211,7 +229,7 @@ public class GameEngine extends JPanel {
             if(movesAtTheSameTime>1){
                 if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
 
-                    board.movePlayer1(d,1);                      //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
+                    board.movePlayer1(d,1);             //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
                 }else {
                     board.movePlayer2(d,1);
                 }
