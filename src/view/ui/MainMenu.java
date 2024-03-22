@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 
 public class MainMenu extends JFrame {
     private JButton btnExit;
-    private JPanel panelMain;
+    public JPanel panelMain;
     private JButton btnNewGame;
     private JLabel titleImageLabel;
     private Image backgroundImage;
@@ -94,15 +94,6 @@ public class MainMenu extends JFrame {
         buttonPanel.add(btnExit);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(20, 0, 90, 0));
         panelMain.add(buttonPanel, BorderLayout.SOUTH);
-    }
-
-    public static void main(String[] args) {
-        MainMenu mainMenu = new MainMenu();
-        mainMenu.setContentPane(mainMenu.panelMain);
-        mainMenu.setTitle("Blast Masters");
-        mainMenu.setSize(1500, 751);
-        mainMenu.setVisible(true);
-        mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
 

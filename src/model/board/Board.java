@@ -22,7 +22,6 @@ import static model.board.Size.*;
 import static model.board.Velocity.*;
 
 public class Board {
-
     private final int boardSize;
     private Player player1;
     private Player player2;
@@ -33,18 +32,18 @@ public class Board {
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
 
-    public Board(int boardSize, String path) throws IOException {
+    public Board(int boardSize, String path, int selectedMapIndex) throws IOException {
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
         bonuses = new ArrayList<>();
         bombs = new ArrayList<>();
         this.boardSize = boardSize;
-        initialize(path);
+        initialize(path, selectedMapIndex);
         putBonusesInBoxes();
     }
 
-    public void initialize(String path) throws IOException {
+    public void initialize(String path, int selectedMapIndex) throws IOException {
         BufferedReader br = new BufferedReader(new FileReader(path));
         boardElements = new ArrayList<>();
         int row = 0;
@@ -57,37 +56,37 @@ public class Board {
                 switch (entityType) {
                     case 'W':
                         Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
-                                new ImageIcon(WALL_IMG_MAP1.getImageUrl()).getImage(), false, true);
+                                getWallImage(selectedMapIndex).getImage(), false, true);
                         boardElements.add(wall);
                         walls.add(wall);
                         break;
                     case 'B':
                         Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
-                                new ImageIcon(BOX_IMG_MAP1.getImageUrl()).getImage(), false, true, null, this);
+                                getBoxImage(selectedMapIndex).getImage(), false, true, null, this);
                         boardElements.add(box);
                         boxes.add(box);
                         break;
                     case 'M':
                         BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG_MAP1.getImageUrl()).getImage(), true, true, this);
+                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
                         boardElements.add(basicMonster);
                         monsters.add(basicMonster);
                         break;
                     case 'G':
                         GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG_MAP1.getImageUrl()).getImage(), true, true, this);
+                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
                         boardElements.add(ghostMonster);
                         monsters.add(ghostMonster);
                         break;
                     case 'S':
                         SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
-                                MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG_MAP1.getImageUrl()).getImage(), true, true, this);
+                                MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
                         boardElements.add(semiIntelligentMonster);
                         monsters.add(semiIntelligentMonster);
                         break;
                     case 'I':
                         IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), new ImageIcon(MONSTER_IMG_MAP1.getImageUrl()).getImage(), true, true, this);
+                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
                         boardElements.add(intelligentMonster);
                         monsters.add(intelligentMonster);
                         break;
@@ -108,6 +107,34 @@ public class Board {
         }
         br.close();
     }
+
+    public ImageIcon getWallImage(int mapIndex) {
+        return switch (mapIndex) {
+            case 1 -> new ImageIcon(WALL_IMG_MAP2.getImageUrl());
+            case 2 -> new ImageIcon(WALL_IMG_MAP3.getImageUrl());
+            default ->
+                    new ImageIcon(WALL_IMG_MAP1.getImageUrl());
+        };
+    }
+
+    private ImageIcon getBoxImage(int mapIndex) {
+        return switch (mapIndex) {
+            case 1 -> new ImageIcon(BOX_IMG_MAP2.getImageUrl());
+            case 2 -> new ImageIcon(BOX_IMG_MAP3.getImageUrl());
+            default ->
+                    new ImageIcon(BOX_IMG_MAP1.getImageUrl());
+        };
+    }
+
+    private ImageIcon getMonsterImage(int mapIndex) {
+        return switch (mapIndex) {
+            case 1 -> new ImageIcon(MONSTER_IMG_MAP2.getImageUrl());
+            case 2 -> new ImageIcon(MONSTER_IMG_MAP3.getImageUrl());
+            default ->
+                    new ImageIcon(MONSTER_IMG_MAP1.getImageUrl());
+        };
+    }
+
     public void movePlayer1(Direction d) {
         player1.move(d);
     }
