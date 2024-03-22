@@ -5,6 +5,7 @@ import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 
 import java.awt.*;
@@ -31,6 +32,9 @@ public class BasicMonster extends Monster {
             if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb)) && this.collides(entity)) {
                 needToChangeDirection = true;
                 break;
+            }
+            if(entity instanceof Flame && entity.collides(this)) {
+                this.alive = false;
             }
         }
 

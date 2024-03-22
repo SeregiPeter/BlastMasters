@@ -11,6 +11,7 @@ public abstract class Monster extends Entity {
     public Monster(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.board = board;
+        this.explodable = true;
     }
 
     public abstract void move();

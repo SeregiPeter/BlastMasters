@@ -6,6 +6,7 @@ import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
@@ -66,6 +67,7 @@ public class Player extends Entity {
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
+        this.explodable = true;
     }
 
     public Point getCenterCoordinate() {
@@ -86,7 +88,7 @@ public class Player extends Entity {
 
 
     public void plantBomb() {
-        if(numberOfPlaceableBombs == 0) {
+        if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
         Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(),  new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
@@ -115,7 +117,6 @@ public class Player extends Entity {
     }
     public void move(Direction d, double velocity) {
         this.velocity=velocity;
-        System.out.println(velocity);
         move(d);
         this.velocity=PLAYER_VEL.getVelocity();
     }
@@ -133,6 +134,9 @@ public class Player extends Entity {
             }
             if(entity instanceof Bonus && this.collides(entity)) {
                 this.runIntoBonus((Bonus) entity);
+            }
+            if((entity instanceof Flame || entity instanceof Monster) && entity.collides(this)) {
+                this.alive = false;
             }
         }
         if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
@@ -161,9 +165,14 @@ public class Player extends Entity {
         this.numberOfPlaceableBombs++;
     }
 
+    public int getBombRange() {
+        return bombRange;
+    }
+
     public void runIntoBonus(Bonus bonus) {
         if(bonus.getOwner() == null && bonus.isVisible()) {
             bonus.getUsedByPlayer(this);
+            System.out.println(this + " felvette: " + bonus);
         }
     }
 

@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Random;
 
 import static model.board.Image.*;
@@ -64,7 +65,7 @@ public class Board {
                         break;
                     case 'B':
                         Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
-                                new ImageIcon(BOX_IMG.getImageUrl()).getImage(), false, true, null);
+                                new ImageIcon(BOX_IMG.getImageUrl()).getImage(), false, true, null, this);
                         boardElements.add(box);
                         boxes.add(box);
                         break;
@@ -182,20 +183,29 @@ public class Board {
 
     public void putBonusesInBoxes() {
         Random random = new Random();
-        int numberOfBonuses = boxes.size() / 3;
+        int numberOfBonuses = boxes.size();
         Collections.shuffle(boxes);
         ArrayList<Box> boxesWithBonuses = new ArrayList<>(boxes.subList(0, numberOfBonuses));
         for(Box box : boxesWithBonuses) {
             Bonus bonus;
             if(random.nextDouble() < 0.5) {
-                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
             } else {
-                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(POSITIVE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
             }
             box.setBonus(bonus);
             boardElements.add(bonus);
             bonuses.add(bonus);
         }
+    }
+
+    public void removeRemovableEntities() {
+        ArrayList<Entity> removables = new ArrayList<>();
+        ArrayList<Entity> elements = new ArrayList<>(boardElements);
+        for(Entity entity : elements) {
+            if(entity.isRemovable()) removables.add(entity);
+        }
+        boardElements.removeAll(removables);
     }
 
 
