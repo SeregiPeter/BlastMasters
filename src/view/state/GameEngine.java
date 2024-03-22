@@ -16,7 +16,7 @@ import java.util.Map;
 
 import static model.board.Direction.*;
 import static model.board.Direction.UP;
-import static model.board.Image.BACKGROUND_IMG_MAP1;
+import static model.board.Image.*;
 
 
 public class GameEngine extends JPanel {
@@ -28,14 +28,24 @@ public class GameEngine extends JPanel {
     private Map<Direction,Boolean> Player2Movement;
     public GameEngine(Board board){
         super();
-        Player1Movement= new HashMap<>();//Map.of("UP",false,"DOWN",false,"LEFT",false,"RIGHT",false);
-        Player2Movement= new HashMap<>();//Map.of("UP",false,"DOWN",false,"LEFT",false,"RIGHT",false);
+        Player1Movement= new HashMap<>();
+        Player2Movement= new HashMap<>();
         this.board=board;
-        background=new ImageIcon(BACKGROUND_IMG_MAP1.getImageUrl()).getImage();
+        background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
     }
+
+    private ImageIcon getBackgroundImage(int mapIndex) {
+        return switch (mapIndex) {
+            case 1 -> new ImageIcon(BACKGROUND_IMG_MAP2.getImageUrl());
+            case 2 -> new ImageIcon(BACKGROUND_IMG_MAP3.getImageUrl());
+            default ->
+                    new ImageIcon(BACKGROUND_IMG_MAP1.getImageUrl());
+        };
+    }
+
     @Override
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
