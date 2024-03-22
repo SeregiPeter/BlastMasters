@@ -42,7 +42,7 @@ public class GameWindow extends JPanel {
     @Override
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
-        grphcs.drawImage(background, 0, 0, 800, 600, null);
+        grphcs.drawImage(background, 0, 0, 1520, 747, null);
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         for (Entity entity : entities) {
             entity.draw(grphcs);
