@@ -9,6 +9,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 public class MainMenu extends JFrame {
+
     private JButton btnExit;
     public JPanel panelMain;
     private JButton btnNewGame;
@@ -55,7 +56,9 @@ public class MainMenu extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 StartGame startGame = new StartGame();
                 startGame.setVisible(true);
-                dispose();
+                setVisible(false);
+                startGame.revalidate();
+                startGame.repaint();
             }
         });
     }
