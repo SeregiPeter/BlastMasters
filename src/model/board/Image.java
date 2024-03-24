@@ -93,7 +93,11 @@ public enum Image {
     /**
      * Represents the image URL for the bomb up bonus.
      */
-    BOMB_UP_BONUS_IMG("src/resources/assets/bonuses/bomb_up.png");
+    BOMB_UP_BONUS_IMG("src/resources/assets/bomb_up.png"),
+    FLAME_RIGHT_IMG("src/resources/assets/flame_right.png"),
+    FLAME_DOWN_IMG("src/resources/assets/flame_down.png"),
+    FLAME_UP_IMG("src/resources/assets/flame_up.png"),
+    FLAME_LEFT_IMG("src/resources/assets/flame_left.png");
 
     private final String url;
 

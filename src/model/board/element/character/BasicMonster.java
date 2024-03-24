@@ -9,6 +9,7 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -50,9 +51,10 @@ public class BasicMonster extends Monster {
         if(!this.isAlive()) return;
 
         this.moveTowardsDirection(currentDirection);
+        ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
 
         boolean needToChangeDirection = false;
-        for(Entity entity : board.getEntities()) {
+        for(Entity entity : entites) {
             if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb)) && this.collides(entity)) {
                 needToChangeDirection = true;
                 break;

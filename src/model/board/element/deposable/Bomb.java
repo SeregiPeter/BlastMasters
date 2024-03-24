@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static model.board.Image.FLAME_IMG;
+import static model.board.Image.*;
 import static model.board.Size.*;
 
 /**
@@ -92,13 +92,13 @@ public class Bomb extends Entity {
     public void explode() {
         if(this.detonated) return;
         this.detonated = true;
-        Flame flameUp = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.UP, owner.getBombRange(), this);
+        Flame flameUp = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_UP_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.UP, owner.getBombRange(), this);
 
-        Flame flameDown = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.DOWN, owner.getBombRange(), this);
+        Flame flameDown = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_DOWN_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.DOWN, owner.getBombRange(), this);
 
-        Flame flameLeft = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.LEFT, owner.getBombRange(), this);
+        Flame flameLeft = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_LEFT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.LEFT, owner.getBombRange(), this);
 
-        Flame flameRight = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.RIGHT, owner.getBombRange(), this);
+        Flame flameRight = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_RIGHT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.RIGHT, owner.getBombRange(), this);
 
         this.removable = true;
         flameUp.expand();
