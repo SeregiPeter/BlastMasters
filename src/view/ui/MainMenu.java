@@ -8,6 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+/**
+ * Represents the main menu of the game.
+ * The MainMenu class displays the main menu interface with options to start a new game
+ * or exit the application.
+ */
 public class MainMenu extends JFrame {
 
     private JButton btnExit;
@@ -16,6 +21,11 @@ public class MainMenu extends JFrame {
     private JLabel titleImageLabel;
     private Image backgroundImage;
 
+
+    /**
+     * Constructs a new MainMenu frame with buttons and panels.
+     * Initializes the main menu components such as buttons and the background image.
+     */
     public MainMenu() {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -63,10 +73,21 @@ public class MainMenu extends JFrame {
         });
     }
 
+    /**
+     * Creates a new JButton with the specified text.
+     *
+     * @param text the text to be displayed on the button
+     * @return the created JButton
+     */
     private JButton createButton(String text) {
         return new JButton(text);
     }
 
+    /**
+     * Customizes the appearance of the given button.
+     *
+     * @param button the button to be customized
+     */
     private void customizeButton(JButton button) {
         button.setPreferredSize(new Dimension(200, 50));
         button.setBackground(new Color(51, 206, 250));
@@ -74,6 +95,11 @@ public class MainMenu extends JFrame {
         button.setFont(new Font("Trebuchet MS", Font.BOLD, 25));
     }
 
+    /**
+     * Creates a JPanel with a background image.
+     *
+     * @return the created image panel
+     */
     private JPanel createImagePanel() {
         return new JPanel() {
             @Override
@@ -84,12 +110,20 @@ public class MainMenu extends JFrame {
         };
     }
 
+    /**
+     * Configures the layout of the main panel.
+     * Adds the title image to the center of the panel.
+     */
     private void configureMainPanel() {
         panelMain.setLayout(new BorderLayout());
         panelMain.add(Box.createVerticalStrut(50), BorderLayout.NORTH);
         panelMain.add(titleImageLabel, BorderLayout.CENTER);
     }
 
+    /**
+     * Configures the layout of the button panel.
+     * Adds the new game and exit buttons to the panel.
+     */
     private void configureButtonPanel() {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 90, 10));
         buttonPanel.setOpaque(false);

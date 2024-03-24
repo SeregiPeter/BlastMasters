@@ -19,7 +19,9 @@ import static model.board.Direction.UP;
 import static model.board.Image.*;
 import static view.state.GameState.PAUSED;
 
-
+/**
+ * The graphical engine for the game, responsible for rendering the game board and handling user input.
+ */
 public class GameEngine extends JPanel {
     private boolean paused;
     private Board board;
@@ -28,6 +30,11 @@ public class GameEngine extends JPanel {
     private Map<Direction,Boolean> Player1Movement;
     private Map<Direction,Boolean> Player2Movement;
 
+    /**
+     * Constructs a GameEngine with the specified game board.
+     *
+     * @param board the game board
+     */
     public GameEngine(Board board){
         super();
         paused=false;
@@ -49,6 +56,11 @@ public class GameEngine extends JPanel {
         };
     }
 
+    /**
+     * Paints the game components including the background, entities, and players.
+     *
+     * @param grphcs the graphics context
+     */
     @Override
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
@@ -60,6 +72,10 @@ public class GameEngine extends JPanel {
         board.getPlayer1().draw(grphcs);
         board.getPlayer2().draw(grphcs);
     }
+
+    /**
+     * Handles key presses for player movement and actions.
+     */
     public void handleKeyPresses() {
         this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "pressed left");
         this.getActionMap().put("pressed left", new AbstractAction() {
@@ -200,8 +216,11 @@ public class GameEngine extends JPanel {
         });
 
     }
-    class FrameListener implements ActionListener {
 
+    /**
+     * ActionListener for updating the game state and rendering the frame.
+     */
+    class FrameListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
 
@@ -212,10 +231,15 @@ public class GameEngine extends JPanel {
                 return;
             }
             handleGameState(board.getGameState());
-
         }
     }
 
+    /**
+     * Handles the movement of a player based on the key input.
+     *
+     * @param player the player to move
+     * @param playerMovement the map of player movement directions
+     */
     private void handlePlayerMovement(Player player, Map<Direction, Boolean> playerMovement) {
         int movesAtTheSameTime=0;
         ArrayList<Direction> moves=new ArrayList<>();
@@ -243,6 +267,12 @@ public class GameEngine extends JPanel {
             }
         }
     }
+
+    /**
+     * Handles the game state transitions and actions based on the current state.
+     *
+     * @param state the current game state
+     */
     private void handleGameState(GameState state){
         switch (state){
             case DRAW :
@@ -268,15 +298,20 @@ public class GameEngine extends JPanel {
                 break;
             case PLAYER2_FINAL_WIN:
                 System.out.println("bent van player2 nyert");
+                restart(); //ideiglenes meghívás a győzelmi ablak megjelenés helyett
                 break;
             case PLAYER1_FINAL_WIN:
                 System.out.println("bent van player1 nyert");
+                restart(); //ideiglenes meghívás a győzelmi ablak megjelenés helyett
                 break;
             default:
         }
 
     }
 
+    /**
+     * Restarts the game by resetting the board and entities.
+     */
     private void restart() {
         board.reset();
         System.out.println("bent van");

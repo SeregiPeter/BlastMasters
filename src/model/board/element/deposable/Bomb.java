@@ -16,11 +16,30 @@ import java.util.TimerTask;
 import static model.board.Image.FLAME_IMG;
 import static model.board.Size.*;
 
+/**
+ * The Bomb class represents a bomb entity in the game.
+ * Bombs can be planted by players and explode after a set duration.
+ * When a bomb explodes, it creates flame entities in various directions.
+ */
 public class Bomb extends Entity {
     private boolean detonated = false;
     private Player owner;
     private Board board;
 
+    /**
+     * Creates a new Bomb instance.
+     *
+     * @param x       The x-coordinate of the bomb.
+     * @param y       The y-coordinate of the bomb.
+     * @param width   The width of the bomb.
+     * @param height  The height of the bomb.
+     * @param velocity The velocity of the bomb.
+     * @param image   The image of the bomb.
+     * @param alive   The status of the bomb's existence.
+     * @param visible The visibility of the bomb.
+     * @param owner   The player who owns the bomb.
+     * @param board   The game board where the bomb exists.
+     */
     public Bomb(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner, Board board) {
         super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
         this.owner = owner;
@@ -28,6 +47,10 @@ public class Bomb extends Entity {
         this.explodable = true;
     }
 
+    /**
+     * Plants the bomb on the game board.
+     * Initiates a timer for the bomb to explode after a set duration.
+     */
     public void plant() {
         this.setVisible(true);
         board.addEntity(this);
@@ -45,6 +68,13 @@ public class Bomb extends Entity {
         }, 4 * 1000);                   // after 4 sec the bomb explodes
     }
 
+    /**
+     * Retrieves the entity at the specified coordinates on the board.
+     *
+     * @param x The x-coordinate of the entity.
+     * @param y The y-coordinate of the entity.
+     * @return The entity at the given coordinates.
+     */
     public Entity getEntFromXY(int x, int y) {
         ArrayList<Entity> entities = new ArrayList<>();
         for (Entity entity : board.getEntities()) {
@@ -55,6 +85,10 @@ public class Bomb extends Entity {
         return entities.get(entities.size() - 1);
     }
 
+    /**
+     * Explodes the bomb, creating flame entities in all directions.
+     * The range of the explosion is determined by the owner's bomb range.
+     */
     public void explode() {
         if(this.detonated) return;
         this.detonated = true;
@@ -73,10 +107,6 @@ public class Bomb extends Entity {
         flameRight.expand();
 
         owner.incrementNumberOfPlaceableBombs();
-
-
-
-
 
         /*detonated = true;
         boolean right = contact(getEntFromXY(this.x + TILE_WIDTH.getSize(), this.y));
@@ -136,10 +166,20 @@ public class Bomb extends Entity {
         return false;*/
     }
 
+    /**
+     * Checks if the bomb has been detonated.
+     *
+     * @return true if the bomb has been detonated, false otherwise.
+     */
     private boolean getDetonated() {
         return detonated;
     }
 
+    /**
+     * Returns a string representation of the bomb.
+     *
+     * @return The bomb represented as a string.
+     */
     @Override
     public String toString() {
         return Character.toString(128_163);

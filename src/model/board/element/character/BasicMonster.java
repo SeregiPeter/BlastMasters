@@ -11,16 +11,40 @@ import model.board.element.field.Wall;
 import java.awt.*;
 import java.util.Random;
 
+/**
+ * The BasicMonster class represents a basic monster entity on the game board.
+ * Basic monsters move in a predefined direction until they encounter obstacles,
+ * at which point they change direction randomly.
+ */
 public class BasicMonster extends Monster {
     Direction currentDirection;
     //komment
     Random random;
+
+    /**
+     * Constructs a BasicMonster object with the specified parameters.
+     *
+     * @param x        the x-coordinate of the monster
+     * @param y        the y-coordinate of the monster
+     * @param width    the width of the monster
+     * @param height   the height of the monster
+     * @param velocity the velocity of the monster
+     * @param image    the image representing the monster
+     * @param alive    the status indicating if the monster is alive
+     * @param visible  the status indicating if the monster is visible
+     * @param board    the game board the monster belongs to
+     */
     public BasicMonster(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, image, alive, visible, board);
         this.currentDirection = Direction.UP;
         this.random = new Random();
     }
 
+    /**
+     * Moves the monster in its current direction, checking for collisions
+     * with walls, boxes, bombs, flames, and players. If a collision occurs,
+     * the monster changes its direction randomly.
+     */
     @Override
     public void move() {
         if(!this.isAlive()) return;
@@ -50,12 +74,20 @@ public class BasicMonster extends Monster {
         changeDirectionRandomly();
     }
 
+    /**
+     * Changes the direction of the monster randomly with a small probability.
+     */
     public void changeDirectionRandomly() {
         if(random.nextDouble() < 0.005) {
             this.currentDirection = Direction.getDirectionExcept(this.currentDirection);
         }
     }
 
+    /**
+     * Returns a string representation of the BasicMonster object.
+     *
+     * @return a string representing the basic monster ("Bm")
+     */
     @Override
     public String toString() {
         return "Bm";
