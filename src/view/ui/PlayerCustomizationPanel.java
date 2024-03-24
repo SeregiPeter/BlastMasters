@@ -8,8 +8,11 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
-
+/**
+ * Represents a panel for player customization.
+ * The PlayerCustomizationPanel class provides a panel where players can customize their character's name
+ * and control keys.
+ */
 public class PlayerCustomizationPanel extends JPanel {
     private JTextField playerNameField;
     private JLabel characterPreviewLabel;
@@ -27,6 +30,10 @@ public class PlayerCustomizationPanel extends JPanel {
     Color lighterBlue = new Color(51, 206, 250);
     private Border editableBorder = BorderFactory.createLineBorder(lighterBlue, 2);
 
+    /**
+     * Constructs a new PlayerCustomizationPanel with text fields and buttons for customization.
+     * Initializes the panel with default player name and control keys.
+     */
     public PlayerCustomizationPanel() {
 
         UIManager.put("Panel.font", new Font("Trebuchet MS", Font.BOLD, 22));
@@ -222,7 +229,11 @@ public class PlayerCustomizationPanel extends JPanel {
         });
     }
 
-
+    /**
+     * Retrieves the customized control keys as a concatenated string.
+     *
+     * @return A string representing the customized control keys.
+     */
     public String getControls() {
         return controlWTextField.getText() + controlATextField.getText() +
                 controlSTextField.getText() + controlDTextField.getText() + controlBoxTextField.getText() +
@@ -230,10 +241,20 @@ public class PlayerCustomizationPanel extends JPanel {
 
     }
 
+    /**
+     * Sets the player's name in the text field.
+     *
+     * @param name The name to set for the player.
+     */
     public void setPlayerName(String name) {
         playerNameField.setText(name);
     }
 
+    /**
+     * Sets the player's character preview image.
+     *
+     * @param imageIcon The ImageIcon to set as the character preview.
+     */
     public void setPlayerImage(ImageIcon imageIcon) {
         characterPreviewLabel.setIcon(imageIcon);
 
@@ -242,6 +263,11 @@ public class PlayerCustomizationPanel extends JPanel {
         characterPreviewLabel.setPreferredSize(new Dimension(imageWidth, imageHeight));
     }
 
+    /**
+     * Sets the customized control keys for the player.
+     *
+     * @param controls A string representing the customized control keys.
+     */
     public void setControls(String controls) {
         controlWTextField.setText(controls.substring(0, 1));
         controlATextField.setText(controls.substring(1, 2));

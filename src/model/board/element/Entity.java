@@ -7,6 +7,9 @@ import model.board.element.deposable.Bomb;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * A base class representing entities on the game board.
+ */
 public abstract class Entity {
     protected int x;
     protected int y;
@@ -21,6 +24,18 @@ public abstract class Entity {
     protected static int entityCounter = 0;
     protected boolean removable;
 
+    /**
+     * Constructs an Entity with the specified parameters.
+     *
+     * @param x        the x-coordinate of the entity
+     * @param y        the y-coordinate of the entity
+     * @param width    the width of the entity
+     * @param height   the height of the entity
+     * @param velocity the velocity of the entity
+     * @param image    the image representing the entity
+     * @param alive    indicates if the entity is alive
+     * @param visible  indicates if the entity is visible
+     */
     public Entity(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
         this.x = x;
         this.y = y;
@@ -34,11 +49,23 @@ public abstract class Entity {
         this.removable = false;
     }
 
+    /**
+     * Checks if this entity collides with another entity.
+     *
+     * @param other the other entity to check collision with
+     * @return true if this entity collides with the other, false otherwise
+     */
     public boolean collides(Entity other) {
         Rectangle rect = new Rectangle(x, y, width, height);
         Rectangle otherRect = new Rectangle(other.x, other.y, other.width, other.height);
         return rect.intersects(otherRect);
     }
+
+    /**
+     * Draws the entity on the given graphics context, if visible.
+     *
+     * @param g the graphics context to draw on
+     */
     public void draw(Graphics g) {
         if(this.visible) {
             Graphics2D g2d = (Graphics2D) g.create();
@@ -47,78 +74,173 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Gets the x-coordinate of the entity.
+     *
+     * @return the x-coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Sets the x-coordinate of the entity.
+     *
+     * @param x the x-coordinate to set
+     */
     public void setX(int x) {
         this.x = x;
     }
 
+    /**
+     * Gets the y-coordinate of the entity.
+     *
+     * @return the y-coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Sets the y-coordinate of the entity.
+     *
+     * @param y the y-coordinate to set
+     */
     public void setY(int y) {
         this.y = y;
     }
 
+    /**
+     * Gets the width of the entity.
+     *
+     * @return the width
+     */
     public int getWidth() {
         return width;
     }
 
+    /**
+     * Sets the width of the entity.
+     *
+     * @param width the width to set
+     */
     public void setWidth(int width) {
         this.width = width;
     }
 
+    /**
+     * Gets the height of the entity.
+     *
+     * @return the height
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * Sets the height of the entity.
+     *
+     * @param height the height to set
+     */
     public void setHeight(int height) {
         this.height = height;
     }
 
+    /**
+     * Gets the velocity of the entity.
+     *
+     * @return the velocity
+     */
     public double getVelocity() {
         return velocity;
     }
 
+    /**
+     * Sets the velocity of the entity.
+     *
+     * @param velocity the velocity to set
+     */
     public void setVelocity(double velocity) {
         this.velocity = velocity;
     }
 
+    /**
+     * Gets the image of the entity.
+     *
+     * @return the image
+     */
     public Image getImage() {
         return image;
     }
 
+    /**
+     * Sets the image of the entity.
+     *
+     * @param image the image to set
+     */
     public void setImage(Image image) {
         this.image = image;
     }
 
+    /**
+     * Checks if the entity is alive.
+     *
+     * @return true if the entity is alive, false otherwise
+     */
     public boolean isAlive() {
         return alive;
     }
 
+    /**
+     * Sets the alive status of the entity.
+     *
+     * @param alive the alive status to set
+     */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
+    /**
+     * Checks if the entity is visible.
+     *
+     * @return true if the entity is visible, false otherwise
+     */
     public boolean isVisible() {
         return visible;
     }
 
+    /**
+     * Sets the visibility of the entity.
+     *
+     * @param visible the visibility to set
+     */
     public void setVisible(boolean visible) {
         this.visible = visible;
     }
 
+    /**
+     * Checks if the entity is removable.
+     *
+     * @return true if the entity is removable, false otherwise
+     */
     public boolean isRemovable() {
         return removable;
     }
 
+    /**
+     * Sets the removable status of the entity.
+     *
+     * @param removable the removable status to set
+     */
     public void setRemovable(boolean removable) {
         this.removable = removable;
     }
 
+    /**
+     * Moves the entity in the specified direction.
+     *
+     * @param direction the direction to move the entity
+     */
     public void moveTowardsDirection(Direction direction) {
         switch(direction) {
             case UP:
@@ -136,14 +258,30 @@ public abstract class Entity {
         }
     }
 
+    /**
+     * Checks if the entity is explodable.
+     *
+     * @return true if the entity is explodable, false otherwise
+     */
     public boolean isExplodable() {
         return explodable;
     }
 
+    /**
+     * Sets the explodable status of the entity.
+     *
+     * @param explodable the explodable status to set
+     */
     public void setExplodable(boolean explodable) {
         this.explodable = explodable;
     }
 
+    /**
+     * Checks if this entity is equal to another object.
+     *
+     * @param o the object to compare to
+     * @return true if the objects are equal, false otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -152,6 +290,11 @@ public abstract class Entity {
         return id == entity.id;
     }
 
+    /**
+     * Generates a hash code for this entity.
+     *
+     * @return the hash code
+     */
     @Override
     public int hashCode() {
         return Objects.hash(id);

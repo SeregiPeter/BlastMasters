@@ -16,12 +16,32 @@ import java.util.TimerTask;
 import static model.board.Size.TILE_HEIGHT;
 import static model.board.Size.TILE_WIDTH;
 
+/**
+ * Represents a Flame entity that expands in a specific direction from a Bomb explosion.
+ * This class handles the expansion of the Flame, collision detection, and interactions with other entities.
+ */
 public class Flame extends Entity {
     private Board board;
     private Direction direction;
     private int numberOfExpansions;
     private Bomb bomb;
 
+    /**
+     * Constructs a Flame entity with the specified parameters.
+     *
+     * @param x                 The x-coordinate of the Flame's position.
+     * @param y                 The y-coordinate of the Flame's position.
+     * @param width             The width of the Flame.
+     * @param height            The height of the Flame.
+     * @param velocity          The velocity of the Flame.
+     * @param image             The image representing the Flame.
+     * @param alive             The boolean indicating if the Flame is alive.
+     * @param visible           The boolean indicating if the Flame is visible.
+     * @param board             The Board object where the Flame exists.
+     * @param direction         The Direction in which the Flame expands.
+     * @param numberOfExpansions The number of expansions the Flame should make.
+     * @param bomb              The Bomb object that triggered the Flame.
+     */
     public Flame(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board, Direction direction, int numberOfExpansions, Bomb bomb) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.explodable = false;
@@ -32,6 +52,12 @@ public class Flame extends Entity {
         this.bomb = bomb;
     }
 
+    /**
+     * Marks the entities that the Flame collides with as removable.
+     * If a Box is hit, it also triggers the Box to explode.
+     *
+     * @return True if the Flame can continue expanding, false otherwise.
+     */
     public boolean markEntitiesRemovable() {
         Bonus bonus = null;
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
@@ -64,6 +90,10 @@ public class Flame extends Entity {
         return true;
     }
 
+    /**
+     * Expands the Flame by one tile in the direction it is moving.
+     * Adjusts the Flame's position and size accordingly.
+     */
     public void expandOneTile() {
         switch(direction) {
             case UP:
@@ -106,6 +136,11 @@ public class Flame extends Entity {
         }
     }
 
+    /**
+     * Initiates the expansion of the Flame.
+     * The Flame expands in its direction, marking entities as removable upon collision.
+     * After the specified number of expansions, the Flame becomes removable itself.
+     */
     public void expand() {
         Timer timer = new Timer();
         TimerTask task = new TimerTask() {
@@ -136,6 +171,4 @@ public class Flame extends Entity {
         };
         timer.schedule(task, 0, 500);
     }
-
-
 }

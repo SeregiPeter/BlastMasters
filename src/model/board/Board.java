@@ -8,7 +8,6 @@ import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.BiggerRangeBonus;
 import model.board.element.powerup.benefit.MaxBombsBonus;
-import view.state.GameEngine;
 import view.state.GameState;
 
 import javax.swing.*;
@@ -25,6 +24,9 @@ import static model.board.Size.*;
 import static model.board.Velocity.*;
 import static view.state.GameState.*;
 
+/**
+ * Represents the game board, containing various elements such as players, monsters, walls, boxes, bonuses, and bombs.
+ */
 public class Board {
 
     public int selectedMapIndex;
@@ -46,6 +48,14 @@ public class Board {
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
 
+    /**
+     * Constructs a game board with the specified size, path to the map file, and selected map index.
+     *
+     * @param boardSize        the size of the game board
+     * @param path             the path to the map file
+     * @param selectedMapIndex the index of the selected map
+     * @throws IOException if an I/O error occurs
+     */
     public Board(int boardSize, String path, int selectedMapIndex) throws IOException {
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
@@ -67,6 +77,12 @@ public class Board {
 
     }
 
+    /**
+     * Initializes the game board based on the map file.
+     *
+     * @param path             the path to the map file
+     * @param selectedMapIndex the index of the selected map
+     */
     public void initialize(String path, int selectedMapIndex) {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -136,6 +152,12 @@ public class Board {
         }
     }
 
+    /**
+     * Gets the ImageIcon for the wall based on the selected map index.
+     *
+     * @param mapIndex the index of the selected map
+     * @return the ImageIcon for the wall
+     */
     public ImageIcon getWallImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> new ImageIcon(WALL_IMG_MAP2.getImageUrl());
@@ -145,6 +167,12 @@ public class Board {
         };
     }
 
+    /**
+     * Gets the ImageIcon for the box based on the selected map index.
+     *
+     * @param mapIndex the index of the selected map
+     * @return the ImageIcon for the box
+     */
     private ImageIcon getBoxImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> new ImageIcon(BOX_IMG_MAP2.getImageUrl());
@@ -154,6 +182,12 @@ public class Board {
         };
     }
 
+    /**
+     * Gets the ImageIcon for the monster based on the selected map index.
+     *
+     * @param mapIndex the index of the selected map
+     * @return the ImageIcon for the monster
+     */
     private ImageIcon getMonsterImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> new ImageIcon(MONSTER_IMG_MAP2.getImageUrl());
@@ -163,22 +197,60 @@ public class Board {
         };
     }
 
+    /**
+     * Gets the selected map index.
+     *
+     * @return the selected map index
+     */
     public int getSelectedMapIndex() {
         return selectedMapIndex;
     }
 
+    /**
+     * Moves player 1 in the specified direction on the game board.
+     * This method delegates the movement action to the player 1 instance.
+     *
+     * @param d the direction in which player 1 should move
+     */
     public void movePlayer1(Direction d) {
         player1.move(d);
     }
+
+    /**
+     * Moves player 1 in the specified direction with a custom velocity on the game board.
+     * This method delegates the movement action to the player 1 instance.
+     *
+     * @param d        the direction in which player 1 should move
+     * @param velocity the velocity at which player 1 should move
+     */
     public void movePlayer1(Direction d, double velocity) {
         player1.move(d,velocity);
     }
+
+    /**
+     * Moves player 2 in the specified direction on the game board.
+     * This method delegates the movement action to the player 2 instance.
+     *
+     * @param d the direction in which player 2 should move
+     */
     public void movePlayer2(Direction d) {
         player2.move(d);
     }
+
+    /**
+     * Moves player 2 in the specified direction with a custom velocity on the game board.
+     * This method delegates the movement action to the player 2 instance.
+     *
+     * @param d        the direction in which player 2 should move
+     * @param velocity the velocity at which player 2 should move
+     */
     public void movePlayer2(Direction d, double velocity) {
         player2.move(d,velocity);
     }
+
+    /**
+     * Moves all monsters on the game board.
+     */
     public void moveMonsters() {
         for(Monster monster : monsters) {
             if(monster.isAlive()) {
@@ -187,57 +259,125 @@ public class Board {
         }
     }
 
+    /**
+     * Initiates the action of player 1 planting a bomb on the game board.
+     * This method delegates the bomb planting action to the player 1 instance.
+     */
     public void player1PlantsBomb() {
         this.player1.plantBomb();
     }
 
+    /**
+     * Initiates the action of player 2 planting a bomb on the game board.
+     * This method delegates the bomb planting action to the player 2 instance.
+     */
     public void player2PlantsBomb() {
         this.player2.plantBomb();
     }
 
+    /**
+     * Gets the winner of the game.
+     * This method is currently not implemented and returns null.
+     *
+     * @return the winning player, or null if there is no winner yet
+     */
     public Player getWinner(){
         return null;
     }
 
+    /**
+     * Gets the player 1 instance.
+     *
+     * @return the player 1 instance
+     */
     public Player getPlayer1() {
         return player1;
     }
 
+    /**
+     * Gets the player 2 instance.
+     *
+     * @return the player 2 instance
+     */
     public Player getPlayer2() {
         return player2;
     }
 
+    /**
+     * Gets the list of monsters on the game board.
+     *
+     * @return the list of monsters
+     */
     public ArrayList<Monster> getMonsters() {
         return monsters;
     }
 
+    /**
+     * Gets the list of walls on the game board.
+     *
+     * @return the list of walls
+     */
     public ArrayList<Wall> getWalls() {
         return walls;
     }
 
+    /**
+     * Gets the list of boxes on the game board.
+     *
+     * @return the list of boxes
+     */
     public ArrayList<Box> getBoxes() {
         return boxes;
     }
 
+    /**
+     * Gets the list of bonuses on the game board.
+     *
+     * @return the list of bonuses
+     */
     public ArrayList<Bonus> getBonuses() {
         return bonuses;
     }
 
+    /**
+     * Gets the list of bombs on the game board.
+     *
+     * @return the list of bombs
+     */
     public ArrayList<Bomb> getBombs() {
         return bombs;
     }
+
+    /**
+     * Gets the list of all entities on the game board.
+     *
+     * @return the list of entities
+     */
     public ArrayList<Entity> getEntities() {
         return boardElements;
     }
 
+    /**
+     * Adds a bomb to the list of bombs on the game board.
+     *
+     * @param bomb the bomb to add
+     */
     public void addBomb(Bomb bomb) {
         bombs.add(bomb);
     }
 
+    /**
+     * Adds an entity to the list of entities on the game board.
+     *
+     * @param entity the entity to add
+     */
     public void addEntity(Entity entity) {
         boardElements.add(entity);
     }
 
+    /**
+     * Puts bonuses into random boxes on the game board.
+     */
     public void putBonusesInBoxes() {
         Random random = new Random();
         int numberOfBonuses = boxes.size();
@@ -256,6 +396,9 @@ public class Board {
         }
     }
 
+    /**
+     * Removes entities marked as removable from the game board.
+     */
     public void removeRemovableEntities() {
         ArrayList<Entity> removables = new ArrayList<>();
         ArrayList<Entity> elements = new ArrayList<>(boardElements);
@@ -265,6 +408,9 @@ public class Board {
         boardElements.removeAll(removables);
     }
 
+    /**
+     * Checks the current status of the game, updating the state accordingly.
+     */
     public void statusCheck() {
         if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
         if (finalState!=BOTH_ALIVE){
@@ -287,6 +433,10 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Handles the end of a round, updating player points and determining the final winner.
+     */
     public void roundEnd(){
         if(state==PLAYER1_WON)player1.incrementPoints();
         else player2.incrementPoints();
@@ -296,11 +446,14 @@ public class Board {
             else state=PLAYER2_FINAL_WIN;
         }
     }
+
+    /**
+     * Represents an ActionListener for the after death timer.
+     */
      class timerListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-
             if(player1Check&&!player2Check){
                 if(player2.isAlive()){
                     finalState=PLAYER2_WON;
@@ -316,6 +469,12 @@ public class Board {
             }
         }
     }
+
+    /**
+     * Returns a string representation of the game board, including its size, players, monsters, and other elements.
+     *
+     * @return a string representation of the game board
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -340,10 +499,18 @@ public class Board {
         return sb.toString();
     }
 
-
+    /**
+     * Gets the current game state.
+     *
+     * @return the current game state
+     */
     public GameState getGameState() {
         return state;
     }
+
+    /**
+     * Resets the game board to its initial state, including resetting elements and scores.
+     */
     public void reset() {
         if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
         monsters = new ArrayList<>();
@@ -360,7 +527,7 @@ public class Board {
         int tempPlayer2Points=player2.getPoints();
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
-        player1.setPoitns(tempPlayer1Points);
-        player2.setPoitns(tempPlayer2Points);
+        player1.setPoints(tempPlayer1Points);
+        player2.setPoints(tempPlayer2Points);
     }
 }
