@@ -29,9 +29,11 @@ public class Board {
 
     public int selectedMapIndex;
     private final int boardSize;
+    private int numberOfRound;
     private boolean onlyOneAlive;
     private boolean player1Check;
     private boolean player2Check;
+    private String path;
     private GameState finalState;
     private Timer afterDeathTimer;
     private GameState state;
@@ -52,6 +54,8 @@ public class Board {
         bombs = new ArrayList<>();
         this.boardSize = boardSize;
         this.selectedMapIndex = selectedMapIndex;
+        this.path=path;
+        this.numberOfRound=3;                       //temporary initialization!!!!
         onlyOneAlive=false;
         player1Check=false;
         player2Check=false;
@@ -63,69 +67,73 @@ public class Board {
 
     }
 
-    public void initialize(String path, int selectedMapIndex) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(path));
-        boardElements = new ArrayList<>();
-        int row = 0;
-        String line;
-        while((line = br.readLine()) != null) {
-            int col = 0;
-            for(char entityType : line.toCharArray()) {
-                int x = col * TILE_WIDTH.getSize();
-                int y = row * TILE_HEIGHT.getSize();
-                switch (entityType) {
-                    case 'W':
-                        Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
-                                getWallImage(selectedMapIndex).getImage(), false, true);
-                        boardElements.add(wall);
-                        walls.add(wall);
-                        break;
-                    case 'B':
-                        Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
-                                getBoxImage(selectedMapIndex).getImage(), false, true, null, this);
-                        boardElements.add(box);
-                        boxes.add(box);
-                        break;
-                    case 'M':
-                        BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                        boardElements.add(basicMonster);
-                        monsters.add(basicMonster);
-                        break;
-                    case 'G':
-                        GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                        boardElements.add(ghostMonster);
-                        monsters.add(ghostMonster);
-                        break;
-                    case 'S':
-                        SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
-                                MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                        boardElements.add(semiIntelligentMonster);
-                        monsters.add(semiIntelligentMonster);
-                        break;
-                    case 'I':
-                        IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                        boardElements.add(intelligentMonster);
-                        monsters.add(intelligentMonster);
-                        break;
-                    case '1':
-                        player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                new ImageIcon(PLAYER1_IMG.getImageUrl()).getImage(), true, true, "Player1", this, null);
-                        boardElements.add(player1);
-                        break;
-                    case '2':
-                        player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                new ImageIcon(PLAYER2_IMG.getImageUrl()).getImage(), true, true, "Player2", this, null);
-                        boardElements.add(player2);
-                        break;
+    public void initialize(String path, int selectedMapIndex) {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            boardElements = new ArrayList<>();
+            int row = 0;
+            String line;
+            while ((line = br.readLine()) != null) {
+                int col = 0;
+                for (char entityType : line.toCharArray()) {
+                    int x = col * TILE_WIDTH.getSize();
+                    int y = row * TILE_HEIGHT.getSize();
+                    switch (entityType) {
+                        case 'W':
+                            Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
+                                    getWallImage(selectedMapIndex).getImage(), false, true);
+                            boardElements.add(wall);
+                            walls.add(wall);
+                            break;
+                        case 'B':
+                            Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
+                                    getBoxImage(selectedMapIndex).getImage(), false, true, null, this);
+                            boardElements.add(box);
+                            boxes.add(box);
+                            break;
+                        case 'M':
+                            BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                            boardElements.add(basicMonster);
+                            monsters.add(basicMonster);
+                            break;
+                        case 'G':
+                            GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                            boardElements.add(ghostMonster);
+                            monsters.add(ghostMonster);
+                            break;
+                        case 'S':
+                            SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
+                                    MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                            boardElements.add(semiIntelligentMonster);
+                            monsters.add(semiIntelligentMonster);
+                            break;
+                        case 'I':
+                            IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                            boardElements.add(intelligentMonster);
+                            monsters.add(intelligentMonster);
+                            break;
+                        case '1':
+                            player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
+                                    new ImageIcon(PLAYER1_IMG.getImageUrl()).getImage(), true, true, "Player1", this, null);
+                            boardElements.add(player1);
+                            break;
+                        case '2':
+                            player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
+                                    new ImageIcon(PLAYER2_IMG.getImageUrl()).getImage(), true, true, "Player2", this, null);
+                            boardElements.add(player2);
+                            break;
+                    }
+                    col++;
                 }
-                col++;
+                row++;
             }
-            row++;
+            br.close();
+        }catch (IOException e){
+            System.err.println("File not found");
         }
-        br.close();
     }
 
     public ImageIcon getWallImage(int mapIndex) {
@@ -258,6 +266,7 @@ public class Board {
     }
 
     public void statusCheck() {
+        if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
         if (finalState!=BOTH_ALIVE){
             state=finalState;
             return;
@@ -276,6 +285,15 @@ public class Board {
                 onlyOneAlive = true;
                 afterDeathTimer.start();
             }
+        }
+    }
+    public void roundEnd(){
+        if(state==PLAYER1_WON)player1.incrementPoints();
+        else player2.incrementPoints();
+
+        if(player1.getPoints()>numberOfRound/2 || player2.getPoints()>numberOfRound/2){
+            if(player1.getPoints()>player2.getPoints()) state=PLAYER1_FINAL_WIN;
+            else state=PLAYER2_FINAL_WIN;
         }
     }
      class timerListener implements ActionListener {
@@ -325,5 +343,24 @@ public class Board {
 
     public GameState getGameState() {
         return state;
+    }
+    public void reset() {
+        if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
+        monsters = new ArrayList<>();
+        walls = new ArrayList<>();
+        boxes = new ArrayList<>();
+        bonuses = new ArrayList<>();
+        bombs = new ArrayList<>();
+        onlyOneAlive=false;
+        player1Check=false;
+        player2Check=false;
+        finalState= BOTH_ALIVE;
+        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
+        int tempPlayer1Points=player1.getPoints();
+        int tempPlayer2Points=player2.getPoints();
+        initialize(path, selectedMapIndex);
+        putBonusesInBoxes();
+        player1.setPoitns(tempPlayer1Points);
+        player2.setPoitns(tempPlayer2Points);
     }
 }

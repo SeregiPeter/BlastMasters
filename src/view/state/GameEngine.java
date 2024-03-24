@@ -246,20 +246,19 @@ public class GameEngine extends JPanel {
     private void handleGameState(GameState state){
         switch (state){
             case DRAW :
-                System.out.println(state);
                 board.removeRemovableEntities();
+                System.out.println(state);
+                restart();
                 break;
             case PAUSED:
 
                 break;
 
-            case PLAYER1_WON:
+            case PLAYER1_WON, PLAYER2_WON:
                 board.removeRemovableEntities();
                 System.out.println(state);
-                break;
-            case PLAYER2_WON :
-                board.removeRemovableEntities();
-                System.out.println(state);
+                board.roundEnd();
+                restart();
                 break;
             case BOTH_ALIVE :
                 board.removeRemovableEntities();
@@ -267,9 +266,20 @@ public class GameEngine extends JPanel {
                 handlePlayerMovement(board.getPlayer2(),Player2Movement);
                 board.moveMonsters();
                 break;
+            case PLAYER2_FINAL_WIN:
+                System.out.println("bent van player2 nyert");
+                break;
+            case PLAYER1_FINAL_WIN:
+                System.out.println("bent van player1 nyert");
+                break;
             default:
         }
 
+    }
+
+    private void restart() {
+        board.reset();
+        System.out.println("bent van");
     }
 
 }

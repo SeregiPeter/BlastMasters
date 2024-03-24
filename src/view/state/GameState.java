@@ -6,6 +6,8 @@ public enum GameState {
     PLAYER2_ALIVE,
     PLAYER1_WON,
     PLAYER2_WON,
+    PLAYER1_FINAL_WIN,
+    PLAYER2_FINAL_WIN,
     PAUSED,
     DRAW
 }
