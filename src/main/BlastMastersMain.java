@@ -20,7 +20,7 @@ public class BlastMastersMain {
         MainMenu mainMenu = new MainMenu();
         mainMenu.setContentPane(mainMenu.panelMain);
         mainMenu.setTitle("Blast Masters");
-        mainMenu.setSize(1520, 747);
+        mainMenu.setSize(1500, 807);
         mainMenu.setVisible(true);
         mainMenu.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }

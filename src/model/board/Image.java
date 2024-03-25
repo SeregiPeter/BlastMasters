@@ -8,7 +8,7 @@ public enum Image {
     /**
      * Represents the image URL for a bomb.
      */
-    BOMB_IMG("src/resources/assets/bomb_explode.gif"),
+    BOMB_IMG("src/resources/assets/bomb.png"),
 
     /**
      * Represents the image URL for the first player character.
