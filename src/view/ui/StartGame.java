@@ -33,7 +33,7 @@ public class StartGame extends JFrame {
         }
 
         setTitle("Blast Masters");
-        setSize(1520, 747);
+        setSize(1500, 807);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         try {
