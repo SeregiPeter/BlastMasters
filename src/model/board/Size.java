@@ -7,67 +7,67 @@ public enum Size {
     /**
      * Represents the size of the game board.
      */
-    BOARD_SIZE(15),
+    BOARD_SIZE(13),
 
     /**
      * Represents the height of a player character.
      */
-    PLAYER_HEIGHT(30),
+    PLAYER_HEIGHT(45),
 
     /**
      * Represents the width of a player character.
      */
-    PLAYER_WIDTH(17),
+    PLAYER_WIDTH(35),
 
     /**
      * Represents the size of a monster.
      */
-    MONSTER_SIZE(40),
+    MONSTER_SIZE(60),
 
     /**
      * Represents the size of a wall.
      */
-    WALL_SIZE(40),
+    WALL_SIZE(60),
 
     /**
      * Represents the size of a box.
      */
-    BOX_SIZE(40),
+    BOX_SIZE(60),
 
     /**
      * Represents the size of a bonus.
      */
-    BONUS_SIZE(30),
+    BONUS_SIZE(40),
 
     /**
      * Represents the height of a bomb.
      */
-    BOMB_HEIGHT(40),
+    BOMB_HEIGHT(60),
 
     /**
      * Represents the width of a bomb.
      */
-    BOMB_WIDTH(40),
+    BOMB_WIDTH(60),
 
     /**
      * Represents the width of a tile.
      */
-    TILE_WIDTH(40),
+    TILE_WIDTH(60),
 
     /**
      * Represents the height of a tile.
      */
-    TILE_HEIGHT(40),
+    TILE_HEIGHT(60),
 
     /**
      * Represents the height of a flame effect.
      */
-    FLAME_HEIGHT(40),
+    FLAME_HEIGHT(60),
 
     /**
      * Represents the width of a flame effect.
      */
-    FLAME_WIDTH(40);
+    FLAME_WIDTH(60);
     private final int size;
 
     /**
