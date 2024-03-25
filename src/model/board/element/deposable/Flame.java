@@ -164,11 +164,11 @@ public class Flame extends Entity {
                                 timer.cancel();
                                 timer.purge();
                             }
-                        }, 1500);
+                        }, 500);
                     }
                 }
             }
         };
-        timer.schedule(task, 0, 500);
+        timer.schedule(task, 0, 200);
     }
 }

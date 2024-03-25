@@ -65,7 +65,7 @@ public class Bomb extends Entity {
                 }
 
             }
-        }, 4 * 1000);                   // after 4 sec the bomb explodes
+        }, 3 * 1000);                   // after 4 sec the bomb explodes
     }
 
     /**
