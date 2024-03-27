@@ -10,6 +10,8 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -49,6 +51,10 @@ public class Player extends Entity {
     private Bomb lastPlantedBomb;
     private boolean onBomb;
     private ArrayList<Bomb> onBombs;
+    private List<Image> images;
+    private int imageChangeCounter = 0;
+    // Define a threshold for image change frequency
+    private static final int IMAGE_CHANGE_THRESHOLD = 8;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -58,15 +64,15 @@ public class Player extends Entity {
      * @param width    the width of the player
      * @param height   the height of the player
      * @param velocity the velocity of the player
-     * @param image    the image representing the player
      * @param alive    the status indicating if the player is alive
      * @param visible  the status indicating if the player is visible
      * @param name     the name of the player
      * @param board    the game board the player belongs to
      * @param settings the game settings
      */
-    public Player(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, String name, Board board, Settings settings) {
-        super(x, y, width, height, velocity, image, alive, visible);
+    public Player(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, String name, Board board, Settings settings) {
+        super(x, y, width, height, velocity, images.get(0), alive, visible);
+        this.images = images;
         this.name = name;
         this.board = board;
         points = 0;
@@ -90,6 +96,8 @@ public class Player extends Entity {
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
+
+
     }
 
     /**
@@ -191,9 +199,42 @@ public class Player extends Entity {
      */
     /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk,
     akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
-    public void move(Direction direction) {
-        if(!this.isAlive()) return;
 
+
+
+    public void move(Direction direction) {
+        imageChangeCounter++;
+
+        if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
+            imageChangeCounter = 0;
+
+            switch (direction) {
+                case UP:
+                    int currentIndex = images.indexOf(this.image);
+                    int nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 4);
+                    break;
+                case DOWN:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 7);
+                    break;
+                case LEFT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex + 10);
+                    break;
+                case RIGHT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Perform movement logic
         this.moveTowardsDirection(direction);
 
         boolean shouldBePlacedBack = false;

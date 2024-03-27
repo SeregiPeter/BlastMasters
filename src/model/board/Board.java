@@ -109,10 +109,11 @@ public class Board {
                             break;
                         case 'M':
                             BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex), true, true, this);
                             boardElements.add(basicMonster);
                             monsters.add(basicMonster);
                             break;
+                            /*
                         case 'G':
                             GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
@@ -131,14 +132,26 @@ public class Board {
                             boardElements.add(intelligentMonster);
                             monsters.add(intelligentMonster);
                             break;
+
+                             */
                         case '1':
+                            List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
+                            List<java.awt.Image> player1Images = new ArrayList<>();
+                            for (String url : player1ImageUrls) {
+                                player1Images.add(new ImageIcon(url).getImage());
+                            }
                             player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    new ImageIcon(PLAYER1_IMG.getImageUrl()).getImage(), true, true, "Player1", this, null);
+                                    player1Images, true, true, "Player1", this, null);
                             boardElements.add(player1);
                             break;
                         case '2':
+                            List<String> player2ImageUrls = Image.PLAYER2_IMG.getImageUrls();
+                            List<java.awt.Image> player2Images = new ArrayList<>();
+                            for (String url : player2ImageUrls) {
+                                player2Images.add(new ImageIcon(url).getImage());
+                            }
                             player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    new ImageIcon(PLAYER2_IMG.getImageUrl()).getImage(), true, true, "Player2", this, null);
+                                    player2Images, true, true, "Player2", this, null);
                             boardElements.add(player2);
                             break;
                     }
@@ -188,12 +201,32 @@ public class Board {
      * @param mapIndex the index of the selected map
      * @return the ImageIcon for the monster
      */
-    private ImageIcon getMonsterImage(int mapIndex) {
+    private List<java.awt.Image> getMonsterImage(int mapIndex) {
         return switch (mapIndex) {
-            case 1 -> new ImageIcon(MONSTER_IMG_MAP2.getImageUrl());
-            case 2 -> new ImageIcon(MONSTER_IMG_MAP3.getImageUrl());
-            default ->
-                    new ImageIcon(MONSTER_IMG_MAP1.getImageUrl());
+            case 1 -> {
+                List<String> monster2ImageUrls = Image.MONSTER_IMG_MAP2.getImageUrls();
+                List<java.awt.Image> monster2Images = new ArrayList<>();
+                for (String url : monster2ImageUrls) {
+                    monster2Images.add(new ImageIcon(url).getImage());
+                }
+                yield monster2Images;
+            }
+            case 2 -> {
+                List<String> monster3ImageUrls = Image.MONSTER_IMG_MAP3.getImageUrls();
+                List<java.awt.Image> monster3Images = new ArrayList<>();
+                for (String url : monster3ImageUrls) {
+                    monster3Images.add(new ImageIcon(url).getImage());
+                }
+                yield monster3Images;
+            }
+            default -> {
+                List<String> monster1ImageUrls = Image.MONSTER_IMG_MAP1.getImageUrls();
+                List<java.awt.Image> monster1Images = new ArrayList<>();
+                for (String url : monster1ImageUrls) {
+                    monster1Images.add(new ImageIcon(url).getImage());
+                }
+                yield monster1Images;
+            }
         };
     }
 
