@@ -11,6 +11,7 @@ import model.board.element.field.Wall;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.List;
 
 /**
  * The BasicMonster class represents a basic monster entity on the game board.
@@ -21,6 +22,9 @@ public class BasicMonster extends Monster {
     Direction currentDirection;
     //komment
     Random random;
+    private int imageChangeCounter = 0;
+    // Define a threshold for image change frequency
+    private static final int IMAGE_CHANGE_THRESHOLD = 12;
 
     /**
      * Constructs a BasicMonster object with the specified parameters.
@@ -30,13 +34,13 @@ public class BasicMonster extends Monster {
      * @param width    the width of the monster
      * @param height   the height of the monster
      * @param velocity the velocity of the monster
-     * @param image    the image representing the monster
+     * @param images    the image representing the monster
      * @param alive    the status indicating if the monster is alive
      * @param visible  the status indicating if the monster is visible
      * @param board    the game board the monster belongs to
      */
-    public BasicMonster(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board) {
-        super(x, y, width, height, velocity, image, alive, visible, board);
+    public BasicMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
+        super(x, y, width, height, velocity, images, alive, visible, board);
         this.currentDirection = Direction.UP;
         this.random = new Random();
     }
@@ -48,8 +52,35 @@ public class BasicMonster extends Monster {
      */
     @Override
     public void move() {
+        imageChangeCounter++;
         if(!this.isAlive()) return;
-
+        if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
+            imageChangeCounter = 0;
+            switch (currentDirection) {
+                case UP:
+                    int currentIndex = images.indexOf(this.image);
+                    int nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 4);
+                    break;
+                case DOWN:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 7);
+                    break;
+                case LEFT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex + 10);
+                    break;
+                case RIGHT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
         this.moveTowardsDirection(currentDirection);
         ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
 

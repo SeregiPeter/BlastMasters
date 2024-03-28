@@ -3,6 +3,7 @@ package model.board.element.character;
 import model.board.Board;
 
 import java.awt.*;
+import java.util.List;
 
 /**
  * A type of Monster that exhibits semi-intelligent movement behavior.
@@ -18,13 +19,13 @@ public class SemiIntelligentMonster extends Monster {
      * @param width   the width of the monster
      * @param height  the height of the monster
      * @param velocity the velocity of the monster
-     * @param image   the image representing the monster
+     * @param images   the image representing the monster
      * @param alive   the status indicating if the monster is alive
      * @param visible the visibility status of the monster
      * @param board   the game board the monster belongs to
      */
-    public SemiIntelligentMonster(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board) {
-        super(x, y, width, height, velocity, image, alive, visible, board);
+    public SemiIntelligentMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
+        super(x, y, width, height, velocity, images, alive, visible, board);
     }
     public Player getClosestPlayer(){ return null;}
 
