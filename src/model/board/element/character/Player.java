@@ -11,6 +11,8 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 import javax.swing.*;
@@ -22,7 +24,6 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
-import static model.board.Velocity.PLAYER_VEL;
 
 /**
  * The Player class represents a player character on the game board.
@@ -55,6 +56,7 @@ public class Player extends Entity {
     private List<Image> images;
     private int imageChangeCounter = 0;
     // Define a threshold for image change frequency
+    private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
 
     /**
@@ -368,8 +370,30 @@ public class Player extends Entity {
         points=tempPlayerPoints;
     }
 
-    public void useRoller() {
+    public void useRollerBonus() {
         this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
         this.hasRoller = true;
+    }
+    public void useSlowDownBonus() {
+        this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
+        this.slowedDown = true;
+        int oldNumberOfSlowDownBonuses = ++numberOfSlowDownBonuses;
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(numberOfSlowDownBonuses == oldNumberOfSlowDownBonuses) {
+                    if(hasRoller) {
+                        velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+                    } else {
+                        velocity = Velocity.PLAYER_VEL.getVelocity();
+                    }
+                    slowedDown = false;
+                    numberOfSlowDownBonuses = 0;
+                }
+            }
+        }, 5000);
+
     }
 }

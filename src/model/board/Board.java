@@ -9,6 +9,7 @@ import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.BiggerRangeBonus;
 import model.board.element.powerup.benefit.MaxBombsBonus;
 import model.board.element.powerup.benefit.RollerBonus;
+import model.board.element.powerup.handicap.SlowDownBonus;
 import view.state.GameState;
 
 import javax.swing.*;
@@ -424,7 +425,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(3); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(4); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -435,6 +436,9 @@ public class Board {
                 break;
             case 2:
                 bonus = new RollerBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(ROLLER_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 3:
+                bonus = new SlowDownBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SLOW_DOWN_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
         }
         box.setBonus(bonus);
