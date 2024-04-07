@@ -3,6 +3,7 @@ package model.board.element.character;
 import control.Settings;
 import model.board.Board;
 import model.board.Direction;
+import model.board.Velocity;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
@@ -143,7 +144,7 @@ public class Player extends Entity {
         if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
-        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(),  new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
         for(Entity entity : board.getEntities()) {
             if(!(entity.equals(this)) && entity.collides(bomb)) {
                 return;
@@ -168,7 +169,7 @@ public class Player extends Entity {
      * Adds a new bomb to the player's list of bombs.
      */
     public void addBomb() {
-        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
+        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
     }
 
     /**
@@ -187,9 +188,10 @@ public class Player extends Entity {
      * @param velocity the velocity of the movement
      */
     public void move(Direction d, double velocity) {
+        double oldVelocity = this.velocity;
         this.velocity=velocity;
         move(d);
-        this.velocity=PLAYER_VEL.getVelocity();
+        this.velocity = oldVelocity;
     }
 
     /**
@@ -364,5 +366,10 @@ public class Player extends Entity {
      */
     public void setPoints(int tempPlayerPoints) {
         points=tempPlayerPoints;
+    }
+
+    public void useRoller() {
+        this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+        this.hasRoller = true;
     }
 }

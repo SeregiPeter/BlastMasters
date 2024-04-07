@@ -8,6 +8,7 @@ import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.BiggerRangeBonus;
 import model.board.element.powerup.benefit.MaxBombsBonus;
+import model.board.element.powerup.benefit.RollerBonus;
 import view.state.GameState;
 
 import javax.swing.*;
@@ -417,16 +418,28 @@ public class Board {
         Collections.shuffle(boxes);
         ArrayList<Box> boxesWithBonuses = new ArrayList<>(boxes.subList(0, numberOfBonuses));
         for(Box box : boxesWithBonuses) {
-            Bonus bonus;
-            if(random.nextDouble() < 0.5) {
-                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-            } else {
-                 bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-            }
-            box.setBonus(bonus);
-            boardElements.add(bonus);
-            bonuses.add(bonus);
+            putRandomBonusInBox(box);
         }
+    }
+
+    public void putRandomBonusInBox(Box box) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(3); // Az eddig elkészült bónuszok száma
+        Bonus bonus = null;
+        switch(randomNumber) {
+            case 0:
+                bonus =  new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 1:
+                bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 2:
+                bonus = new RollerBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(ROLLER_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+        }
+        box.setBonus(bonus);
+        boardElements.add(bonus);
+        bonuses.add(bonus);
     }
 
     /**

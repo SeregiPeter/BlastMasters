@@ -25,6 +25,7 @@ public enum Velocity {
      * Currently, only integer values are supported.
      */
     PLAYER_VEL(2),
+    PLAYER_WITH_ROLLER_VEL(4),
 
     /**
      * Represents the velocity of a bonus.
