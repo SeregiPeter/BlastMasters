@@ -12,6 +12,6 @@ public class SlowDownBonus extends BonusWithTimer {
 
     @Override
     public void use() {
-
+        this.owner.useSlowDownBonus();
     }
 }

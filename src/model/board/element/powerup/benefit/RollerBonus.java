@@ -12,6 +12,6 @@ public class RollerBonus extends Bonus {
 
     @Override
     public void use() {
-        this.owner.useRoller();
+        this.owner.useRollerBonus();
     }
 }
