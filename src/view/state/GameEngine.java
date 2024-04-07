@@ -253,9 +253,9 @@ public class GameEngine extends JPanel {
             if(movesAtTheSameTime>1){
                 if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
 
-                    board.movePlayer1(d,1);             //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
+                    board.movePlayer1(d,player.getVelocity()/2);             //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
                 }else {
-                    board.movePlayer2(d,1);
+                    board.movePlayer2(d,player.getVelocity()/2);
                 }
             }else{
                 if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
