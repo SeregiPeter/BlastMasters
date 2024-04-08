@@ -3,6 +3,7 @@ package model.board.element.character;
 import control.Settings;
 import model.board.Board;
 import model.board.Direction;
+import model.board.Velocity;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
@@ -10,6 +11,8 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 import javax.swing.*;
@@ -21,7 +24,6 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
-import static model.board.Velocity.PLAYER_VEL;
 
 /**
  * The Player class represents a player character on the game board.
@@ -54,6 +56,7 @@ public class Player extends Entity {
     private List<Image> images;
     private int imageChangeCounter = 0;
     // Define a threshold for image change frequency
+    private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
 
     /**
@@ -143,7 +146,7 @@ public class Player extends Entity {
         if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
-        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(),  new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
         for(Entity entity : board.getEntities()) {
             if(!(entity.equals(this)) && entity.collides(bomb)) {
                 return;
@@ -168,7 +171,7 @@ public class Player extends Entity {
      * Adds a new bomb to the player's list of bombs.
      */
     public void addBomb() {
-        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
+        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
     }
 
     /**
@@ -187,9 +190,10 @@ public class Player extends Entity {
      * @param velocity the velocity of the movement
      */
     public void move(Direction d, double velocity) {
+        double oldVelocity = this.velocity;
         this.velocity=velocity;
         move(d);
-        this.velocity=PLAYER_VEL.getVelocity();
+        this.velocity = oldVelocity;
     }
 
     /**
@@ -364,5 +368,32 @@ public class Player extends Entity {
      */
     public void setPoints(int tempPlayerPoints) {
         points=tempPlayerPoints;
+    }
+
+    public void useRollerBonus() {
+        this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+        this.hasRoller = true;
+    }
+    public void useSlowDownBonus() {
+        this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
+        this.slowedDown = true;
+        int oldNumberOfSlowDownBonuses = ++numberOfSlowDownBonuses;
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if(numberOfSlowDownBonuses == oldNumberOfSlowDownBonuses) {
+                    if(hasRoller) {
+                        velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+                    } else {
+                        velocity = Velocity.PLAYER_VEL.getVelocity();
+                    }
+                    slowedDown = false;
+                    numberOfSlowDownBonuses = 0;
+                }
+            }
+        }, 5000);
+
     }
 }

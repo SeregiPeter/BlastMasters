@@ -25,6 +25,7 @@ public class Bomb extends Entity {
     private boolean detonated = false;
     private Player owner;
     private Board board;
+    private int range;
 
     /**
      * Creates a new Bomb instance.
@@ -40,11 +41,12 @@ public class Bomb extends Entity {
      * @param owner   The player who owns the bomb.
      * @param board   The game board where the bomb exists.
      */
-    public Bomb(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner, Board board) {
+    public Bomb(int x, int y, int width, int height, double velocity, int range, Image image, boolean alive, boolean visible, Player owner, Board board) {
         super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
         this.owner = owner;
         this.board = board;
         this.explodable = true;
+        this.range = range;
     }
 
     /**
@@ -87,18 +89,18 @@ public class Bomb extends Entity {
 
     /**
      * Explodes the bomb, creating flame entities in all directions.
-     * The range of the explosion is determined by the owner's bomb range.
+     * The range of the explosion is determined by the bomb's range.
      */
     public void explode() {
         if(this.detonated) return;
         this.detonated = true;
-        Flame flameUp = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_UP_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.UP, owner.getBombRange(), this);
+        Flame flameUp = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_UP_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.UP, this.range, this);
 
-        Flame flameDown = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_DOWN_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.DOWN, owner.getBombRange(), this);
+        Flame flameDown = new Flame(this.x, this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_DOWN_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.DOWN, this.range, this);
 
-        Flame flameLeft = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_LEFT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.LEFT, owner.getBombRange(), this);
+        Flame flameLeft = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_LEFT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.LEFT, this.range, this);
 
-        Flame flameRight = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_RIGHT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.RIGHT, owner.getBombRange(), this);
+        Flame flameRight = new Flame(this.x , this.y, FLAME_WIDTH.getSize(), FLAME_HEIGHT.getSize(), 0, new ImageIcon(FLAME_RIGHT_IMG.getImageUrl()).getImage(), false, true, this.board, Direction.RIGHT, this.range, this);
 
         this.removable = true;
         flameUp.expand();

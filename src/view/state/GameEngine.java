@@ -241,30 +241,14 @@ public class GameEngine extends JPanel {
      * @param playerMovement the map of player movement directions
      */
     private void handlePlayerMovement(Player player, Map<Direction, Boolean> playerMovement) {
-        int movesAtTheSameTime=0;
         ArrayList<Direction> moves=new ArrayList<>();
         for (Direction d:playerMovement.keySet()) {
             if(playerMovement.get(d)){
-                movesAtTheSameTime++;
                 moves.add(d);
             }
         }
-        for (Direction d: moves) {
-            if(movesAtTheSameTime>1){
-                if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
-
-                    board.movePlayer1(d,1);             //Math.sqrt(Math.pow(PLAYER_VEL.getVelocity(),2)/2) if fractional number allowed
-                }else {
-                    board.movePlayer2(d,1);
-                }
-            }else{
-                if (player.equals(board.getPlayer1())){         //this is a very ugly 'if' this will have to be fixed somehow
-
-                    board.movePlayer1(d);
-                }else {
-                    board.movePlayer2(d);
-                }
-            }
+        if(!moves.isEmpty()) {
+            player.move(moves.get(0));
         }
     }
 
