@@ -80,7 +80,7 @@ public class Player extends Entity {
         this.board = board;
         points = 0;
         bombs = new ArrayList<Bomb>();
-        addBomb();
+        //addBomb();
         bonuses = new ArrayList<Bonus>();
         maxNumberOfBombs = 1;
         numberOfPlaceableBombs = 1;
@@ -143,6 +143,10 @@ public class Player extends Entity {
      * Plants a bomb at the player's current position on the game board.
      */
     public void plantBomb() {
+        if(numberOfPlaceableBombs == 0 && hasDetonator) {
+            explodeBombs();
+            return;
+        }
         if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
@@ -154,9 +158,9 @@ public class Player extends Entity {
         }
         numberOfPlaceableBombs--;
         bomb.plant();
-        //lastPlantedBomb = bomb;
         onBombs.add(bomb);
         onBomb = true;
+        bombs.add(bomb);
     }
 
     /**
@@ -164,7 +168,12 @@ public class Player extends Entity {
      * This method is used when the player has the Detonator bonus.
      */
     public void explodeBombs() {
-
+        ArrayList<Bomb> ownBombs = new ArrayList<>(bombs);
+        for(Bomb bomb : ownBombs) {
+            if(!bomb.isDetonated()) {
+                bomb.explode();
+            }
+        }
     }
 
     /**
@@ -172,6 +181,10 @@ public class Player extends Entity {
      */
     public void addBomb() {
         bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
+    }
+
+    public void removeBomb(Bomb bomb) {
+        this.bombs.remove(bomb);
     }
 
     /**
@@ -395,5 +408,13 @@ public class Player extends Entity {
             }
         }, 5000);
 
+    }
+
+    public void useDetonatorBonus() {
+        this.hasDetonator = true;
+    }
+
+    public boolean hasDetonator() {
+        return hasDetonator;
     }
 }
