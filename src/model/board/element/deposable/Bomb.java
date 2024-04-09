@@ -58,6 +58,10 @@ public class Bomb extends Entity {
         board.addEntity(this);
         board.addBomb(this);
 
+        if(owner.hasDetonator()) {
+            return;
+        }
+
         Timer fuse = new Timer();
         fuse.schedule(new TimerTask() {
             @Override
@@ -109,6 +113,7 @@ public class Bomb extends Entity {
         flameRight.expand();
 
         owner.incrementNumberOfPlaceableBombs();
+        owner.removeBomb(this);
 
         /*detonated = true;
         boolean right = contact(getEntFromXY(this.x + TILE_WIDTH.getSize(), this.y));
@@ -173,7 +178,7 @@ public class Bomb extends Entity {
      *
      * @return true if the bomb has been detonated, false otherwise.
      */
-    private boolean getDetonated() {
+    public boolean isDetonated() {
         return detonated;
     }
 
