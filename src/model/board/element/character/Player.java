@@ -11,6 +11,8 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,7 +47,6 @@ public class Player extends Entity {
     private boolean ghost;
     private boolean canPlaceObstacles;
     private boolean slowedDown;
-    private boolean hasToPlaceImmediately;
     private boolean canPlaceBombs;
     private int numberOfObstacles;
     private int bombRange;
@@ -58,6 +59,9 @@ public class Player extends Entity {
     // Define a threshold for image change frequency
     private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
+    private javax.swing.Timer callertimer;
+    private javax.swing.Timer cooldowntimer;
+    boolean immediatelyHandicapActive;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -90,15 +94,20 @@ public class Player extends Entity {
         this.ghost = false;
         this.canPlaceObstacles = false;
         this.slowedDown = false;
-        this.hasToPlaceImmediately = false;
         this.canPlaceBombs = true;
         this.numberOfObstacles = 0;
         this.settings = settings;
+        this.immediatelyHandicapActive =false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
+        callertimer=new javax.swing.Timer(100,new Caller());
+        cooldowntimer=new javax.swing.Timer(1000*10,new Cooldown());
+        cooldowntimer.setRepeats(false);
+
+
 
 
     }
@@ -408,6 +417,30 @@ public class Player extends Entity {
             }
         }, 5000);
 
+    }
+    public void plantBombImmediately(){
+        if(immediatelyHandicapActive){
+            cooldowntimer.restart();
+        }else{
+            immediatelyHandicapActive =true;
+            callertimer.start();
+            cooldowntimer.start();
+        }
+
+    }
+    class Caller implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if(hasDetonator && numberOfPlaceableBombs==0)return; // ha detonátor bonus alatt hivogatja egymás után
+            plantBomb();                                         // a plantbomb()-ot az biztos halált jelent
+        }
+    }
+    class Cooldown implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            immediatelyHandicapActive =false;
+            callertimer.stop();
+        }
     }
 
     public void useDetonatorBonus() {
