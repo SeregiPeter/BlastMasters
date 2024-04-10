@@ -26,7 +26,6 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
-import static view.state.GameState.PAUSED;
 
 /**
  * The Player class represents a player character on the game board.
@@ -48,7 +47,6 @@ public class Player extends Entity {
     private boolean ghost;
     private boolean canPlaceObstacles;
     private boolean slowedDown;
-    private boolean hasToPlaceImmediately;
     private boolean canPlaceBombs;
     private int numberOfObstacles;
     private int bombRange;
@@ -63,7 +61,7 @@ public class Player extends Entity {
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
     private javax.swing.Timer callertimer;
     private javax.swing.Timer cooldowntimer;
-    boolean immediatelyHadnicapActive;
+    boolean immediatelyHandicapActive;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -96,11 +94,10 @@ public class Player extends Entity {
         this.ghost = false;
         this.canPlaceObstacles = false;
         this.slowedDown = false;
-        this.hasToPlaceImmediately = false;
         this.canPlaceBombs = true;
         this.numberOfObstacles = 0;
         this.settings = settings;
-        this.immediatelyHadnicapActive=false;
+        this.immediatelyHandicapActive =false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
@@ -422,10 +419,10 @@ public class Player extends Entity {
 
     }
     public void plantBombImmediately(){
-        if(immediatelyHadnicapActive){
+        if(immediatelyHandicapActive){
             cooldowntimer.restart();
         }else{
-            immediatelyHadnicapActive=true;
+            immediatelyHandicapActive =true;
             callertimer.start();
             cooldowntimer.start();
         }
@@ -441,7 +438,7 @@ public class Player extends Entity {
     class Cooldown implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            immediatelyHadnicapActive=false;
+            immediatelyHandicapActive =false;
             callertimer.stop();
         }
     }
