@@ -3,6 +3,7 @@ package view.state;
 import model.board.Board;
 import model.board.Direction;
 import model.board.element.Entity;
+import model.board.element.character.Monster;
 import model.board.element.character.Player;
 
 import javax.swing.*;
@@ -71,6 +72,10 @@ public class GameEngine extends JPanel {
         }
         board.getPlayer1().draw(grphcs);
         board.getPlayer2().draw(grphcs);
+        ArrayList<Monster> monsters = new ArrayList<>(board.getMonsters());
+        for(Monster monster : monsters) {
+            monster.draw(grphcs);
+        }
     }
 
     /**

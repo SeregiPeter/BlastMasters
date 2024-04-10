@@ -178,7 +178,8 @@ public enum Image {
     FLAME_RIGHT_IMG("src/resources/assets/flame_right.png"),
     FLAME_DOWN_IMG("src/resources/assets/flame_down.png"),
     FLAME_UP_IMG("src/resources/assets/flame_up.png"),
-    FLAME_LEFT_IMG("src/resources/assets/flame_left.png");
+    FLAME_LEFT_IMG("src/resources/assets/flame_left.png"),
+    GHOST_MONSTER_IMG("src/resources/assets/ghost.png");
 
     private final String url;
     private final List<String> urls;
