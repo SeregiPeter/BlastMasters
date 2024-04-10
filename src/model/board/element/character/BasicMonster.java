@@ -19,9 +19,6 @@ import java.util.List;
  * at which point they change direction randomly.
  */
 public class BasicMonster extends Monster {
-    Direction currentDirection;
-    //komment
-    Random random;
     private int imageChangeCounter = 0;
     // Define a threshold for image change frequency
     private static final int IMAGE_CHANGE_THRESHOLD = 12;
@@ -41,8 +38,6 @@ public class BasicMonster extends Monster {
      */
     public BasicMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, images, alive, visible, board);
-        this.currentDirection = Direction.UP;
-        this.random = new Random();
     }
 
     /**
@@ -107,14 +102,7 @@ public class BasicMonster extends Monster {
         changeDirectionRandomly();
     }
 
-    /**
-     * Changes the direction of the monster randomly with a small probability.
-     */
-    public void changeDirectionRandomly() {
-        if(random.nextDouble() < 0.005) {
-            this.currentDirection = Direction.getDirectionExcept(this.currentDirection);
-        }
-    }
+
 
     /**
      * Returns a string representation of the BasicMonster object.

@@ -117,13 +117,14 @@ public class Board {
                             boardElements.add(basicMonster);
                             monsters.add(basicMonster);
                             break;
-                            /*
+
                         case 'G':
                             GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                                    GHOST_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(GHOST_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
                             boardElements.add(ghostMonster);
                             monsters.add(ghostMonster);
                             break;
+                            /*
                         case 'S':
                             SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
                                     MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
@@ -459,12 +460,19 @@ public class Board {
      * Removes entities marked as removable from the game board.
      */
     public void removeRemovableEntities() {
-        ArrayList<Entity> removables = new ArrayList<>();
+        ArrayList<Entity> removableElements = new ArrayList<>();
+        ArrayList<Monster> removableMonsters = new ArrayList<>();
         ArrayList<Entity> elements = new ArrayList<>(boardElements);
+        ArrayList<Monster> monsters2 = new ArrayList<>(monsters);
+
         for(Entity entity : elements) {
-            if(entity.isRemovable()) removables.add(entity);
+            if(entity.isRemovable()) removableElements.add(entity);
         }
-        boardElements.removeAll(removables);
+        for(Monster monster : monsters2) {
+            if(monster.isRemovable()) removableMonsters.add(monster);
+        }
+        boardElements.removeAll(removableElements);
+        monsters.removeAll(removableMonsters);
     }
 
     /**
