@@ -1,16 +1,21 @@
 package model.board.element.character;
 
 import model.board.Board;
+import model.board.Direction;
 import model.board.element.Entity;
 
 import java.awt.*;
 import java.util.List;
+import java.util.Random;
 
 /**
  * The Monster class represents an abstract monster entity in the game board.
  * It defines the common characteristics and behaviors of all monsters.
  */
 public abstract class Monster extends Entity {
+
+    Direction currentDirection;
+    Random random;
 
     /**
      * The game board where the monster resides.
@@ -40,6 +45,17 @@ public abstract class Monster extends Entity {
         this.images = images;
         this.board = board;
         this.explodable = true;
+        this.currentDirection = Direction.UP;
+        this.random = new Random();
+    }
+
+    /**
+     * Changes the direction of the monster randomly with a small probability.
+     */
+    public void changeDirectionRandomly() {
+        if(random.nextDouble() < 0.005) {
+            this.currentDirection = Direction.getDirectionExcept(this.currentDirection);
+        }
     }
 
     /**
