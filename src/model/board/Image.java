@@ -178,8 +178,8 @@ public enum Image {
     FLAME_RIGHT_IMG("src/resources/assets/flame_right.png"),
     FLAME_DOWN_IMG("src/resources/assets/flame_down.png"),
     FLAME_UP_IMG("src/resources/assets/flame_up.png"),
-    IMMEDIATELY_BONUS_IMG("src/resources/assets/immediately.png"),
-    FLAME_LEFT_IMG("src/resources/assets/bonuses/flame_left.png");
+    IMMEDIATELY_BONUS_IMG("src/resources/assets/bonuses/immediately.png"),
+    FLAME_LEFT_IMG("src/resources/assets/flame_left.png");
 
 
     private final String url;
