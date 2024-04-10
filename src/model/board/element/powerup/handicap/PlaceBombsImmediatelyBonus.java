@@ -11,7 +11,5 @@ public class PlaceBombsImmediatelyBonus extends BonusWithTimer {
     }
 
     @Override
-    public void use() {
-
-    }
+    public void use() {this.owner.plantBomb();}
 }
