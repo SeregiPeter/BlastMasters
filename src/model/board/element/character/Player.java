@@ -11,6 +11,8 @@ import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -24,6 +26,7 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.BOMB_IMG;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
+import static view.state.GameState.PAUSED;
 
 /**
  * The Player class represents a player character on the game board.
@@ -58,6 +61,9 @@ public class Player extends Entity {
     // Define a threshold for image change frequency
     private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
+    private javax.swing.Timer callertimer;
+    private javax.swing.Timer cooldowntimer;
+    boolean immediatelyHadnicapActive;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -94,11 +100,17 @@ public class Player extends Entity {
         this.canPlaceBombs = true;
         this.numberOfObstacles = 0;
         this.settings = settings;
+        this.immediatelyHadnicapActive=false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
+        callertimer=new javax.swing.Timer(100,new Caller());
+        cooldowntimer=new javax.swing.Timer(1000*10,new Cooldown());
+        cooldowntimer.setRepeats(false);
+
+
 
 
     }
@@ -408,6 +420,30 @@ public class Player extends Entity {
             }
         }, 5000);
 
+    }
+    public void plantBombImmediately(){
+        if(immediatelyHadnicapActive){
+            cooldowntimer.restart();
+        }else{
+            immediatelyHadnicapActive=true;
+            callertimer.start();
+            cooldowntimer.start();
+        }
+
+    }
+    class Caller implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            if(hasDetonator && numberOfPlaceableBombs==0)return;
+            plantBomb();
+        }
+    }
+    class Cooldown implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent ae) {
+            immediatelyHadnicapActive=false;
+            callertimer.stop();
+        }
     }
 
     public void useDetonatorBonus() {

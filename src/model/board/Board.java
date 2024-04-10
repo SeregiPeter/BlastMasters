@@ -447,7 +447,7 @@ public class Board {
                 bonus = new DetonatorBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(DETONATOR_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
             case 5:
-                bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
 
         }
