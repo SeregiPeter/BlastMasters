@@ -434,8 +434,8 @@ public class Player extends Entity {
     class Caller implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(hasDetonator && numberOfPlaceableBombs==0)return;
-            plantBomb();
+            if(hasDetonator && numberOfPlaceableBombs==0)return; // ha detonátor bonus alatt hivogatja egymás után
+            plantBomb();                                         // a plantbomb()-ot az biztos halált jelent
         }
     }
     class Cooldown implements ActionListener {
