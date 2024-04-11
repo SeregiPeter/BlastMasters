@@ -60,7 +60,8 @@ public class Player extends Entity {
     private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
     private javax.swing.Timer callertimer;
-    private javax.swing.Timer cooldowntimer;
+    private javax.swing.Timer coolDownTimerImmediately;
+    private javax.swing.Timer coolDownTimerPacifist;
     boolean immediatelyHandicapActive;
 
     /**
@@ -104,8 +105,12 @@ public class Player extends Entity {
         this.explodable = true;
         onBombs = new ArrayList<>();
         callertimer=new javax.swing.Timer(100,new Caller());
-        cooldowntimer=new javax.swing.Timer(1000*10,new Cooldown());
-        cooldowntimer.setRepeats(false);
+        coolDownTimerImmediately=new javax.swing.Timer(1000*10,new Cooldown());
+        coolDownTimerImmediately.setActionCommand("0");
+        coolDownTimerImmediately.setRepeats(false);
+        coolDownTimerPacifist=new javax.swing.Timer(1000*5,new Cooldown());
+        coolDownTimerPacifist.setActionCommand("1");
+        coolDownTimerPacifist.setRepeats(false);
 
 
 
@@ -152,6 +157,7 @@ public class Player extends Entity {
      * Plants a bomb at the player's current position on the game board.
      */
     public void plantBomb() {
+        if (!canPlaceBombs)return;
         if(numberOfPlaceableBombs == 0 && hasDetonator) {
             explodeBombs();
             return;
@@ -418,13 +424,21 @@ public class Player extends Entity {
         }, 5000);
 
     }
+    public void pacifist(){
+        if(!canPlaceBombs){
+            coolDownTimerPacifist.restart();
+        }else{
+            canPlaceBombs =false;
+            coolDownTimerPacifist.start();
+        }
+    }
     public void plantBombImmediately(){
         if(immediatelyHandicapActive){
-            cooldowntimer.restart();
+            coolDownTimerImmediately.restart();
         }else{
             immediatelyHandicapActive =true;
             callertimer.start();
-            cooldowntimer.start();
+            coolDownTimerImmediately.start();
         }
 
     }
@@ -438,8 +452,16 @@ public class Player extends Entity {
     class Cooldown implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            immediatelyHandicapActive =false;
-            callertimer.stop();
+            int command= parseInt(ae.getActionCommand());
+            switch (command){
+                case 0:
+                    immediatelyHandicapActive =false;
+                    callertimer.stop();
+                    break;
+                case 1:
+                    canPlaceBombs=true;
+            }
+
         }
     }
 

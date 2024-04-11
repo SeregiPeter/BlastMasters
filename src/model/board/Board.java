@@ -10,6 +10,7 @@ import model.board.element.powerup.benefit.BiggerRangeBonus;
 import model.board.element.powerup.benefit.DetonatorBonus;
 import model.board.element.powerup.benefit.MaxBombsBonus;
 import model.board.element.powerup.benefit.RollerBonus;
+import model.board.element.powerup.handicap.NoBombsBonus;
 import model.board.element.powerup.handicap.PlaceBombsImmediatelyBonus;
 import model.board.element.powerup.handicap.SlowDownBonus;
 import view.state.GameState;
@@ -428,7 +429,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(6); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(7); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -448,6 +449,9 @@ public class Board {
                 break;
             case 5:
                 bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 6:
+                bonus = new NoBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(PACIFIST_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
 
         }
