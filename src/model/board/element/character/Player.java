@@ -33,7 +33,6 @@ import static model.board.Velocity.BOMB_VEL;
  * other elements on the board.
  */
 public class Player extends Entity {
-
     private String name;
     private int points;
     private Board board;
@@ -48,6 +47,7 @@ public class Player extends Entity {
     private boolean canPlaceObstacles;
     private boolean slowedDown;
     private boolean canPlaceBombs;
+    private  boolean rangeShrunk;
     private int numberOfObstacles;
     private int bombRange;
     private Settings settings;
@@ -62,6 +62,7 @@ public class Player extends Entity {
     private javax.swing.Timer callertimer;
     private javax.swing.Timer coolDownTimerImmediately;
     private javax.swing.Timer coolDownTimerPacifist;
+    private final javax.swing.Timer coolDownTimerSmallRange;
     boolean immediatelyHandicapActive;
 
     /**
@@ -99,6 +100,7 @@ public class Player extends Entity {
         this.numberOfObstacles = 0;
         this.settings = settings;
         this.immediatelyHandicapActive =false;
+        this.rangeShrunk=false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
@@ -111,6 +113,9 @@ public class Player extends Entity {
         coolDownTimerPacifist=new javax.swing.Timer(1000*5,new Cooldown());
         coolDownTimerPacifist.setActionCommand("1");
         coolDownTimerPacifist.setRepeats(false);
+        coolDownTimerSmallRange=new javax.swing.Timer(1000*15,new Cooldown());
+        coolDownTimerSmallRange.setActionCommand("2");
+        coolDownTimerSmallRange.setRepeats(false);
 
 
 
@@ -165,7 +170,13 @@ public class Player extends Entity {
         if(numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
-        Bomb bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        Bomb bomb;
+        if (rangeShrunk){
+            bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), 1, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        }else {
+            bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        }
+
         for(Entity entity : board.getEntities()) {
             if(!(entity.equals(this)) && entity.collides(bomb)) {
                 return;
@@ -442,6 +453,15 @@ public class Player extends Entity {
         }
 
     }
+    public void smallerRange(){
+        if (rangeShrunk){
+            coolDownTimerSmallRange.restart();
+            System.out.println("restartolva");
+        }else {
+            rangeShrunk=true;
+            coolDownTimerSmallRange.start();
+        }
+    }
     class Caller implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -454,12 +474,15 @@ public class Player extends Entity {
         public void actionPerformed(ActionEvent ae) {
             int command= parseInt(ae.getActionCommand());
             switch (command){
-                case 0:
+                case 0:                                     //Immediately bonus
                     immediatelyHandicapActive =false;
                     callertimer.stop();
                     break;
-                case 1:
+                case 1:                                     //Pacifist bonus
                     canPlaceBombs=true;
+                case 2:                                     //SmallerRange bonus
+                    rangeShrunk=false;
+                    System.out.println("range bonus leállítva");
             }
 
         }
