@@ -456,7 +456,7 @@ public class Player extends Entity {
     public void smallerRange(){
         if (rangeShrunk){
             coolDownTimerSmallRange.restart();
-            System.out.println("restartolva");
+
         }else {
             rangeShrunk=true;
             coolDownTimerSmallRange.start();
@@ -482,7 +482,6 @@ public class Player extends Entity {
                     canPlaceBombs=true;
                 case 2:                                     //SmallerRange bonus
                     rangeShrunk=false;
-                    System.out.println("range bonus leállítva");
             }
 
         }
