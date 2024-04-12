@@ -181,6 +181,7 @@ public enum Image {
     FLAME_LEFT_IMG("src/resources/assets/flame_left.png"),
     IMMEDIATELY_IMG("src/resources/assets/bonuses/immediately.png"),
     PACIFIST_IMG("src/resources/assets/bonuses/pacifist.png"),
+    SMALLERRANGE_IMG("src/resources/assets/bonuses/smallerRange.png"),
     GHOST_MONSTER_IMG("src/resources/assets/ghost.png");
 
     private final String url;
