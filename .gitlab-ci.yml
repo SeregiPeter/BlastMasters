@@ -1,0 +1,14 @@
+build:
+  stage: build
+  script:
+    - mvn clean install
+
+test:
+  stage: test
+  script:
+    - mvn test
+
+deploy:
+  stage: deploy
+  script:
+    - ./deploy.sh
