@@ -4,6 +4,7 @@ stages:
 
 build:
   stage: build
+  
   script:
     - apt-get update && apt-get install -y openjdk-11-jdk # Telepíti a Java JDK-t
     - javac src/**/*.java -d target/classes # Lefordítja a Java forrásfájlokat
@@ -11,5 +12,6 @@ build:
 
 test:
   stage: test
+  needs: [build]
   script:
     - echo "test"
