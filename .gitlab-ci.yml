@@ -7,7 +7,7 @@ build:
   
   script:
     - apt-get update && apt-get install -y openjdk-11-jdk # Telepíti a Java JDK-t
-    - javac src/**/*.java -d target/classes # Lefordítja a Java forrásfájlokat
+    - javac src/view/ui src/**/*.java -d target/classes # Lefordítja a Java forrásfájlokat
     - jar cf target/my-app.jar -C target/classes . # Létrehozza a JAR fájlt
 
 test:
