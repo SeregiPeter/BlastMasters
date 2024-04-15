@@ -37,20 +37,20 @@ public enum Image {
      * Represents the image URL for the second player character.
      */
     PLAYER2_IMG(Arrays.asList(
-            "src/resources/assets/bomberman2/bomberman1e1.png",
-            "src/resources/assets/bomberman2/bomberman1e2.png",
-            "src/resources/assets/bomberman2/bomberman1e3.png",
-            "src/resources/assets/bomberman2/bomberman1e4.png",
-            "src/resources/assets/bomberman2/bomberman1n1.png",
-            "src/resources/assets/bomberman2/bomberman1n2.png",
-            "src/resources/assets/bomberman2/bomberman1n3.png",
-            "src/resources/assets/bomberman2/bomberman1s1.png",
-            "src/resources/assets/bomberman2/bomberman1s2.png",
-            "src/resources/assets/bomberman2/bomberman1s3.png",
-            "src/resources/assets/bomberman2/bomberman1w1.png",
-            "src/resources/assets/bomberman2/bomberman1w2.png",
-            "src/resources/assets/bomberman2/bomberman1w3.png",
-            "src/resources/assets/bomberman2/bomberman1w4.png"
+            "src/resources/assets/bomberman2/bomberman2e1.png",
+            "src/resources/assets/bomberman2/bomberman2e2.png",
+            "src/resources/assets/bomberman2/bomberman2e3.png",
+            "src/resources/assets/bomberman2/bomberman2e4.png",
+            "src/resources/assets/bomberman2/bomberman2n1.png",
+            "src/resources/assets/bomberman2/bomberman2n2.png",
+            "src/resources/assets/bomberman2/bomberman2n3.png",
+            "src/resources/assets/bomberman2/bomberman2s1.png",
+            "src/resources/assets/bomberman2/bomberman2s2.png",
+            "src/resources/assets/bomberman2/bomberman2s3.png",
+            "src/resources/assets/bomberman2/bomberman2w1.png",
+            "src/resources/assets/bomberman2/bomberman2w2.png",
+            "src/resources/assets/bomberman2/bomberman2w3.png",
+            "src/resources/assets/bomberman2/bomberman2w4.png"
     )),
 
     /**
@@ -61,7 +61,7 @@ public enum Image {
     /**
      * Represents the image URL for a box in map 1.
      */
-    BOX_IMG_MAP1("src/resources/assets/tiles/map1/box.png"),
+    BOX_IMG_MAP1("src/resources/assets/tiles/map1/box_pixel.png"),
 
     /**
      * Represents the image URL for a monster in map 1.
@@ -86,7 +86,7 @@ public enum Image {
     /**
      * Represents the image URL for a wall in map 1.
      */
-    WALL_IMG_MAP1("src/resources/assets/tiles/map1/wall.png"),
+    WALL_IMG_MAP1("src/resources/assets/tiles/map1/wall_pixel.png"),
 
     /**
      * Represents the image URL for the background of map 2.

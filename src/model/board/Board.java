@@ -430,7 +430,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = 7;//random.nextInt(8); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(8); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
