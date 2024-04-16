@@ -1,5 +1,6 @@
 package view.state;
 
+import control.Settings;
 import model.board.Board;
 import model.board.Direction;
 import model.board.element.Entity;
@@ -11,6 +12,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +28,7 @@ import static view.state.GameState.PAUSED;
 public class GameEngine extends JPanel {
     private boolean paused;
     private Board board;
+    private Settings settings;
     private Timer frametimer;
     private Image background;
     private Map<Direction,Boolean> Player1Movement;
@@ -36,12 +39,13 @@ public class GameEngine extends JPanel {
      *
      * @param board the game board
      */
-    public GameEngine(Board board){
+    public GameEngine(Board board,Settings settings){
         super();
         paused=false;
         Player1Movement= new HashMap<>();
         Player2Movement= new HashMap<>();
         this.board=board;
+        this.settings=settings;
         background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
         handleKeyPresses();
         frametimer = new javax.swing.Timer(10, new FrameListener());
@@ -82,126 +86,130 @@ public class GameEngine extends JPanel {
      * Handles key presses for player movement and actions.
      */
     public void handleKeyPresses() {
-        this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"), "pressed left");
+
+        ArrayList<Integer> events=convertToEvent(settings.getSettings());
+        Object[] eventsArray =events.toArray();
+
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[7],0), "pressed left");
         this.getActionMap().put("pressed left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(LEFT,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "released left");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[7], 0, true), "released left");
         this.getActionMap().put("released left", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(LEFT,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"), "pressed right");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer)eventsArray[9], 0), "pressed right");
         this.getActionMap().put("pressed right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(RIGHT,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "released right");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[9], 0, true), "released right");
         this.getActionMap().put("released right", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(RIGHT,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("UP"), "pressed up");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[6], 0), "pressed up");
         this.getActionMap().put("pressed up", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(UP,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_UP, 0, true), "released up");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[6], 0, true), "released up");
         this.getActionMap().put("released up", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(UP,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"), "pressed down");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[8], 0), "pressed down");
         this.getActionMap().put("pressed down", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(DOWN,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_DOWN, 0, true), "released down");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[8], 0, true), "released down");
         this.getActionMap().put("released down", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player1Movement.put(DOWN,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("A"), "pressed a");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[1], 0), "pressed a");
         this.getActionMap().put("pressed a", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(LEFT,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "released a");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[1], 0, true), "released a");
         this.getActionMap().put("released a", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(LEFT,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("D"), "pressed d");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[3], 0), "pressed d");
         this.getActionMap().put("pressed d", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(RIGHT,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "released d");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[3], 0, true), "released d");
         this.getActionMap().put("released d", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(RIGHT,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("W"), "pressed w");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[0], 0), "pressed w");
         this.getActionMap().put("pressed w", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(UP,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true), "released w");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[0], 0, true), "released w");
         this.getActionMap().put("released w", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(UP,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke("S"), "pressed s");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[2], 0), "pressed s");
         this.getActionMap().put("pressed s", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(DOWN,true);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true), "released s");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[2], 0, true), "released s");
         this.getActionMap().put("released s", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 Player2Movement.put(DOWN,false);
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_T, 0, true), "pressed t");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[5], 0, true), "pressed t");
         this.getActionMap().put("pressed t", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 board.player2PlantsBomb();
             }
         });
-        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, true), "pressed p");
+        this.getInputMap().put(KeyStroke.getKeyStroke((Integer) eventsArray[11], 0, true), "pressed p");
         this.getActionMap().put("pressed p", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -220,6 +228,37 @@ public class GameEngine extends JPanel {
             }
         });
 
+    }
+
+    private ArrayList<Integer> convertToEvent(ArrayList<String> settings)  {
+        ArrayList<Integer> events=new ArrayList<>();
+        for (String setting:settings) {
+
+            System.out.printf(setting);
+            switch (setting){
+                case "DW":
+                    setting="DOWN";
+                    break;
+                case "RG":
+                    setting="RIGHT";
+                    break;
+                case "LF":
+                    setting="LEFT";
+                    break;
+                default:
+                    break;
+            }
+            String code = "VK_" + setting.toUpperCase();
+            try {
+                Field f = KeyEvent.class.getField(code);
+                int keyEvent = f.getInt(null);
+                events.add(keyEvent);
+            }catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return events;
     }
 
     /**

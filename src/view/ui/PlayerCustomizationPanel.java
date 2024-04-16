@@ -1,4 +1,6 @@
 package view.ui;
+import control.Settings;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
@@ -8,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -16,6 +19,8 @@ import javax.imageio.ImageIO;
  * and control keys.
  */
 public class PlayerCustomizationPanel extends JPanel implements KeyListener {
+    private final int id;
+    private final Settings settings;
     private JTextField playerNameField;
     private JLabel characterPreviewLabel;
     private JTextField controlWTextField;
@@ -27,7 +32,7 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
     private JButton editButton;
     private JButton saveButton;
     private String initialPlayerName;
-    private String initialControls;
+    private String[] initialControls;
 
     Color lighterBlue = new Color(51, 206, 250);
     private Border editableBorder = BorderFactory.createLineBorder(lighterBlue, 2);
@@ -36,8 +41,10 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
      * Constructs a new PlayerCustomizationPanel with text fields and buttons for customization.
      * Initializes the panel with default player name and control keys.
      */
-    public PlayerCustomizationPanel() {
+    public PlayerCustomizationPanel(int id, Settings settings) {
 
+        this.id=id;
+        this.settings=settings;
         UIManager.put("Panel.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("Label.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("TextField.font", new Font("Trebuchet MS", Font.BOLD, 22));
@@ -152,7 +159,7 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
         add(controlButtonsPanel);
 
         try {
-            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman1.png")));
+            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman2.png")));
             Image image = bombermanIcon.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(image);
             characterPreviewLabel.setIcon(scaledIcon);
@@ -189,7 +196,7 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
                     if (!playerNameField.getText().equals(initialPlayerName)) {
                         playerNameField.setText(initialPlayerName);
                     }
-                    if (!getControls().equals(initialControls)) {
+                    if (!Arrays.equals(getControls(), initialControls)) {
                         setControls(initialControls);
                     }
 
@@ -224,7 +231,10 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                if(settings.compare()){
+                    return;
+                }
+                settings.write(id,getControls());
                 playerNameField.setEditable(false);
                 controlWTextField.setEditable(false);
                 controlATextField.setEditable(false);
@@ -244,15 +254,23 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
         });
     }
 
+
+
     /**
      * Retrieves the customized control keys as a concatenated string.
      *
      * @return A string representing the customized control keys.
      */
-    public String getControls() {
-        return controlWTextField.getText() + controlATextField.getText() +
-                controlSTextField.getText() + controlDTextField.getText() + controlBoxTextField.getText() +
-                controlWallTextField.getText();
+    public String[] getControls() {
+        return new String[]{
+                playerNameField.getText(),
+                controlWTextField.getText(),
+                controlATextField.getText(),
+                controlSTextField.getText(),
+                controlDTextField.getText(),
+                controlBoxTextField.getText(),
+                controlWallTextField.getText()
+        };
 
     }
 
@@ -283,13 +301,13 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
      *
      * @param controls A string representing the customized control keys.
      */
-    public void setControls(String controls) {
-        controlWTextField.setText(controls.substring(0, 1));
-        controlATextField.setText(controls.substring(1, 2));
-        controlSTextField.setText(controls.substring(2, 3));
-        controlDTextField.setText(controls.substring(3, 4));
-        controlBoxTextField.setText(controls.substring(4, 5));
-        controlWallTextField.setText(controls.substring(5));
+    public void setControls(String[] controls) {
+        controlWTextField.setText(controls[1]);
+        controlATextField.setText(controls[2]);
+        controlSTextField.setText(controls[3]);
+        controlDTextField.setText(controls[4]);
+        controlBoxTextField.setText(controls[5]);
+        controlWallTextField.setText(controls[6]);
     }
 
     @Override
@@ -302,9 +320,19 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
         JTextField source = (JTextField) e.getSource();
 
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
-            source.setText(KeyEvent.getKeyText(keyCode));
-
+        switch (keyCode){
+            case KeyEvent.VK_UP:
+                source.setText("UP");
+                break;
+            case KeyEvent.VK_DOWN:
+                source.setText("DW");
+                break;
+            case KeyEvent.VK_LEFT:
+                source.setText("LF");
+                break;
+            case KeyEvent.VK_RIGHT:
+                source.setText("RG");
+                break;
         }
     }
 

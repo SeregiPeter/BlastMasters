@@ -1,5 +1,6 @@
 package view.ui;
 
+import control.Settings;
 import model.board.Board;
 import view.state.GameEngine;
 
@@ -16,6 +17,7 @@ import static model.board.Size.BOARD_SIZE;
 public class StartGame extends JFrame {
 
     private GameEngine gameEngine;
+    private Settings settings;
     private PlayerCustomizationPanel playerPanel1;
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
@@ -87,35 +89,17 @@ public class StartGame extends JFrame {
     }
 
     private JPanel createPlayerPanel1() {
-        playerPanel1 = new PlayerCustomizationPanel();
-        playerPanel1.setPlayerName("Player 1");
-        playerPanel1.setControls("WASDRT");
+        settings = new Settings();
 
-        playerPanel2 = new PlayerCustomizationPanel();
-        playerPanel2.setPlayerName("Player 2");
-        playerPanel2.setControls("↑←↓→OP");
-        try {
-            ImageIcon bombermanIcon2 = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman2.png")));
-            Image image = bombermanIcon2.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(image);
-            playerPanel2.setPlayerImage(scaledIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         JPanel containerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 50));
-        containerPanel.add(playerPanel1);
-        containerPanel.add(playerPanel2);
+        containerPanel.add(settings.getP1());
+        containerPanel.add(settings.getP2());
         containerPanel.setOpaque(false);
         containerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 25));
 
 
 
         return containerPanel;
-    }
-
-    private PlayerCustomizationPanel createPlayerPanel2() {
-
-        return playerPanel2;
     }
 
     private MapSelectorPanel createMapSelectorPanel() {
@@ -147,7 +131,7 @@ public class StartGame extends JFrame {
 
                 try {
                     Board board = new Board(BOARD_SIZE.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
-                    gameEngine = new GameEngine(board);
+                    gameEngine = new GameEngine(board,settings);
 
                     getContentPane().removeAll();
                     getContentPane().add(gameEngine);
