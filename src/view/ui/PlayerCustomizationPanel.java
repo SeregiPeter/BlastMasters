@@ -4,6 +4,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -13,7 +15,7 @@ import javax.imageio.ImageIO;
  * The PlayerCustomizationPanel class provides a panel where players can customize their character's name
  * and control keys.
  */
-public class PlayerCustomizationPanel extends JPanel {
+public class PlayerCustomizationPanel extends JPanel implements KeyListener {
     private JTextField playerNameField;
     private JLabel characterPreviewLabel;
     private JTextField controlWTextField;
@@ -43,6 +45,7 @@ public class PlayerCustomizationPanel extends JPanel {
 
 
         setLayout(new GridLayout(7, 1));
+        setPreferredSize(new Dimension(150,1000));
         setOpaque(false);
 
         playerNameField = new JTextField("Player 1");
@@ -50,6 +53,7 @@ public class PlayerCustomizationPanel extends JPanel {
         playerNameField.setHorizontalAlignment(JTextField.CENTER);
         playerNameField.setOpaque(false);
         playerNameField.setEditable(false);
+
 
         characterPreviewLabel = new JLabel();
         characterPreviewLabel.setOpaque(false);
@@ -97,6 +101,13 @@ public class PlayerCustomizationPanel extends JPanel {
         controlWallTextField.setHorizontalAlignment(JTextField.CENTER);
         controlWallTextField.setBorder(null);
 
+        controlWTextField.addKeyListener(this);
+        controlATextField.addKeyListener(this);
+        controlSTextField.addKeyListener(this);
+        controlDTextField.addKeyListener(this);
+        controlBoxTextField.addKeyListener(this);
+        controlWallTextField.addKeyListener(this);
+
         JLabel bombLabel = new JLabel("Bomb:");
         bombLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         bombLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -114,9 +125,12 @@ public class PlayerCustomizationPanel extends JPanel {
         saveButton.setForeground(Color.white);
         saveButton.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
         editButton.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+        editButton.setPreferredSize(new Dimension(70, 50));
+        saveButton.setPreferredSize(new Dimension(70, 50));
 
         controlButtonsPanel.add(editButton);
         controlButtonsPanel.add(saveButton);
+        controlButtonsPanel.setSize(getWidth(),getHeight());
 
         moveControlsPanel.add(new JLabel());
         moveControlsPanel.add(controlWTextField);
@@ -210,6 +224,7 @@ public class PlayerCustomizationPanel extends JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
                 playerNameField.setEditable(false);
                 controlWTextField.setEditable(false);
                 controlATextField.setEditable(false);
@@ -275,5 +290,26 @@ public class PlayerCustomizationPanel extends JPanel {
         controlDTextField.setText(controls.substring(3, 4));
         controlBoxTextField.setText(controls.substring(4, 5));
         controlWallTextField.setText(controls.substring(5));
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        JTextField source = (JTextField) e.getSource();
+
+        int keyCode = e.getKeyCode();
+        if (keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN || keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT) {
+            source.setText(KeyEvent.getKeyText(keyCode));
+
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

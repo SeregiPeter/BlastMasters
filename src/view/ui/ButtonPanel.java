@@ -81,7 +81,7 @@ public class ButtonPanel extends JPanel {
      */
     private JButton createButton(String text) {
         JButton button = new JButton(text);
-        button.setFont(new Font("Trebuchet MS", Font.BOLD, 25));
+        button.setFont(new Font("Trebuchet MS", Font.BOLD, 35));
         button.setBackground(new Color(51, 206, 250));
         button.setForeground(Color.white);
         return button;

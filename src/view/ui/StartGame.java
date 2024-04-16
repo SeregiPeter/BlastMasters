@@ -72,7 +72,7 @@ public class StartGame extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panelMain.add(createPlayersPanel(), BorderLayout.EAST);
+        panelMain.add(createPlayerPanel1(), BorderLayout.EAST);
         panelMain.add(createMapSelectorPanel(), BorderLayout.CENTER);
         panelMain.add(createStartPanel(), BorderLayout.WEST);
         return panelMain;
@@ -81,19 +81,16 @@ public class StartGame extends JFrame {
     private JPanel createPlayersPanel() {
         JPanel playersPanel = new JPanel(new GridLayout(1, 2));
         playersPanel.add(createPlayerPanel1());
-        playersPanel.add(createPlayerPanel2());
         playersPanel.setOpaque(false);
+        playersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
         return playersPanel;
     }
 
-    private PlayerCustomizationPanel createPlayerPanel1() {
+    private JPanel createPlayerPanel1() {
         playerPanel1 = new PlayerCustomizationPanel();
         playerPanel1.setPlayerName("Player 1");
         playerPanel1.setControls("WASDRT");
-        return playerPanel1;
-    }
 
-    private PlayerCustomizationPanel createPlayerPanel2() {
         playerPanel2 = new PlayerCustomizationPanel();
         playerPanel2.setPlayerName("Player 2");
         playerPanel2.setControls("↑←↓→OP");
@@ -105,6 +102,19 @@ public class StartGame extends JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        JPanel containerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 50));
+        containerPanel.add(playerPanel1);
+        containerPanel.add(playerPanel2);
+        containerPanel.setOpaque(false);
+        containerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 25));
+
+
+
+        return containerPanel;
+    }
+
+    private PlayerCustomizationPanel createPlayerPanel2() {
+
         return playerPanel2;
     }
 
@@ -122,6 +132,7 @@ public class StartGame extends JFrame {
 
     private ButtonPanel createStartPanel() {
         buttonPanel = new ButtonPanel();
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         return buttonPanel;
     }
 
@@ -135,7 +146,7 @@ public class StartGame extends JFrame {
                 String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
 
                 try {
-                    Board board = new Board(BOARD_SIZE.getSize(), mapFilePath, selectedMapIndex);
+                    Board board = new Board(BOARD_SIZE.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
                     gameEngine = new GameEngine(board);
 
                     getContentPane().removeAll();
