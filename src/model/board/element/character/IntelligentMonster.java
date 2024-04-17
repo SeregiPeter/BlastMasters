@@ -1,8 +1,15 @@
 package model.board.element.character;
 
 import model.board.Board;
+import model.board.Direction;
+import model.board.element.Entity;
+import model.board.element.deposable.Bomb;
+import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
+import model.board.element.field.Wall;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +52,33 @@ public class IntelligentMonster extends Monster {
      */
     @Override
     public void move() {
+        if(this.inIntersection()) {
+            Direction closest = getClosestPlayerDirection();
+            this.currentDirection = closest != null ? closest : this.currentDirection;
+            changeDirectionRandomly();
+        }
+        this.moveTowardsDirection(currentDirection);
+        ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
 
+        boolean needToChangeDirection = false;
+        for(Entity entity : entites) {
+            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb)) && this.collides(entity)) {
+                needToChangeDirection = true;
+                break;
+            }
+            if(entity instanceof Flame && entity.collides(this)) {
+                this.alive = false;
+                this.removable=true;
+            }
+            if(entity instanceof Player && entity.collides(this)) {
+                entity.setAlive(false);                                     //may violate the oop
+            }
+        }
+
+        if(needToChangeDirection) {
+            this.moveTowardsDirection(Direction.getOppositeDirection(this.currentDirection));
+            this.currentDirection = Direction.getDirectionExcept(this.currentDirection);
+        }
     }
 
     /**

@@ -68,6 +68,8 @@ public class SemiIntelligentMonster extends Monster {
             Direction closest = getClosestPlayerDirection();
             this.currentDirection = closest != null ? closest : Direction.getDirectionExcept(this.currentDirection);
         }
+
+        System.out.println(this.inIntersection() ? "IGEN" : "");
     }
 
     /**
@@ -75,76 +77,6 @@ public class SemiIntelligentMonster extends Monster {
      *
      * @return a string representation of the SemiIntelligentMonster ("Sm")
      */
-
-    public Direction getClosestPlayerDirection() {
-        boolean[][] visited = new boolean[Size.BOARD_HEIGHT.getSize()][Size.BOARD_WIDTH.getSize()];
-        for(boolean[] row : visited) {
-            for(boolean val : row) {
-                val = false;
-            }
-        }
-
-        int ownRow = this.getRow();
-        int ownColumn = this.getColumn();
-
-        LinkedList<Entity> queue = new LinkedList<>();
-        queue.add(this);
-        visited[ownRow][ownColumn] = true;
-
-        Entity[][] staticElements = board.getStaticElements();
-
-        boolean firstIteration = true;
-        int i = 0;
-        while(!queue.isEmpty()) {
-            Entity entity = queue.removeFirst();
-            int row = entity.getRow();
-            int column = entity.getColumn();
-
-            Entity upEntity = (row-1 >= 0) && !(visited[row-1][column]) && (staticElements[row-1][column] instanceof Empty) ? staticElements[row-1][column] : null;
-            if(upEntity != null) {
-                upEntity.setDir(firstIteration ? Direction.UP : entity.getDir());
-                if(upEntity.collides(board.getPlayer1()) || upEntity.collides(board.getPlayer2())) {
-                    return upEntity.getDir();
-                }
-                queue.addLast(upEntity);
-                visited[row-1][column] = true;
-            }
-
-            Entity downEntity = (row+1 <= Size.BOARD_HEIGHT.getSize()-1) && !(visited[row+1][column]) && (staticElements[row+1][column] instanceof Empty) ? staticElements[row+1][column] : null;
-            if(downEntity != null) {
-                downEntity.setDir(firstIteration ? Direction.DOWN : entity.getDir());
-                if(downEntity.collides(board.getPlayer1()) || downEntity.collides(board.getPlayer2())) {
-                    return downEntity.getDir();
-                }
-                queue.addLast(downEntity);
-                visited[row+1][column] = true;
-            }
-
-            Entity leftEntity = (column-1 >= 0) && !(visited[row][column-1]) && (staticElements[row][column-1] instanceof Empty) ? staticElements[row][column-1] : null;
-            if(leftEntity != null) {
-                leftEntity.setDir(firstIteration ? Direction.LEFT : entity.getDir());
-                if(leftEntity.collides(board.getPlayer1()) || leftEntity.collides(board.getPlayer2())) {
-                    return leftEntity.getDir();
-                }
-                queue.addLast(leftEntity);
-                visited[row][column-1] = true;
-            }
-
-            Entity rightEntity = (column+1 <= Size.BOARD_WIDTH.getSize()-1) && !(visited[row][column+1]) && (staticElements[row][column+1] instanceof Empty) ? staticElements[row][column+1] : null;
-            if(rightEntity != null) {
-                rightEntity.setDir(firstIteration ? Direction.RIGHT : entity.getDir());
-                if(rightEntity.collides(board.getPlayer1()) || rightEntity.collides(board.getPlayer2())) {
-                    return rightEntity.getDir();
-                }
-                queue.addLast(rightEntity);
-                visited[row][column+1] = true;
-            }
-            System.out.println(++i);
-            firstIteration = false;
-        }
-
-        return null;
-    }
 
     @Override
     public String toString() {
