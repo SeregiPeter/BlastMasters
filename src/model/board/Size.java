@@ -7,7 +7,8 @@ public enum Size {
     /**
      * Represents the size of the game board.
      */
-    BOARD_SIZE(13),
+    BOARD_HEIGHT(13),
+    BOARD_WIDTH(25),
 
     /**
      * Represents the height of a player character.

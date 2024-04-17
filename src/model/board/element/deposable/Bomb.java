@@ -56,6 +56,7 @@ public class Bomb extends Entity {
     public void plant() {
         this.setVisible(true);
         board.addEntity(this);
+        board.addStaticElement(this, this.getRow(), this.getColumn());
         board.addBomb(this);
 
         if(owner.hasDetonator()) {
