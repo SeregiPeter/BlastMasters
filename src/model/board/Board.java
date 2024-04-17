@@ -55,7 +55,6 @@ public class Board {
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
     private Entity[][] staticElements;
-    public SemiIntelligentMonster semi;
 
     /**
      * Constructs a game board with the specified size, path to the map file, and selected map index.
@@ -146,18 +145,18 @@ public class Board {
                             boardElements.add(semiIntelligentMonster);
                             monsters.add(semiIntelligentMonster);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
-                            semi = semiIntelligentMonster;
                             break;
 
-                            /*
+
                         case 'I':
                             IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                                    INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
                             boardElements.add(intelligentMonster);
                             monsters.add(intelligentMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
 
-                             */
+
                         case '1':
                             List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
                             List<java.awt.Image> player1Images = new ArrayList<>();
@@ -646,9 +645,5 @@ public class Board {
 
     public void addStaticElement(Entity entity, int row, int col) {
         staticElements[row][col] = entity;
-    }
-
-    public void printDir() {
-        System.out.println(semi.getClosestPlayerDirection());
     }
 }
