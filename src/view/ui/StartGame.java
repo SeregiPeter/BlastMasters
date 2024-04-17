@@ -1,5 +1,6 @@
 package view.ui;
 
+import control.Settings;
 import model.board.Board;
 import view.state.GameEngine;
 
@@ -16,6 +17,7 @@ import static model.board.Size.BOARD_HEIGHT;
 public class StartGame extends JFrame {
 
     private GameEngine gameEngine;
+    private Settings settings;
     private PlayerCustomizationPanel playerPanel1;
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
@@ -72,7 +74,7 @@ public class StartGame extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panelMain.add(createPlayersPanel(), BorderLayout.EAST);
+        panelMain.add(createPlayerPanel1(), BorderLayout.EAST);
         panelMain.add(createMapSelectorPanel(), BorderLayout.CENTER);
         panelMain.add(createStartPanel(), BorderLayout.WEST);
         return panelMain;
@@ -81,31 +83,23 @@ public class StartGame extends JFrame {
     private JPanel createPlayersPanel() {
         JPanel playersPanel = new JPanel(new GridLayout(1, 2));
         playersPanel.add(createPlayerPanel1());
-        playersPanel.add(createPlayerPanel2());
         playersPanel.setOpaque(false);
+        playersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
         return playersPanel;
     }
 
-    private PlayerCustomizationPanel createPlayerPanel1() {
-        playerPanel1 = new PlayerCustomizationPanel();
-        playerPanel1.setPlayerName("Player 1");
-        playerPanel1.setControls("WASDRT");
-        return playerPanel1;
-    }
+    private JPanel createPlayerPanel1() {
+        settings = new Settings();
 
-    private PlayerCustomizationPanel createPlayerPanel2() {
-        playerPanel2 = new PlayerCustomizationPanel();
-        playerPanel2.setPlayerName("Player 2");
-        playerPanel2.setControls("↑←↓→OP");
-        try {
-            ImageIcon bombermanIcon2 = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman2.png")));
-            Image image = bombermanIcon2.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
-            ImageIcon scaledIcon = new ImageIcon(image);
-            playerPanel2.setPlayerImage(scaledIcon);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return playerPanel2;
+        JPanel containerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 50));
+        containerPanel.add(settings.getP1());
+        containerPanel.add(settings.getP2());
+        containerPanel.setOpaque(false);
+        containerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 25));
+
+
+
+        return containerPanel;
     }
 
     private MapSelectorPanel createMapSelectorPanel() {
@@ -122,6 +116,7 @@ public class StartGame extends JFrame {
 
     private ButtonPanel createStartPanel() {
         buttonPanel = new ButtonPanel();
+        buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         return buttonPanel;
     }
 
@@ -135,8 +130,8 @@ public class StartGame extends JFrame {
                 String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
 
                 try {
-                    Board board = new Board(BOARD_HEIGHT.getSize(), mapFilePath, selectedMapIndex);
-                    gameEngine = new GameEngine(board);
+                    Board board = new Board(BOARD_SIZE.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
+                    gameEngine = new GameEngine(board,settings);
 
                     getContentPane().removeAll();
                     getContentPane().add(gameEngine);

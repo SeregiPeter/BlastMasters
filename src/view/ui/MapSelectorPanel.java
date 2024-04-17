@@ -25,21 +25,45 @@ public class MapSelectorPanel extends JPanel {
         this.mapNames = mapNames;
         this.mapImages = mapImages;
 
-        setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
         setOpaque(false);
 
         JLabel mapLabel = new JLabel("Map selector");
-        mapLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 25));
+        mapLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 30));
 
-        mapPreviewLabel = new JLabel(new ImageIcon(mapImages[0]));
-        mapPreviewLabel.setPreferredSize(new Dimension(200, 200));
+        JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        labelPanel.add(mapLabel);
+        labelPanel.setOpaque(false);
+
+        mapPreviewLabel = new JLabel(new ImageIcon(mapImages[0]),JLabel.CENTER);
+        mapPreviewLabel.setPreferredSize(new Dimension(600, 400));
+
+        JPanel previewPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        previewPanel.add(mapPreviewLabel);
+        previewPanel.setOpaque(false);
+
+
 
         mapComboBox = new JComboBox<>(mapNames);
         mapComboBox.addActionListener(actionListener);
+        mapComboBox.setFont(new Font("Arial", Font.PLAIN, 25));
+        mapComboBox.setBackground(Color.LIGHT_GRAY);
+        mapComboBox.setPreferredSize(new Dimension(300, 50));
+        ((JLabel)mapComboBox.getRenderer()).setHorizontalAlignment(JLabel.CENTER);
+        JPanel comboPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,0,0));
+        comboPanel.add(mapComboBox);
+        comboPanel.setOpaque(false);
 
-        add(mapLabel);
-        add(mapPreviewLabel);
-        add(mapComboBox);
+
+        BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        setLayout(boxLayout);
+
+        add(Box.createVerticalGlue());
+        add(labelPanel);
+        add(previewPanel);
+        add(comboPanel);
+        add(Box.createVerticalGlue());
+
     }
 
     /**
