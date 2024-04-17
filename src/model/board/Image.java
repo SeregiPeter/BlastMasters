@@ -182,7 +182,8 @@ public enum Image {
     IMMEDIATELY_IMG("src/resources/assets/bonuses/immediately.png"),
     PACIFIST_IMG("src/resources/assets/bonuses/pacifist.png"),
     SMALLERRANGE_IMG("src/resources/assets/bonuses/smallerRange.png"),
-    GHOST_MONSTER_IMG("src/resources/assets/ghost.png");
+    GHOST_MONSTER_IMG("src/resources/assets/ghost.png"),
+    SEMI_INTELLIGENT_MONSTER_IMG("src/resources/assets/semi_intelligent_monster.gif");
 
     private final String url;
     private final List<String> urls;

@@ -101,8 +101,8 @@ public class GhostMonster extends Monster {
      */
 
     public boolean isThereEmptyField(Direction direction) {
-        int maxX = (25-1)* Size.WALL_SIZE.getSize();
-        int maxY = (13-1)* Size.WALL_SIZE.getSize();
+        int maxX = (Size.BOARD_WIDTH.getSize()-1)* Size.WALL_SIZE.getSize();
+        int maxY = (Size.BOARD_HEIGHT.getSize()-1)* Size.WALL_SIZE.getSize();
 
         int checkPointX = this.x;
         int checkPointY = this.y;
