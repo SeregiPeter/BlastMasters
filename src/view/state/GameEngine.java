@@ -6,6 +6,7 @@ import model.board.Direction;
 import model.board.element.Entity;
 import model.board.element.character.Monster;
 import model.board.element.character.Player;
+import view.ui.HoverPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +34,9 @@ public class GameEngine extends JPanel {
     private Image background;
     private Map<Direction,Boolean> Player1Movement;
     private Map<Direction,Boolean> Player2Movement;
+    private JButton nextRoundButton;
 
+    private HoverPanel hoverPanel;
     /**
      * Constructs a GameEngine with the specified game board.
      *
@@ -41,6 +44,7 @@ public class GameEngine extends JPanel {
      */
     public GameEngine(Board board,Settings settings){
         super();
+
         paused=false;
         Player1Movement= new HashMap<>();
         Player2Movement= new HashMap<>();
@@ -48,6 +52,18 @@ public class GameEngine extends JPanel {
         this.settings=settings;
         background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
         handleKeyPresses();
+
+        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(),board.getPlayer1().getPoints());
+        hoverPanel.setVisible(false);
+        add(hoverPanel);
+
+        nextRoundButton = new JButton("Next Round");
+        nextRoundButton.setBackground(new Color(51, 206, 250));
+        nextRoundButton.setForeground(Color.white);
+        nextRoundButton.setPreferredSize(new Dimension(300,50));
+        nextRoundButton.setVisible(false);
+        add(nextRoundButton);
+
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
     }
@@ -80,6 +96,22 @@ public class GameEngine extends JPanel {
         for(Monster monster : monsters) {
             monster.draw(grphcs);
         }
+        if (hoverPanel.isVisible()) {
+
+            Graphics2D g2d = (Graphics2D) grphcs;
+            float hoverPanelOpacity = 0.7f;
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, hoverPanelOpacity));
+            g2d.fillRect(0, 0, getWidth(), getHeight());
+            int hoverPanelX = (getWidth() - hoverPanel.getWidth()) / 2;
+            int hoverPanelY = (getHeight() - hoverPanel.getHeight()) / 2;
+
+            hoverPanel.setBounds(hoverPanelX, hoverPanelY, hoverPanel.getWidth(), hoverPanel.getHeight());
+            nextRoundButton.setBounds(hoverPanelX+hoverPanel.getWidth()/2 - nextRoundButton.getWidth()/2, hoverPanelY+hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
+            float nextButtonOpacity = 1f;
+            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, nextButtonOpacity);
+            g2d.setComposite(alphaComposite);
+        }
+
     }
 
     /**
@@ -305,18 +337,22 @@ public class GameEngine extends JPanel {
         switch (state){
             case DRAW :
                 board.removeRemovableEntities();
+
                 System.out.println(state);
                 restart();
                 break;
             case PAUSED:
-
                 break;
 
             case PLAYER1_WON, PLAYER2_WON:
+
                 board.removeRemovableEntities();
-                System.out.println(state);
+
                 board.roundEnd();
-                restart();
+                hoverPanel.setScore(board.getPlayer1().getPoints(),board.getPlayer2().getPoints());
+                hoverPanel.setVisible(true);
+                nextRoundButton.setVisible(true);
+                //restart();
                 break;
             case BOTH_ALIVE :
                 board.removeRemovableEntities();
@@ -344,6 +380,7 @@ public class GameEngine extends JPanel {
         board.reset();
         System.out.println("bent van");
     }
+
 
 }
 

@@ -511,6 +511,7 @@ public class Board {
      */
     public void statusCheck() {
         if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
+
         if (finalState!=BOTH_ALIVE){
             state=finalState;
             return;
