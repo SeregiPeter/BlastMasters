@@ -65,7 +65,7 @@ public class Board {
      * @param selectedMapIndex the index of the selected map
      * @throws IOException if an I/O error occurs
      */
-    public Board(int boardSize, String path, int selectedMapIndex) throws IOException {
+    public Board(int boardSize, String path, int selectedMapIndex, int numberOfRound) throws IOException {
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -74,7 +74,7 @@ public class Board {
         this.boardSize = boardSize;
         this.selectedMapIndex = selectedMapIndex;
         this.path=path;
-        this.numberOfRound=3;                       //temporary initialization!!!!
+        this.numberOfRound=numberOfRound;
         onlyOneAlive=false;
         player1Check=false;
         player2Check=false;

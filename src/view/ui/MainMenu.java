@@ -67,6 +67,7 @@ public class MainMenu extends JFrame {
                 StartGame startGame = new StartGame();
                 startGame.setVisible(true);
                 setVisible(false);
+                startGame.setLocationRelativeTo(null);
                 startGame.revalidate();
                 startGame.repaint();
             }
