@@ -17,40 +17,40 @@ public enum Image {
      * Represents the image URL for the first player character.
      */
     PLAYER1_IMG(Arrays.asList(
-            "src/resources/assets/bomberman1/bomberman1e1.png",
-            "src/resources/assets/bomberman1/bomberman1e2.png",
-            "src/resources/assets/bomberman1/bomberman1e3.png",
-            "src/resources/assets/bomberman1/bomberman1e4.png",
-            "src/resources/assets/bomberman1/bomberman1n1.png",
-            "src/resources/assets/bomberman1/bomberman1n2.png",
-            "src/resources/assets/bomberman1/bomberman1n3.png",
-            "src/resources/assets/bomberman1/bomberman1s1.png",
-            "src/resources/assets/bomberman1/bomberman1s2.png",
-            "src/resources/assets/bomberman1/bomberman1s3.png",
-            "src/resources/assets/bomberman1/bomberman1w1.png",
-            "src/resources/assets/bomberman1/bomberman1w2.png",
-            "src/resources/assets/bomberman1/bomberman1w3.png",
-            "src/resources/assets/bomberman1/bomberman1w4.png"
+            "src/resources/assets/entities/bomberman1/bomberman1e1.png",
+            "src/resources/assets/entities/bomberman1/bomberman1e2.png",
+            "src/resources/assets/entities/bomberman1/bomberman1e3.png",
+            "src/resources/assets/entities/bomberman1/bomberman1e4.png",
+            "src/resources/assets/entities/bomberman1/bomberman1n1.png",
+            "src/resources/assets/entities/bomberman1/bomberman1n2.png",
+            "src/resources/assets/entities/bomberman1/bomberman1n3.png",
+            "src/resources/assets/entities/bomberman1/bomberman1s1.png",
+            "src/resources/assets/entities/bomberman1/bomberman1s2.png",
+            "src/resources/assets/entities/bomberman1/bomberman1s3.png",
+            "src/resources/assets/entities/bomberman1/bomberman1w1.png",
+            "src/resources/assets/entities/bomberman1/bomberman1w2.png",
+            "src/resources/assets/entities/bomberman1/bomberman1w3.png",
+            "src/resources/assets/entities/bomberman1/bomberman1w4.png"
     )),
 
     /**
      * Represents the image URL for the second player character.
      */
     PLAYER2_IMG(Arrays.asList(
-            "src/resources/assets/bomberman2/bomberman2e1.png",
-            "src/resources/assets/bomberman2/bomberman2e2.png",
-            "src/resources/assets/bomberman2/bomberman2e3.png",
-            "src/resources/assets/bomberman2/bomberman2e4.png",
-            "src/resources/assets/bomberman2/bomberman2n1.png",
-            "src/resources/assets/bomberman2/bomberman2n2.png",
-            "src/resources/assets/bomberman2/bomberman2n3.png",
-            "src/resources/assets/bomberman2/bomberman2s1.png",
-            "src/resources/assets/bomberman2/bomberman2s2.png",
-            "src/resources/assets/bomberman2/bomberman2s3.png",
-            "src/resources/assets/bomberman2/bomberman2w1.png",
-            "src/resources/assets/bomberman2/bomberman2w2.png",
-            "src/resources/assets/bomberman2/bomberman2w3.png",
-            "src/resources/assets/bomberman2/bomberman2w4.png"
+            "src/resources/assets/entities/bomberman2/bomberman2e1.png",
+            "src/resources/assets/entities/bomberman2/bomberman2e2.png",
+            "src/resources/assets/entities/bomberman2/bomberman2e3.png",
+            "src/resources/assets/entities/bomberman2/bomberman2e4.png",
+            "src/resources/assets/entities/bomberman2/bomberman2n1.png",
+            "src/resources/assets/entities/bomberman2/bomberman2n2.png",
+            "src/resources/assets/entities/bomberman2/bomberman2n3.png",
+            "src/resources/assets/entities/bomberman2/bomberman2s1.png",
+            "src/resources/assets/entities/bomberman2/bomberman2s2.png",
+            "src/resources/assets/entities/bomberman2/bomberman2s3.png",
+            "src/resources/assets/entities/bomberman2/bomberman2w1.png",
+            "src/resources/assets/entities/bomberman2/bomberman2w2.png",
+            "src/resources/assets/entities/bomberman2/bomberman2w3.png",
+            "src/resources/assets/entities/bomberman2/bomberman2w4.png"
     )),
 
     /**
@@ -67,20 +67,20 @@ public enum Image {
      * Represents the image URL for a monster in map 1.
      */
     MONSTER_IMG_MAP1(Arrays.asList(
-            "src/resources/assets/monster1/monstere1.png",
-            "src/resources/assets/monster1/monstere2.png",
-            "src/resources/assets/monster1/monstere3.png",
-            "src/resources/assets/monster1/monstere4.png",
-            "src/resources/assets/monster1/monstern1.png",
-            "src/resources/assets/monster1/monstern2.png",
-            "src/resources/assets/monster1/monstern3.png",
-            "src/resources/assets/monster1/monsters1.png",
-            "src/resources/assets/monster1/monsters2.png",
-            "src/resources/assets/monster1/monsters3.png",
-            "src/resources/assets/monster1/monsterw1.png",
-            "src/resources/assets/monster1/monsterw2.png",
-            "src/resources/assets/monster1/monsterw3.png",
-            "src/resources/assets/monster1/monsterw4.png"
+            "src/resources/assets/entities/monster1/monstere1.png",
+            "src/resources/assets/entities/monster1/monstere2.png",
+            "src/resources/assets/entities/monster1/monstere3.png",
+            "src/resources/assets/entities/monster1/monstere4.png",
+            "src/resources/assets/entities/monster1/monstern1.png",
+            "src/resources/assets/entities/monster1/monstern2.png",
+            "src/resources/assets/entities/monster1/monstern3.png",
+            "src/resources/assets/entities/monster1/monsters1.png",
+            "src/resources/assets/entities/monster1/monsters2.png",
+            "src/resources/assets/entities/monster1/monsters3.png",
+            "src/resources/assets/entities/monster1/monsterw1.png",
+            "src/resources/assets/entities/monster1/monsterw2.png",
+            "src/resources/assets/entities/monster1/monsterw3.png",
+            "src/resources/assets/entities/monster1/monsterw4.png"
     )),
 
     /**
@@ -102,20 +102,20 @@ public enum Image {
      * Represents the image URL for a monster in map 2.
      */
     MONSTER_IMG_MAP2(Arrays.asList(
-            "src/resources/assets/monster2/monstere1.png",
-            "src/resources/assets/monster2/monstere2.png",
-            "src/resources/assets/monster2/monstere3.png",
-            "src/resources/assets/monster2/monstere4.png",
-            "src/resources/assets/monster2/monstern1.png",
-            "src/resources/assets/monster2/monstern2.png",
-            "src/resources/assets/monster2/monstern3.png",
-            "src/resources/assets/monster2/monsters1.png",
-            "src/resources/assets/monster2/monsters2.png",
-            "src/resources/assets/monster2/monsters3.png",
-            "src/resources/assets/monster2/monsterw1.png",
-            "src/resources/assets/monster2/monsterw2.png",
-            "src/resources/assets/monster2/monsterw3.png",
-            "src/resources/assets/monster2/monsterw4.png"
+            "src/resources/assets/entities/monster2/monstere1.png",
+            "src/resources/assets/entities/monster2/monstere2.png",
+            "src/resources/assets/entities/monster2/monstere3.png",
+            "src/resources/assets/entities/monster2/monstere4.png",
+            "src/resources/assets/entities/monster2/monstern1.png",
+            "src/resources/assets/entities/monster2/monstern2.png",
+            "src/resources/assets/entities/monster2/monstern3.png",
+            "src/resources/assets/entities/monster2/monsters1.png",
+            "src/resources/assets/entities/monster2/monsters2.png",
+            "src/resources/assets/entities/monster2/monsters3.png",
+            "src/resources/assets/entities/monster2/monsterw1.png",
+            "src/resources/assets/entities/monster2/monsterw2.png",
+            "src/resources/assets/entities/monster2/monsterw3.png",
+            "src/resources/assets/entities/monster2/monsterw4.png"
     )),
 
     /**
@@ -137,20 +137,20 @@ public enum Image {
      * Represents the image URL for a monster in map 3.
      */
     MONSTER_IMG_MAP3(Arrays.asList(
-            "src/resources/assets/monster3/monstere1.png",
-            "src/resources/assets/monster3/monstere2.png",
-            "src/resources/assets/monster3/monstere3.png",
-            "src/resources/assets/monster3/monstere4.png",
-            "src/resources/assets/monster3/monstern1.png",
-            "src/resources/assets/monster3/monstern2.png",
-            "src/resources/assets/monster3/monstern3.png",
-            "src/resources/assets/monster3/monsters1.png",
-            "src/resources/assets/monster3/monsters2.png",
-            "src/resources/assets/monster3/monsters3.png",
-            "src/resources/assets/monster3/monsterw1.png",
-            "src/resources/assets/monster3/monsterw2.png",
-            "src/resources/assets/monster3/monsterw3.png",
-            "src/resources/assets/monster3/monsterw4.png"
+            "src/resources/assets/entities/monster3/monstere1.png",
+            "src/resources/assets/entities/monster3/monstere2.png",
+            "src/resources/assets/entities/monster3/monstere3.png",
+            "src/resources/assets/entities/monster3/monstere4.png",
+            "src/resources/assets/entities/monster3/monstern1.png",
+            "src/resources/assets/entities/monster3/monstern2.png",
+            "src/resources/assets/entities/monster3/monstern3.png",
+            "src/resources/assets/entities/monster3/monsters1.png",
+            "src/resources/assets/entities/monster3/monsters2.png",
+            "src/resources/assets/entities/monster3/monsters3.png",
+            "src/resources/assets/entities/monster3/monsterw1.png",
+            "src/resources/assets/entities/monster3/monsterw2.png",
+            "src/resources/assets/entities/monster3/monsterw3.png",
+            "src/resources/assets/entities/monster3/monsterw4.png"
     )),
 
     /**
