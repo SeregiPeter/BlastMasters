@@ -3,6 +3,7 @@ package model.board.element.character;
 import control.Settings;
 import model.board.Board;
 import model.board.Direction;
+import model.board.Size;
 import model.board.Velocity;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
@@ -47,7 +48,7 @@ public class Player extends Entity {
     private boolean canPlaceObstacles;
     private boolean slowedDown;
     private boolean canPlaceBombs;
-    private  boolean rangeShrunk;
+    private boolean rangeShrunk;
     private int numberOfObstacles;
     private int bombRange;
     private Settings settings;
@@ -62,6 +63,7 @@ public class Player extends Entity {
     private javax.swing.Timer callertimer;
     private javax.swing.Timer coolDownTimerImmediately;
     private javax.swing.Timer coolDownTimerPacifist;
+    private javax.swing.Timer coolDowmTimerGhost;
     private final javax.swing.Timer coolDownTimerSmallRange;
     boolean immediatelyHandicapActive;
 
@@ -99,27 +101,26 @@ public class Player extends Entity {
         this.canPlaceBombs = true;
         this.numberOfObstacles = 0;
         this.settings = settings;
-        this.immediatelyHandicapActive =false;
-        this.rangeShrunk=false;
+        this.immediatelyHandicapActive = false;
+        this.rangeShrunk = false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
-        callertimer=new javax.swing.Timer(100,new Caller());
-        coolDownTimerImmediately=new javax.swing.Timer(1000*10,new Cooldown());
+        callertimer = new javax.swing.Timer(100, new Caller());
+        coolDownTimerImmediately = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDownTimerImmediately.setActionCommand("0");
         coolDownTimerImmediately.setRepeats(false);
-        coolDownTimerPacifist=new javax.swing.Timer(1000*5,new Cooldown());
+        coolDownTimerPacifist = new javax.swing.Timer(1000 * 5, new Cooldown());
         coolDownTimerPacifist.setActionCommand("1");
         coolDownTimerPacifist.setRepeats(false);
-        coolDownTimerSmallRange=new javax.swing.Timer(1000*15,new Cooldown());
+        coolDownTimerSmallRange = new javax.swing.Timer(1000 * 15, new Cooldown());
         coolDownTimerSmallRange.setActionCommand("2");
         coolDownTimerSmallRange.setRepeats(false);
-
-
-
-
+        coolDowmTimerGhost = new javax.swing.Timer(1000 * 10, new Cooldown());
+        coolDowmTimerGhost.setActionCommand("3");
+        coolDowmTimerGhost.setRepeats(false);
     }
 
 
@@ -136,23 +137,23 @@ public class Player extends Entity {
      * Plants a bomb at the player's current position on the game board.
      */
     public void plantBomb() {
-        if (!canPlaceBombs)return;
-        if(numberOfPlaceableBombs == 0 && hasDetonator) {
+        if (!canPlaceBombs) return;
+        if (numberOfPlaceableBombs == 0 && hasDetonator) {
             explodeBombs();
             return;
         }
-        if(numberOfPlaceableBombs == 0 || !alive) {
+        if (numberOfPlaceableBombs == 0 || !alive) {
             return;
         }
         Bomb bomb;
-        if (rangeShrunk){
-            bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), 1, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
-        }else {
-            bomb = new Bomb((int)getThePositionOfTheBombToBePlaced().getX(), (int)getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        if (rangeShrunk) {
+            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), 1, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+        } else {
+            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
         }
 
-        for(Entity entity : board.getEntities()) {
-            if(!(entity.equals(this)) && entity.collides(bomb)) {
+        for (Entity entity : board.getEntities()) {
+            if (!(entity.equals(this)) && entity.collides(bomb)) {
                 return;
             }
         }
@@ -169,8 +170,8 @@ public class Player extends Entity {
      */
     public void explodeBombs() {
         ArrayList<Bomb> ownBombs = new ArrayList<>(bombs);
-        for(Bomb bomb : ownBombs) {
-            if(!bomb.isDetonated()) {
+        for (Bomb bomb : ownBombs) {
+            if (!bomb.isDetonated()) {
                 bomb.explode();
             }
         }
@@ -204,7 +205,7 @@ public class Player extends Entity {
      */
     public void move(Direction d, double velocity) {
         double oldVelocity = this.velocity;
-        this.velocity=velocity;
+        this.velocity = velocity;
         move(d);
         this.velocity = oldVelocity;
     }
@@ -216,9 +217,6 @@ public class Player extends Entity {
      */
     /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk,
     akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
-
-
-
     public void move(Direction direction) {
         imageChangeCounter++;
 
@@ -251,30 +249,42 @@ public class Player extends Entity {
             }
         }
 
-        // Perform movement logic
-        this.moveTowardsDirection(direction);
-
         boolean shouldBePlacedBack = false;
+        this.moveTowardsDirection(direction);
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
-        for(Entity entity : entities) {
-            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && !onBombs.contains(entity))) && this.collides(entity)) {
+        if (ghost) {
+            if (this.x < TILE_WIDTH.getSize() || this.x > ((BOARD_WIDTH.getSize()-1) * TILE_WIDTH.getSize())  || this.y < TILE_HEIGHT.getSize() ||
+                    this.y > ((BOARD_HEIGHT.getSize()-1) * TILE_HEIGHT.getSize())) {
                 shouldBePlacedBack = true;
-                break;
             }
-            if(entity instanceof Bonus && this.collides(entity)) {
-                this.runIntoBonus((Bonus) entity);
+            for (Entity entity : entities) {
+                if (entity instanceof Bonus && this.collides(entity)) {
+                    this.runIntoBonus((Bonus) entity);
+                }
             }
-            if((entity instanceof Flame || entity instanceof Monster) && entity.collides(this)) {
-                this.alive = false;
+        } else {
+            // Perform movement logic
+            for (Entity entity : entities) {
+                if (((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && !onBombs.contains(entity))) && this.collides(entity)) {
+                    shouldBePlacedBack = true;
+                    break;
+                }
+                if (entity instanceof Bonus && this.collides(entity)) {
+                    this.runIntoBonus((Bonus) entity);
+                }
+                if ((entity instanceof Flame || entity instanceof Monster) && entity.collides(this)) {
+                    this.alive = false;
+                }
             }
         }
+
         //if(onBomb && !this.collides(lastPlantedBomb)) onBomb = false;
         ArrayList<Bomb> bombsToBeChecked = new ArrayList<>(onBombs);
-        for(Bomb bomb : bombsToBeChecked) {
-            if(!this.collides(bomb)) onBombs.remove(bomb);
+        for (Bomb bomb : bombsToBeChecked) {
+            if (!this.collides(bomb)) onBombs.remove(bomb);
         }
 
-        if(shouldBePlacedBack) {
+        if (shouldBePlacedBack) {
             this.moveTowardsDirection(Direction.getOppositeDirection(direction));
         }
     }
@@ -342,7 +352,7 @@ public class Player extends Entity {
      * @param bonus the bonus item the player has run into
      */
     public void runIntoBonus(Bonus bonus) {
-        if(bonus.getOwner() == null && bonus.isVisible()) {
+        if (bonus.getOwner() == null && bonus.isVisible()) {
             bonus.getUsedByPlayer(this);
             System.out.println(this + " felvette: " + bonus);
         }
@@ -380,13 +390,14 @@ public class Player extends Entity {
      * @param tempPlayerPoints the points to set
      */
     public void setPoints(int tempPlayerPoints) {
-        points=tempPlayerPoints;
+        points = tempPlayerPoints;
     }
 
     public void useRollerBonus() {
         this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
         this.hasRoller = true;
     }
+
     public void useSlowDownBonus() {
         this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
         this.slowedDown = true;
@@ -396,8 +407,8 @@ public class Player extends Entity {
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
-                if(numberOfSlowDownBonuses == oldNumberOfSlowDownBonuses) {
-                    if(hasRoller) {
+                if (numberOfSlowDownBonuses == oldNumberOfSlowDownBonuses) {
+                    if (hasRoller) {
                         velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
                     } else {
                         velocity = Velocity.PLAYER_VEL.getVelocity();
@@ -409,55 +420,72 @@ public class Player extends Entity {
         }, 5000);
 
     }
-    public void pacifist(){
-        if(!canPlaceBombs){
+
+    public void pacifist() {
+        if (!canPlaceBombs) { //clean code-hoz másik változónevet igényelnék...
             coolDownTimerPacifist.restart();
-        }else{
-            canPlaceBombs =false;
+        } else {
+            canPlaceBombs = false;
             coolDownTimerPacifist.start();
         }
     }
-    public void plantBombImmediately(){
-        if(immediatelyHandicapActive){
+
+    public void plantBombImmediately() {
+        if (immediatelyHandicapActive) {
             coolDownTimerImmediately.restart();
-        }else{
-            immediatelyHandicapActive =true;
+        } else {
+            immediatelyHandicapActive = true;
             callertimer.start();
             coolDownTimerImmediately.start();
         }
 
     }
-    public void smallerRange(){
-        if (rangeShrunk){
-            coolDownTimerSmallRange.restart();
 
-        }else {
-            rangeShrunk=true;
+    public void smallerRange() {
+        if (rangeShrunk) {
+            coolDownTimerSmallRange.restart();
+        } else {
+            rangeShrunk = true;
             coolDownTimerSmallRange.start();
         }
     }
+
     class Caller implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(hasDetonator && numberOfPlaceableBombs==0)return; // ha detonátor bonus alatt hivogatja egymás után
+            if (hasDetonator && numberOfPlaceableBombs == 0) return; // ha detonátor bonus alatt hivogatja egymás után
             plantBomb();                                         // a plantbomb()-ot az biztos halált jelent
         }
     }
+
     class Cooldown implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            int command= parseInt(ae.getActionCommand());
-            switch (command){
+            int command = parseInt(ae.getActionCommand());
+            switch (command) {
                 case 0:                                     //Immediately bonus
-                    immediatelyHandicapActive =false;
+                    immediatelyHandicapActive = false;
                     callertimer.stop();
                     break;
                 case 1:                                     //Pacifist bonus
-                    canPlaceBombs=true;
+                    canPlaceBombs = true;
+                    break;
                 case 2:                                     //SmallerRange bonus
-                    rangeShrunk=false;
+                    rangeShrunk = false;
+                    break;
+                case 3:                                     //Ghost bonus
+                    ghost = false;
+                    ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
+                    for (Entity entity : entities) {
+                        if (collides(entity)) {
+                            if (entity instanceof Wall || entity instanceof Box) {
+                                alive = false;
+                            } else if (entity instanceof Bomb) {
+                                onBombs.add((Bomb) entity);
+                            }
+                        }
+                    }
             }
-
         }
     }
 
@@ -468,4 +496,14 @@ public class Player extends Entity {
     public boolean hasDetonator() {
         return hasDetonator;
     }
+
+    public void useGhostBonus() {
+        if (ghost) {
+            coolDowmTimerGhost.restart();
+        } else {
+            ghost = true;
+            coolDowmTimerGhost.start();
+        }
+    }
+
 }

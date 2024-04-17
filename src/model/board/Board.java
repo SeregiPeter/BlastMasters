@@ -7,10 +7,7 @@ import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
-import model.board.element.powerup.benefit.BiggerRangeBonus;
-import model.board.element.powerup.benefit.DetonatorBonus;
-import model.board.element.powerup.benefit.MaxBombsBonus;
-import model.board.element.powerup.benefit.RollerBonus;
+import model.board.element.powerup.benefit.*;
 import model.board.element.powerup.handicap.NoBombsBonus;
 import model.board.element.powerup.handicap.PlaceBombsImmediatelyBonus;
 import model.board.element.powerup.handicap.SlowDownBonus;
@@ -448,7 +445,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(8); // Az eddig elkészült bónuszok száma
+        int randomNumber = 8;/*random.nextInt(9);*/ // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -475,7 +472,9 @@ public class Board {
             case 7:
                 bonus = new SmallerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SMALLERRANGE_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
-
+            case 8:
+                bonus = new GhostBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(GHOST_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
         }
         box.setBonus(bonus);
         boardElements.add(bonus);

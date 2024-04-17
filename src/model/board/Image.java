@@ -175,6 +175,7 @@ public enum Image {
     ROLLER_BONUS_IMG("src/resources/assets/bonuses/roller.png"),
     SLOW_DOWN_BONUS_IMG("src/resources/assets/bonuses/slow_down.png"),
     DETONATOR_BONUS_IMG("src/resources/assets/bonuses/detonator.png"),
+    GHOST_BONUS_IMG("src/resources/assets/bonuses/ghostbonus.png"),
     FLAME_RIGHT_IMG("src/resources/assets/flame_right.png"),
     FLAME_DOWN_IMG("src/resources/assets/flame_down.png"),
     FLAME_UP_IMG("src/resources/assets/flame_up.png"),
