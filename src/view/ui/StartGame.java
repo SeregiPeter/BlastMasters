@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import static model.board.Size.BOARD_HEIGHT;
+import static model.board.Size.BOARD_WIDTH;
 
 public class StartGame extends JFrame {
 
@@ -130,7 +131,7 @@ public class StartGame extends JFrame {
                 String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
 
                 try {
-                    Board board = new Board(BOARD_SIZE.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
+                    Board board = new Board(BOARD_WIDTH.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
                     gameEngine = new GameEngine(board,settings);
 
                     getContentPane().removeAll();
