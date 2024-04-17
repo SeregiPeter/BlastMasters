@@ -12,7 +12,7 @@ import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import static model.board.Size.BOARD_SIZE;
+import static model.board.Size.BOARD_HEIGHT;
 
 public class StartGame extends JFrame {
 

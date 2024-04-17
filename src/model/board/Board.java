@@ -1,5 +1,6 @@
 package model.board;
 
+import model.board.element.Empty;
 import model.board.element.Entity;
 import model.board.element.character.*;
 import model.board.element.deposable.Bomb;
@@ -53,6 +54,8 @@ public class Board {
     private ArrayList<Box> boxes;
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
+    private Entity[][] staticElements;
+    public SemiIntelligentMonster semi;
 
     /**
      * Constructs a game board with the specified size, path to the map file, and selected map index.
@@ -80,6 +83,7 @@ public class Board {
         afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
+        printCurrentStaticElements();
 
     }
 
@@ -93,6 +97,7 @@ public class Board {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             boardElements = new ArrayList<>();
+            staticElements = new Entity[BOARD_HEIGHT.getSize()][BOARD_WIDTH.getSize()];
             int row = 0;
             String line;
             while ((line = br.readLine()) != null) {
@@ -106,18 +111,25 @@ public class Board {
                                     getWallImage(selectedMapIndex).getImage(), false, true);
                             boardElements.add(wall);
                             walls.add(wall);
+                            staticElements[row][col] = wall;
+                            break;
+                        case 'E':
+                            Empty empty = new Empty(x,y,TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            staticElements[row][col] = empty;
                             break;
                         case 'B':
                             Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
                                     getBoxImage(selectedMapIndex).getImage(), false, true, null, this);
                             boardElements.add(box);
                             boxes.add(box);
+                            staticElements[row][col] = box;
                             break;
                         case 'M':
                             BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex), true, true, this);
                             boardElements.add(basicMonster);
                             monsters.add(basicMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
 
                         case 'G':
@@ -125,14 +137,19 @@ public class Board {
                                     GHOST_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(GHOST_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
                             boardElements.add(ghostMonster);
                             monsters.add(ghostMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
-                            /*
+
                         case 'S':
-                            SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
-                                    MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
+                            SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    SEMI_INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(SEMI_INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
                             boardElements.add(semiIntelligentMonster);
                             monsters.add(semiIntelligentMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            semi = semiIntelligentMonster;
                             break;
+
+                            /*
                         case 'I':
                             IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
@@ -150,6 +167,7 @@ public class Board {
                             player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
                                     player1Images, true, true, "Player1", this, null);
                             boardElements.add(player1);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
                         case '2':
                             List<String> player2ImageUrls = Image.PLAYER2_IMG.getImageUrls();
@@ -160,6 +178,7 @@ public class Board {
                             player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
                                     player2Images, true, true, "Player2", this, null);
                             boardElements.add(player2);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
                     }
                     col++;
@@ -472,9 +491,14 @@ public class Board {
         ArrayList<Monster> removableMonsters = new ArrayList<>();
         ArrayList<Entity> elements = new ArrayList<>(boardElements);
         ArrayList<Monster> monsters2 = new ArrayList<>(monsters);
-
         for(Entity entity : elements) {
-            if(entity.isRemovable()) removableElements.add(entity);
+            if(entity.isRemovable()) {
+                removableElements.add(entity);
+                if(entity instanceof Box || entity instanceof Bomb || entity instanceof Player) {
+                    staticElements[entity.getRow()][entity.getColumn()] = new Empty(entity.getX(), entity.getY(), TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                }
+            }
+
         }
         for(Monster monster : monsters2) {
             if(monster.isRemovable()) removableMonsters.add(monster);
@@ -604,5 +628,27 @@ public class Board {
         putBonusesInBoxes();
         player1.setPoints(tempPlayer1Points);
         player2.setPoints(tempPlayer2Points);
+    }
+
+
+    public Entity[][] getStaticElements() {
+        return staticElements;
+    }
+
+    public void printCurrentStaticElements() {
+        for(Entity[] row : staticElements) {
+            for(Entity entity : row) {
+                System.out.print((entity != null ? entity : "E") + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    public void addStaticElement(Entity entity, int row, int col) {
+        staticElements[row][col] = entity;
+    }
+
+    public void printDir() {
+        System.out.println(semi.getClosestPlayerDirection());
     }
 }

@@ -122,32 +122,6 @@ public class Player extends Entity {
 
     }
 
-    /**
-     * Gets the center coordinate of the player.
-     *
-     * @return the center coordinate as a Point object
-     */
-    public Point getCenterCoordinate() {
-        return new Point((x+(width/2)), (y+(height/2)));
-    }
-
-    /**
-     * Gets the column index of the player on the game board.
-     *
-     * @return the column index of the player
-     */
-    public int getColumn() {
-        return (int)getCenterCoordinate().getX()/TILE_WIDTH.getSize();
-    }
-
-    /**
-     * Gets the row index of the player on the game board.
-     *
-     * @return the row index of the player
-     */
-    public int getRow() {
-        return (int)getCenterCoordinate().getY()/TILE_HEIGHT.getSize();
-    }
 
     /**
      * Gets the position where the bomb will be placed by the player.
