@@ -172,6 +172,7 @@ public enum Image {
      * Represents the image URL for the bomb up bonus.
      */
     BOMB_UP_BONUS_IMG("src/resources/assets/bonuses/bomb_up.png"),
+    BOX_BONUS_IMG("src/resources/assets/bonuses/box_bonus.png"),
     ROLLER_BONUS_IMG("src/resources/assets/bonuses/roller.png"),
     SLOW_DOWN_BONUS_IMG("src/resources/assets/bonuses/slow_down.png"),
     DETONATOR_BONUS_IMG("src/resources/assets/bonuses/detonator.png"),
