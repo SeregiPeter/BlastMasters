@@ -51,21 +51,27 @@ public class GameEngine extends JPanel {
         this.board=board;
         this.settings=settings;
         background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
+        frametimer = new javax.swing.Timer(10, new FrameListener());
+        frametimer.start();
+
         handleKeyPresses();
+        initializeHover();
+        initializeNextRoundButton();
+    }
 
-        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(),board.getPlayer1().getPoints());
-        hoverPanel.setVisible(false);
-        add(hoverPanel);
-
+    private void initializeNextRoundButton() {
         nextRoundButton = new JButton("Next Round");
         nextRoundButton.setBackground(new Color(51, 206, 250));
         nextRoundButton.setForeground(Color.white);
         nextRoundButton.setPreferredSize(new Dimension(300,50));
         nextRoundButton.setVisible(false);
         add(nextRoundButton);
+    }
 
-        frametimer = new javax.swing.Timer(10, new FrameListener());
-        frametimer.start();
+    private void initializeHover() {
+        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(),board.getPlayer1().getPoints());
+        hoverPanel.setVisible(false);
+        add(hoverPanel);
     }
 
     private ImageIcon getBackgroundImage(int mapIndex) {
@@ -266,7 +272,7 @@ public class GameEngine extends JPanel {
         ArrayList<Integer> events=new ArrayList<>();
         for (String setting:settings) {
 
-            System.out.printf(setting);
+            //System.out.printf(setting);
             switch (setting){
                 case "DW":
                     setting="DOWN";
@@ -374,13 +380,13 @@ public class GameEngine extends JPanel {
      */
     private void restart() {
         board.reset();
-        System.out.println("bent van");
     }
     private void setHoverPanelVisible(){
         hoverPanel.setScore(board.getPlayer1().getPoints(),board.getPlayer2().getPoints());
         hoverPanel.setVisible(true);
         nextRoundButton.setVisible(true);
     }
+
 
 }
 

@@ -79,6 +79,7 @@ public class Board {
         player2Check=false;
         state=BOTH_ALIVE;
         afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         printCurrentStaticElements();
@@ -586,20 +587,7 @@ public class Board {
                     }
                 }
             }
-            /*
-            if(player1Check&&!player2Check){
-                if(player2.isAlive()){
-                    finalState=PLAYER2_WON;
-                }else{
-                    finalState=DRAW;
-                }
-            }else if(!player1Check&&player2Check){
-                if(player1.isAlive()){
-                    finalState=PLAYER1_WON;
-                }else{
-                    finalState=DRAW;
-                }
-            }*/
+
         }
     }
 
@@ -656,6 +644,7 @@ public class Board {
         player2Check=false;
         finalState= BOTH_ALIVE;
         afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
         int tempPlayer1Points=player1.getPoints();
         int tempPlayer2Points=player2.getPoints();
         initialize(path, selectedMapIndex);
