@@ -541,31 +541,6 @@ public class Board {
                }
            }
        }
-
-
-
-        /*
-        if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
-
-        if (finalState!=BOTH_ALIVE){
-            state=finalState;
-            return;
-        }
-        if (player1.isAlive() && player2.isAlive()) {
-            state=BOTH_ALIVE;
-        }else if (!player1.isAlive()) {
-            if (!onlyOneAlive){
-                player1Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }else if(!player2.isAlive()){
-            if (!onlyOneAlive){
-                player2Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }*/
     }
 
 
@@ -646,8 +621,8 @@ public class Board {
     /**
      * Resets the game board to its initial state, including resetting elements and scores.
      */
-    public void reset() {
-        if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
+    public void reset(boolean newNewRound) {
+        state=BOTH_ALIVE;
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -659,8 +634,15 @@ public class Board {
         finalState= BOTH_ALIVE;
         afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
         afterDeathTimer.setRepeats(false);
-        int tempPlayer1Points=player1.getPoints();
-        int tempPlayer2Points=player2.getPoints();
+        int tempPlayer1Points;
+        int tempPlayer2Points;
+        if(newNewRound) {
+            tempPlayer1Points = 0;
+            tempPlayer2Points = 0;
+        }else{
+            tempPlayer1Points = player1.getPoints();
+            tempPlayer2Points = player2.getPoints();
+        }
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         player1.setPoints(tempPlayer1Points);

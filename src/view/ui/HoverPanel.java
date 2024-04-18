@@ -2,10 +2,12 @@ package view.ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class HoverPanel extends JPanel {
     private JLabel scoreLabel;
-    public HoverPanel(int score1,int score2) {
+    private JLabel winLabel;
+    public HoverPanel(int score1,int score2,String winner) {
         setLayout(new BorderLayout());
         setOpaque(false);
         setPreferredSize(new Dimension(500, 200));
@@ -15,16 +17,27 @@ public class HoverPanel extends JPanel {
         JLabel titleLabel = new JLabel("Score");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
+
+        winLabel=new JLabel();
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
+        winLabel.setHorizontalAlignment(JLabel.CENTER);
+
+
+
+
         scoreLabel = new JLabel(score1+":"+score2);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 100));
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);
 
         add(titleLabel,BorderLayout.NORTH);
         add(scoreLabel,BorderLayout.CENTER);
+        add(winLabel,BorderLayout.SOUTH);
 
     }
-    public void setScore(int score1,int score2){
+    public void setScore(int score1,int score2,String winner){
+
         scoreLabel.setText(score1+":"+score2);
+        winLabel.setText(winner);
     }
 
     @Override
