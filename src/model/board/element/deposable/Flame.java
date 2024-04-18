@@ -67,6 +67,10 @@ public class Flame extends Entity {
                     entity.setRemovable(true);
                     System.out.println(entity);
                     if(entity instanceof Box) {
+                        if(((Box) entity).getOwner() != null){
+                            ((Box) entity).giveBoxToPlayer();
+                        }
+
                         if(((Box) entity).getBonus() != null) {
                             bonus = ((Box) entity).getBonus();
                             bonus.setExplodable(true);

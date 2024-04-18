@@ -7,10 +7,7 @@ import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
-import model.board.element.powerup.benefit.BiggerRangeBonus;
-import model.board.element.powerup.benefit.DetonatorBonus;
-import model.board.element.powerup.benefit.MaxBombsBonus;
-import model.board.element.powerup.benefit.RollerBonus;
+import model.board.element.powerup.benefit.*;
 import model.board.element.powerup.handicap.NoBombsBonus;
 import model.board.element.powerup.handicap.PlaceBombsImmediatelyBonus;
 import model.board.element.powerup.handicap.SlowDownBonus;
@@ -205,6 +202,8 @@ public class Board {
         };
     }
 
+
+
     /**
      * Gets the ImageIcon for the box based on the selected map index.
      *
@@ -324,6 +323,9 @@ public class Board {
     public void player1PlantsBomb() {
         this.player1.plantBomb();
     }
+    public void player1PlantsBox() {
+        this.player1.plantBox();
+    }
 
     /**
      * Initiates the action of player 2 planting a bomb on the game board.
@@ -331,6 +333,9 @@ public class Board {
      */
     public void player2PlantsBomb() {
         this.player2.plantBomb();
+    }
+    public void player2PlantsBox() {
+        this.player2.plantBox();
     }
 
     /**
@@ -423,6 +428,12 @@ public class Board {
     public void addBomb(Bomb bomb) {
         bombs.add(bomb);
     }
+    public void addBox(Box box) {
+        boxes.add(box);
+
+    }
+
+
 
     /**
      * Adds an entity to the list of entities on the game board.
@@ -448,7 +459,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(8); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(9); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -474,6 +485,9 @@ public class Board {
                 break;
             case 7:
                 bonus = new SmallerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SMALLERRANGE_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 8:
+                bonus = new BoxBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOX_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
 
         }
