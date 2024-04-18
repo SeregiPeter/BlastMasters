@@ -337,9 +337,9 @@ public class GameEngine extends JPanel {
         switch (state){
             case DRAW :
                 board.removeRemovableEntities();
-
+                setHoverPanelVisible();
                 System.out.println(state);
-                restart();
+                //restart();
                 break;
             case PAUSED:
                 break;
@@ -347,11 +347,7 @@ public class GameEngine extends JPanel {
             case PLAYER1_WON, PLAYER2_WON:
 
                 board.removeRemovableEntities();
-
-                board.roundEnd();
-                hoverPanel.setScore(board.getPlayer1().getPoints(),board.getPlayer2().getPoints());
-                hoverPanel.setVisible(true);
-                nextRoundButton.setVisible(true);
+                setHoverPanelVisible();
                 //restart();
                 break;
             case BOTH_ALIVE :
@@ -380,7 +376,11 @@ public class GameEngine extends JPanel {
         board.reset();
         System.out.println("bent van");
     }
-
+    private void setHoverPanelVisible(){
+        hoverPanel.setScore(board.getPlayer1().getPoints(),board.getPlayer2().getPoints());
+        hoverPanel.setVisible(true);
+        nextRoundButton.setVisible(true);
+    }
 
 }
 
