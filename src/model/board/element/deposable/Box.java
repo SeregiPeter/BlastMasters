@@ -2,14 +2,20 @@ package model.board.element.deposable;
 
 import model.board.Board;
 import model.board.element.Entity;
+import model.board.element.character.Player;
 import model.board.element.powerup.Bonus;
 import java.awt.*;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Represents a box on the game board that can contain bonuses.
  */
 public class Box extends Entity {
     private Bonus bonus;
+    private Player owner;
+
+    private boolean gaveBack;
     Board board;
 
     /**
@@ -31,6 +37,8 @@ public class Box extends Entity {
         this.bonus = bonus;
         this.explodable = true;
         this.board = board;
+        this.owner=null;
+        this.gaveBack=false;
     }
 
     /**
@@ -51,6 +59,28 @@ public class Box extends Entity {
             this.bonus.setVisible(true);
             this.bonus.setExplodable(true);
             board.addEntity(bonus);
+        }
+    }
+
+    public void setOwner(Player owner){
+        this.owner=owner;
+    }
+
+    public Player getOwner(){
+        return owner;
+    }
+    public void plant() {
+        this.setVisible(true);
+        board.addEntity(this);
+        board.addStaticElement(this, this.getRow(), this.getColumn());
+        board.addBox(this);
+
+    }
+
+    public void giveBoxToPlayer(){
+        if(!gaveBack){
+            owner.incrementNumberOfPlaceableBoxes();
+            gaveBack=true;
         }
     }
 
