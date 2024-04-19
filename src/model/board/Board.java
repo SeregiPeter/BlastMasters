@@ -8,10 +8,7 @@ import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.*;
-import model.board.element.powerup.handicap.NoBombsBonus;
-import model.board.element.powerup.handicap.PlaceBombsImmediatelyBonus;
-import model.board.element.powerup.handicap.SlowDownBonus;
-import model.board.element.powerup.handicap.SmallerRangeBonus;
+import model.board.element.powerup.handicap.*;
 import view.state.GameState;
 
 import javax.swing.*;
@@ -74,9 +71,9 @@ public class Board {
         onlyOneAlive=false;
         player1Check=false;
         player2Check=false;
-        finalState= BOTH_ALIVE;
         state=BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         printCurrentStaticElements();
@@ -322,12 +319,20 @@ public class Board {
         this.player1.plantBomb();
     }
 
+    public void player1PlantsBox() {
+        this.player1.plantBox();
+    }
+
     /**
      * Initiates the action of player 2 planting a bomb on the game board.
      * This method delegates the bomb planting action to the player 2 instance.
      */
     public void player2PlantsBomb() {
         this.player2.plantBomb();
+    }
+
+    public void player2PlantsBox() {
+        this.player2.plantBox();
     }
 
     /**
@@ -421,6 +426,10 @@ public class Board {
         bombs.add(bomb);
     }
 
+    public void addBox(Box box) {
+        boxes.add(box);
+    }
+
     /**
      * Adds an entity to the list of entities on the game board.
      *
@@ -445,7 +454,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = 8;/*random.nextInt(9);*/ // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(10); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -474,6 +483,9 @@ public class Board {
                 break;
             case 8:
                 bonus = new GhostBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(GHOST_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 9:
+                bonus = new BoxBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOX_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
         }
         box.setBonus(bonus);
@@ -509,59 +521,54 @@ public class Board {
      * Checks the current status of the game, updating the state accordingly.
      */
     public void statusCheck() {
-        if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
-        if (finalState!=BOTH_ALIVE){
-            state=finalState;
-            return;
-        }
-        if (player1.isAlive() && player2.isAlive()) {
-            state=BOTH_ALIVE;
-        }else if (!player1.isAlive()) {
-            if (!onlyOneAlive){
-                player1Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }else if(!player2.isAlive()){
-            if (!onlyOneAlive){
-                player2Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }
-    }
-
-    /**
-     * Handles the end of a round, updating player points and determining the final winner.
-     */
-    public void roundEnd(){
-        if(state==PLAYER1_WON)player1.incrementPoints();
-        else player2.incrementPoints();
-
-        if(player1.getPoints()>numberOfRound/2 || player2.getPoints()>numberOfRound/2){
-            if(player1.getPoints()>player2.getPoints()) state=PLAYER1_FINAL_WIN;
-            else state=PLAYER2_FINAL_WIN;
-        }
+       if(state==BOTH_ALIVE) {
+           if (!player1.isAlive()) {
+               if (!onlyOneAlive) {
+                   player2Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+           if (!player2.isAlive()) {
+               if (!onlyOneAlive) {
+                   player1Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+       }
     }
 
     /**
      * Represents an ActionListener for the after death timer.
      */
-     class timerListener implements ActionListener {
+     class deathTimer implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(player1Check&&!player2Check){
-                if(player2.isAlive()){
-                    finalState=PLAYER2_WON;
-                }else{
-                    finalState=DRAW;
+            if(player1Check){
+                if(!player1.isAlive()){
+                    state=DRAW;
+                }else {
+                    player1.incrementPoints();
+                    if(player1.getPoints()>numberOfRound/2){
+                       state=PLAYER1_FINAL_WIN;
+                    }else{
+                        state=PLAYER1_WON;
+                    }
+
                 }
-            }else if(!player1Check&&player2Check){
-                if(player1.isAlive()){
-                    finalState=PLAYER1_WON;
+            }
+            if(player2Check){
+                if (!player2.isAlive()){
+                    state=DRAW;
                 }else{
-                    finalState=DRAW;
+                    player2.incrementPoints();
+                    if(player2.getPoints()>numberOfRound/2){
+                        state=PLAYER2_FINAL_WIN;
+                    }else{
+                        state=PLAYER2_WON;
+                    }
                 }
             }
         }
@@ -608,8 +615,8 @@ public class Board {
     /**
      * Resets the game board to its initial state, including resetting elements and scores.
      */
-    public void reset() {
-        if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
+    public void reset(boolean newNewRound) {
+        state=BOTH_ALIVE;
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -619,9 +626,17 @@ public class Board {
         player1Check=false;
         player2Check=false;
         finalState= BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
-        int tempPlayer1Points=player1.getPoints();
-        int tempPlayer2Points=player2.getPoints();
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
+        int tempPlayer1Points;
+        int tempPlayer2Points;
+        if(newNewRound) {
+            tempPlayer1Points = 0;
+            tempPlayer2Points = 0;
+        }else{
+            tempPlayer1Points = player1.getPoints();
+            tempPlayer2Points = player2.getPoints();
+        }
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         player1.setPoints(tempPlayer1Points);

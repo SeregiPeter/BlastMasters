@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 import static model.board.Size.BOARD_HEIGHT;
@@ -23,6 +24,7 @@ public class StartGame extends JFrame {
     private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
     private ButtonPanel buttonPanel;
+    private JButton mainMenuButton;
     private Image backgroundImage;
     private Image[] mapImages;
     private String[] mapNames = {"Map 1", "Map 2", "Map 3"};
@@ -48,6 +50,7 @@ public class StartGame extends JFrame {
         initializeMapImages();
 
         JPanel panelMain = createMainPanel();
+        mainMenuButton=createMainMenuButton();
 
         setContentPane(panelMain);
 
@@ -75,21 +78,13 @@ public class StartGame extends JFrame {
                 g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         };
-        panelMain.add(createPlayerPanel1(), BorderLayout.EAST);
+        panelMain.add(createPlayerPanel(), BorderLayout.EAST);
         panelMain.add(createMapSelectorPanel(), BorderLayout.CENTER);
         panelMain.add(createStartPanel(), BorderLayout.WEST);
         return panelMain;
     }
 
-    private JPanel createPlayersPanel() {
-        JPanel playersPanel = new JPanel(new GridLayout(1, 2));
-        playersPanel.add(createPlayerPanel1());
-        playersPanel.setOpaque(false);
-        playersPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 100));
-        return playersPanel;
-    }
-
-    private JPanel createPlayerPanel1() {
+    private JPanel createPlayerPanel() {
         settings = new Settings();
 
         JPanel containerPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 30, 50));
@@ -121,6 +116,29 @@ public class StartGame extends JFrame {
         return buttonPanel;
     }
 
+    private JButton createMainMenuButton() {
+        JButton mainMenuButton = new JButton("Main Menu");
+        mainMenuButton.setBackground(new Color(51, 206, 250));
+        mainMenuButton.setForeground(Color.white);
+        mainMenuButton.setPreferredSize(new Dimension(300,50));
+        mainMenuButton.setVisible(false);
+        mainMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                mainMenuButton.setVisible(false);
+                getContentPane().removeAll();
+                setContentPane(createMainPanel());
+                initializeMapImages();
+                gameEngine.requestFocusInWindow();
+                addStartButtonActionListener();
+                addExitButtonActionListener();
+                revalidate();
+                repaint();
+            }
+        });
+        return mainMenuButton;
+    }
+
     private void addStartButtonActionListener() {
         buttonPanel.addStartButtonActionListener(new ActionListener() {
             @Override
@@ -132,7 +150,9 @@ public class StartGame extends JFrame {
 
                 try {
                     Board board = new Board(BOARD_WIDTH.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
-                    gameEngine = new GameEngine(board,settings);
+                    System.out.println(Arrays.toString(settings.getKeyBindings()));
+                    settings.load();
+                    gameEngine = new GameEngine(board,settings,mainMenuButton);
 
                     getContentPane().removeAll();
                     getContentPane().add(gameEngine);

@@ -10,22 +10,25 @@ import model.board.element.deposable.Box;
 import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
+import model.board.element.powerup.benefit.*;
+import model.board.element.powerup.handicap.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.*;
 
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Integer.parseInt;
-import static model.board.Image.BOMB_IMG;
+import static model.board.Image.*;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
+import static model.board.Velocity.BONUS_VEL;
 
 /**
  * The Player class represents a player character on the game board.
@@ -37,9 +40,11 @@ public class Player extends Entity {
     private int points;
     private Board board;
     private List<Bomb> bombs;
+    private List<Box> boxes;
     private List<Bonus> bonuses;
     private int maxNumberOfBombs;
     private int numberOfPlaceableBombs;
+    private int numberOfPlaceableBoxes;
     private boolean hasDetonator;
     private boolean hasRoller;
     private boolean immortal;
@@ -54,7 +59,9 @@ public class Player extends Entity {
     private Settings settings;
     private Bomb lastPlantedBomb;
     private boolean onBomb;
+    private boolean onBox;
     private ArrayList<Bomb> onBombs;
+    private ArrayList<Box> onBoxes;
     private List<Image> images;
     private int imageChangeCounter = 0;
     private int opacityChangeCounter = 0;
@@ -91,10 +98,12 @@ public class Player extends Entity {
         this.board = board;
         points = 0;
         bombs = new ArrayList<Bomb>();
+        boxes = new ArrayList<Box>();
         //addBomb();
         bonuses = new ArrayList<Bonus>();
         maxNumberOfBombs = 1;
         numberOfPlaceableBombs = 1;
+        numberOfPlaceableBoxes = 0;
         this.hasDetonator = false;
         this.hasRoller = false;
         this.immortal = false;
@@ -109,9 +118,11 @@ public class Player extends Entity {
         this.ghostPulsation = false;
         lastPlantedBomb = null;
         onBomb = false;
+        onBox = false;
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
+        onBoxes = new ArrayList<>();
         currentOpacity = 0.4f;
         callertimer = new javax.swing.Timer(100, new Caller());
         coolDownTimerImmediately = new javax.swing.Timer(1000 * 10, new Cooldown());
@@ -139,6 +150,10 @@ public class Player extends Entity {
      */
     public Point getThePositionOfTheBombToBePlaced() {
         return new Point(BOMB_WIDTH.getSize() * getColumn(), BOMB_HEIGHT.getSize() * getRow());
+    }
+
+    public Point getThePositionOfTheBoxToBePlaced() {
+        return new Point(TILE_WIDTH.getSize() * getColumn(), TILE_HEIGHT.getSize() * getRow());
     }
 
     /**
@@ -293,6 +308,11 @@ public class Player extends Entity {
             if (!this.collides(bomb)) onBombs.remove(bomb);
         }
 
+        ArrayList<Box> boxesToBeChecked = new ArrayList<>(onBoxes);
+        for (Box box : boxesToBeChecked) {
+            if (!this.collides(box)) onBoxes.remove(box);
+        }
+
         if (shouldBePlacedBack) {
             this.moveTowardsDirection(Direction.getOppositeDirection(direction));
         }
@@ -335,6 +355,11 @@ public class Player extends Entity {
      */
     public void incrementNumberOfPlaceableBombs() {
         this.numberOfPlaceableBombs++;
+    }
+
+    public void incrementNumberOfPlaceableBoxes() {
+        this.numberOfPlaceableBoxes++;
+        System.out.println("Number of placeable boxes: " + numberOfPlaceableBoxes);
     }
 
     /**
@@ -412,7 +437,7 @@ public class Player extends Entity {
         this.slowedDown = true;
         int oldNumberOfSlowDownBonuses = ++numberOfSlowDownBonuses;
 
-        Timer timer = new Timer();
+        java.util.Timer timer = new java.util.Timer();
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
@@ -448,6 +473,78 @@ public class Player extends Entity {
             coolDownTimerImmediately.start();
         }
 
+    }
+
+    public Bonus putRandomBonusInBox(Box box) {
+        Random random = new Random();
+        int randomNumber = random.nextInt(8); // Az eddig elkészült bónuszok száma
+        Bonus bonus = null;
+        switch (randomNumber) {
+            case 0:
+                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 1:
+                bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 2:
+                bonus = new RollerBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(ROLLER_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 3:
+                bonus = new SlowDownBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SLOW_DOWN_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 4:
+                bonus = new DetonatorBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(DETONATOR_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 5:
+                bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 6:
+                bonus = new NoBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(PACIFIST_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 7:
+                bonus = new SmallerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SMALLERRANGE_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+
+        }
+        return bonus;
+    }
+
+    public void plantBox() {
+
+        if (numberOfPlaceableBoxes == 0 || !alive) {
+            return;
+        }
+        Box box;
+        ImageIcon boximage=null;
+        switch(board.getSelectedMapIndex()){
+
+            case 1:
+                boximage = new ImageIcon(BOX_IMG_MAP2.getImageUrl());
+                break;
+            case 2:
+                boximage = new ImageIcon(BOX_IMG_MAP3.getImageUrl());
+                break;
+            default:
+                boximage= new ImageIcon(BOX_IMG_MAP1.getImageUrl());
+                break;
+
+        }
+        box = new Box((int) getThePositionOfTheBoxToBePlaced().getX(),
+                (int) getThePositionOfTheBoxToBePlaced().getY(), TILE_WIDTH.getSize(), TILE_HEIGHT.getSize(),
+                BOMB_VEL.getVelocity(), boximage.getImage(),
+                false, false, null, board);
+
+        box.setOwner(this);
+
+        for (Entity entity : board.getEntities()) {
+            if (!(entity.equals(this)) && entity.collides(box)) {
+                return;
+            }
+        }
+        numberOfPlaceableBoxes--;
+        box.plant();
+        onBoxes.add(box);
+        onBox = true;
     }
 
     public void smallerRange() {
