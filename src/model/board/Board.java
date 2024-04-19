@@ -153,23 +153,33 @@ public class Board {
 
                         case '1':
                             List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
+                            List<String> player1ImmortalImgUrls = PLAYER1_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player1Images = new ArrayList<>();
+                            List<java.awt.Image> player1ImmortalImages = new ArrayList<>();
                             for (String url : player1ImageUrls) {
                                 player1Images.add(new ImageIcon(url).getImage());
                             }
+                            for (String url : player1ImmortalImgUrls) {
+                                player1ImmortalImages.add(new ImageIcon(url).getImage());
+                            }
                             player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player1Images, true, true, "Player1", this, null);
+                                    player1Images, player1ImmortalImages,true, true, "Player1", this, null);
                             boardElements.add(player1);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
                         case '2':
                             List<String> player2ImageUrls = Image.PLAYER2_IMG.getImageUrls();
+                            List<String> player2ImmortalImgUrls = PLAYER2_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player2Images = new ArrayList<>();
+                            List<java.awt.Image> player2ImmortalImages = new ArrayList<>();
                             for (String url : player2ImageUrls) {
                                 player2Images.add(new ImageIcon(url).getImage());
                             }
+                            for (String url : player2ImmortalImgUrls) {
+                                player2ImmortalImages.add(new ImageIcon(url).getImage());
+                            }
                             player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player2Images, true, true, "Player2", this, null);
+                                    player2Images, player2ImmortalImages, true, true, "Player2", this, null);
                             boardElements.add(player2);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
@@ -454,7 +464,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(10); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(11); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -486,6 +496,9 @@ public class Board {
                 break;
             case 9:
                 bonus = new BoxBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOX_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 10:
+                bonus = new ImmortalityBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMORTALITY_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
         }
         box.setBonus(bonus);

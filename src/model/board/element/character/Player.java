@@ -10,8 +10,6 @@ import model.board.element.deposable.Box;
 import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
-import model.board.element.powerup.benefit.*;
-import model.board.element.powerup.handicap.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,7 +17,6 @@ import java.util.*;
 
 
 import javax.swing.*;
-import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +25,6 @@ import static java.lang.Integer.parseInt;
 import static model.board.Image.*;
 import static model.board.Size.*;
 import static model.board.Velocity.BOMB_VEL;
-import static model.board.Velocity.BONUS_VEL;
 
 /**
  * The Player class represents a player character on the game board.
@@ -54,6 +50,7 @@ public class Player extends Entity {
     private boolean canPlaceBombs;
     private boolean rangeShrunk;
     private boolean ghostPulsation;
+    private boolean immortalityPulsation;
     private int numberOfObstacles;
     private int bombRange;
     private Settings settings;
@@ -63,8 +60,12 @@ public class Player extends Entity {
     private ArrayList<Bomb> onBombs;
     private ArrayList<Box> onBoxes;
     private List<Image> images;
+    private List<Image> immortalImages;
+    private List<Image> usedImages;
     private int imageChangeCounter = 0;
     private int opacityChangeCounter = 0;
+    private int changeListOfImagesCounter = 0;
+    private int currentIndexOfImageForPulsation = 0;
     private float currentOpacity;
     // Define a threshold for image change frequency
     private int numberOfSlowDownBonuses = 0;
@@ -74,6 +75,8 @@ public class Player extends Entity {
     private javax.swing.Timer coolDownTimerPacifist;
     private javax.swing.Timer coolDowmTimerGhost;
     private javax.swing.Timer untilGhostPulsationTimer;
+    private javax.swing.Timer coolDowmTimerImmortality;
+    private javax.swing.Timer untilImmortalityPulsationTimer;
     private final javax.swing.Timer coolDownTimerSmallRange;
     boolean immediatelyHandicapActive;
 
@@ -91,9 +94,11 @@ public class Player extends Entity {
      * @param board    the game board the player belongs to
      * @param settings the game settings
      */
-    public Player(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, String name, Board board, Settings settings) {
+    public Player(int x, int y, int width, int height, double velocity, List<Image> images, List<Image> immortalImages, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, images.get(0), alive, visible);
         this.images = images;
+        this.immortalImages = immortalImages;
+        this.usedImages = images;
         this.name = name;
         this.board = board;
         points = 0;
@@ -116,6 +121,7 @@ public class Player extends Entity {
         this.immediatelyHandicapActive = false;
         this.rangeShrunk = false;
         this.ghostPulsation = false;
+        this.immortalityPulsation = false;
         lastPlantedBomb = null;
         onBomb = false;
         onBox = false;
@@ -140,8 +146,20 @@ public class Player extends Entity {
         untilGhostPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
         untilGhostPulsationTimer.setActionCommand("4");
         untilGhostPulsationTimer.setRepeats(false);
+        coolDowmTimerImmortality = new javax.swing.Timer(1000 * 10, new Cooldown());
+        coolDowmTimerImmortality.setActionCommand("5");
+        coolDowmTimerImmortality.setRepeats(false);
+        untilImmortalityPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
+        untilImmortalityPulsationTimer.setActionCommand("6");
+        untilImmortalityPulsationTimer.setRepeats(false);
     }
 
+    @Override
+    public void setAlive(boolean alive) {
+        if (!immortal) {
+            super.setAlive(alive);
+        }
+    }
 
     /**
      * Gets the position where the bomb will be placed by the player.
@@ -241,6 +259,8 @@ public class Player extends Entity {
     /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk,
     akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
     public void move(Direction direction) {
+        List<Image> images = usedImages;
+
         if(!alive) return;
         imageChangeCounter++;
 
@@ -252,21 +272,25 @@ public class Player extends Entity {
                     int currentIndex = images.indexOf(this.image);
                     int nextIndex = (currentIndex + 1) % 3;
                     this.image = images.get(nextIndex + 4);
+                    currentIndexOfImageForPulsation = nextIndex + 4;
                     break;
                 case DOWN:
                     currentIndex = images.indexOf(this.image);
                     nextIndex = (currentIndex + 1) % 3;
                     this.image = images.get(nextIndex + 7);
+                    currentIndexOfImageForPulsation = nextIndex + 7;
                     break;
                 case LEFT:
                     currentIndex = images.indexOf(this.image);
                     nextIndex = (currentIndex + 1) % 4;
                     this.image = images.get(nextIndex + 10);
+                    currentIndexOfImageForPulsation = nextIndex + 10;
                     break;
                 case RIGHT:
                     currentIndex = images.indexOf(this.image);
                     nextIndex = (currentIndex + 1) % 4;
                     this.image = images.get(nextIndex);
+                    currentIndexOfImageForPulsation = nextIndex;
                     break;
                 default:
                     break;
@@ -297,7 +321,7 @@ public class Player extends Entity {
                     this.runIntoBonus((Bonus) entity);
                 }
                 if ((entity instanceof Flame || entity instanceof Monster) && entity.collides(this)) {
-                    this.alive = false;
+                    setAlive(false);
                 }
             }
         }
@@ -475,40 +499,6 @@ public class Player extends Entity {
 
     }
 
-    public Bonus putRandomBonusInBox(Box box) {
-        Random random = new Random();
-        int randomNumber = random.nextInt(8); // Az eddig elkészült bónuszok száma
-        Bonus bonus = null;
-        switch (randomNumber) {
-            case 0:
-                bonus = new BiggerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BIGGER_RANGE_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 1:
-                bonus = new MaxBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOMB_UP_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 2:
-                bonus = new RollerBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(ROLLER_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 3:
-                bonus = new SlowDownBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SLOW_DOWN_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 4:
-                bonus = new DetonatorBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(DETONATOR_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 5:
-                bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 6:
-                bonus = new NoBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(PACIFIST_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-            case 7:
-                bonus = new SmallerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SMALLERRANGE_IMG.getImageUrl()).getImage(), false, false, null);
-                break;
-
-        }
-        return bonus;
-    }
-
     public void plantBox() {
 
         if (numberOfPlaceableBoxes == 0 || !alive) {
@@ -597,6 +587,16 @@ public class Player extends Entity {
                     opacityChangeCounter = 0;
                     ghostPulsation = true;
                     break;
+                case 5:
+                    image = images.get(currentIndexOfImageForPulsation);
+                    usedImages = images;
+                    immortal = false;
+                    immortalityPulsation = false;
+                    break;
+                case 6:
+                    changeListOfImagesCounter = 0;
+                    immortalityPulsation = true;
+                    break;
             }
         }
     }
@@ -621,10 +621,34 @@ public class Player extends Entity {
         }
     }
 
+    public void useImmortalityBonus() {
+        if (immortal) {
+            usedImages = immortalImages;
+            immortalityPulsation = false;
+            coolDowmTimerImmortality.restart();
+            untilImmortalityPulsationTimer.restart();
+        } else {
+            immortal = true;
+            coolDowmTimerImmortality.start();
+            untilImmortalityPulsationTimer.start();
+        }
+    }
+
     @Override
     public void draw(Graphics g) {
         if(this.visible) {
             Graphics2D g2d = (Graphics2D) g.create();
+            if (this.immortal && !immortalityPulsation) {
+                usedImages = immortalImages;
+                changeListOfImagesCounter++;
+            } else if (this.immortalityPulsation && immortalityPulsation) {
+                changeListOfImagesCounter++;
+                if (changeListOfImagesCounter >= 30) {
+                    usedImages = usedImages == immortalImages ? images : immortalImages;
+                    image = usedImages.get(currentIndexOfImageForPulsation);
+                    changeListOfImagesCounter = 0;
+                }
+            }
             if (this.ghost && !ghostPulsation) {
                 g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
                 opacityChangeCounter++;
