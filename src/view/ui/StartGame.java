@@ -18,6 +18,7 @@ import static model.board.Size.BOARD_WIDTH;
 
 public class StartGame extends JFrame {
 
+    private int roundsToWin;
     private GameEngine gameEngine;
     private Settings settings;
     private PlayerCustomizationPanel playerPanel1;
@@ -36,7 +37,7 @@ public class StartGame extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        roundsToWin=3;
         setTitle("Blast Masters");
         setSize(1500, 807);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +50,7 @@ public class StartGame extends JFrame {
 
         initializeMapImages();
 
-        JPanel panelMain = createMainPanel();
+        JPanel panelMain = createMainPanel(roundsToWin);
         mainMenuButton=createMainMenuButton();
 
         setContentPane(panelMain);
@@ -70,7 +71,7 @@ public class StartGame extends JFrame {
         }
     }
 
-    private JPanel createMainPanel() {
+    private JPanel createMainPanel(int value) {
         JPanel panelMain = new JPanel(new BorderLayout()) {
             @Override
             protected void paintComponent(Graphics g) {
@@ -80,7 +81,7 @@ public class StartGame extends JFrame {
         };
         panelMain.add(createPlayerPanel(), BorderLayout.EAST);
         panelMain.add(createMapSelectorPanel(), BorderLayout.CENTER);
-        panelMain.add(createStartPanel(), BorderLayout.WEST);
+        panelMain.add(createStartPanel(value), BorderLayout.WEST);
         return panelMain;
     }
 
@@ -110,8 +111,8 @@ public class StartGame extends JFrame {
         return mapSelectorPanel;
     }
 
-    private ButtonPanel createStartPanel() {
-        buttonPanel = new ButtonPanel();
+    private ButtonPanel createStartPanel(int value) {
+        buttonPanel = new ButtonPanel(value);
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 0));
         return buttonPanel;
     }
@@ -125,10 +126,10 @@ public class StartGame extends JFrame {
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                mainMenuButton.setVisible(false);
                 getContentPane().removeAll();
-                setContentPane(createMainPanel());
+                setContentPane(createMainPanel(roundsToWin));
                 initializeMapImages();
+
                 gameEngine.requestFocusInWindow();
                 addStartButtonActionListener();
                 addExitButtonActionListener();
@@ -143,7 +144,7 @@ public class StartGame extends JFrame {
         buttonPanel.addStartButtonActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int roundsToWin = buttonPanel.getRoundsToWin();
+                roundsToWin = buttonPanel.getRoundsToWin();
                 int selectedMapIndex = mapSelectorPanel.getCurrentMapIndex();
 
                 String mapFilePath = "src/resources/maps/map" + (selectedMapIndex + 1) + ".txt";
@@ -152,6 +153,8 @@ public class StartGame extends JFrame {
                     Board board = new Board(BOARD_WIDTH.getSize(), mapFilePath, selectedMapIndex, roundsToWin);
                     System.out.println(Arrays.toString(settings.getKeyBindings()));
                     settings.load();
+
+                    mainMenuButton=createMainMenuButton();
                     gameEngine = new GameEngine(board,settings,mainMenuButton);
 
                     getContentPane().removeAll();

@@ -22,7 +22,7 @@ public class ButtonPanel extends JPanel {
      * Constructs a new ButtonPanel with buttons and settings.
      * Initializes the title label, start button, exit button, and round panel.
      */
-    public ButtonPanel() {
+    public ButtonPanel(int value) {
         setLayout(new GridLayout(4, 1));
         setOpaque(false);
 
@@ -32,7 +32,7 @@ public class ButtonPanel extends JPanel {
 
         initializeExitButton();
 
-        initializeRoundPanel();
+        initializeRoundPanel(value);
     }
 
     /**
@@ -93,11 +93,11 @@ public class ButtonPanel extends JPanel {
      * and adds labels for "First to" and "wins" along with a JSpinner for selecting the number of rounds.
      * Adds the round panel to the ButtonPanel.
      */
-    private void initializeRoundPanel() {
+    private void initializeRoundPanel(int value) {
         JPanel roundPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         roundPanel.setOpaque(false);
         JLabel roundsLabel = createLabel("First to");
-        roundSpinner = new JSpinner(new SpinnerNumberModel(3, 1, 10, 1));
+        roundSpinner = new JSpinner(new SpinnerNumberModel(value, 1, 10, 1));
         roundSpinner.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
         roundPanel.add(roundsLabel);
         roundPanel.add(roundSpinner);

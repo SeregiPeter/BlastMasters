@@ -53,10 +53,11 @@ public class HoverPanel extends JPanel {
             Image leftImage = Toolkit.getDefaultToolkit().getImage("src/resources/assets/menu/bomberman2.png");
             Image rightImage = Toolkit.getDefaultToolkit().getImage("src/resources/assets/menu/bomberman1.png");
 
-            int imageWidth = leftImage.getWidth(null);
-            int imageHeight = leftImage.getHeight(null);
+            int imageWidth = 150;
+            int imageHeight = 150;
 
             rightImage = rightImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_FAST);
+            leftImage = leftImage.getScaledInstance(imageWidth, imageHeight, Image.SCALE_FAST);
 
             MediaTracker tracker = new MediaTracker(this);
             tracker.addImage(leftImage, 0);

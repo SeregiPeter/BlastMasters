@@ -48,13 +48,14 @@ public class GameEngine extends JPanel {
         paused=false;
         Player1Movement= new HashMap<>();
         Player2Movement= new HashMap<>();
-        this.mainMenuButton=mainMenuButton;;
+        this.mainMenuButton=mainMenuButton;
         this.board=board;
         this.settings=settings;
         background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
 
+        this.mainMenuButton.setVisible(false);
         add(mainMenuButton);
         handleKeyPresses();
         initializeHover();
