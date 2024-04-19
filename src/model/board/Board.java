@@ -74,9 +74,9 @@ public class Board {
         onlyOneAlive=false;
         player1Check=false;
         player2Check=false;
-        finalState= BOTH_ALIVE;
         state=BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         printCurrentStaticElements();
@@ -524,61 +524,59 @@ public class Board {
      * Checks the current status of the game, updating the state accordingly.
      */
     public void statusCheck() {
-        if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
-        if (finalState!=BOTH_ALIVE){
-            state=finalState;
-            return;
-        }
-        if (player1.isAlive() && player2.isAlive()) {
-            state=BOTH_ALIVE;
-        }else if (!player1.isAlive()) {
-            if (!onlyOneAlive){
-                player1Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }else if(!player2.isAlive()){
-            if (!onlyOneAlive){
-                player2Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }
+
+       if(state==BOTH_ALIVE) {
+           if (!player1.isAlive()) {
+               if (!onlyOneAlive) {
+                   player2Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+           if (!player2.isAlive()) {
+               if (!onlyOneAlive) {
+                   player1Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+       }
     }
 
-    /**
-     * Handles the end of a round, updating player points and determining the final winner.
-     */
-    public void roundEnd(){
-        if(state==PLAYER1_WON)player1.incrementPoints();
-        else player2.incrementPoints();
-
-        if(player1.getPoints()>numberOfRound/2 || player2.getPoints()>numberOfRound/2){
-            if(player1.getPoints()>player2.getPoints()) state=PLAYER1_FINAL_WIN;
-            else state=PLAYER2_FINAL_WIN;
-        }
-    }
 
     /**
      * Represents an ActionListener for the after death timer.
      */
-     class timerListener implements ActionListener {
+     class deathTimer implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(player1Check&&!player2Check){
-                if(player2.isAlive()){
-                    finalState=PLAYER2_WON;
-                }else{
-                    finalState=DRAW;
-                }
-            }else if(!player1Check&&player2Check){
-                if(player1.isAlive()){
-                    finalState=PLAYER1_WON;
-                }else{
-                    finalState=DRAW;
+            if(player1Check){
+                if(!player1.isAlive()){
+                    state=DRAW;
+                }else {
+                    player1.incrementPoints();
+                    if(player1.getPoints()>numberOfRound/2){
+                       state=PLAYER1_FINAL_WIN;
+                    }else{
+                        state=PLAYER1_WON;
+                    }
+
                 }
             }
+            if(player2Check){
+                if (!player2.isAlive()){
+                    state=DRAW;
+                }else{
+                    player2.incrementPoints();
+                    if(player2.getPoints()>numberOfRound/2){
+                        state=PLAYER2_FINAL_WIN;
+                    }else{
+                        state=PLAYER2_WON;
+                    }
+                }
+            }
+
         }
     }
 
@@ -623,8 +621,8 @@ public class Board {
     /**
      * Resets the game board to its initial state, including resetting elements and scores.
      */
-    public void reset() {
-        if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
+    public void reset(boolean newNewRound) {
+        state=BOTH_ALIVE;
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -634,9 +632,17 @@ public class Board {
         player1Check=false;
         player2Check=false;
         finalState= BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
-        int tempPlayer1Points=player1.getPoints();
-        int tempPlayer2Points=player2.getPoints();
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
+        int tempPlayer1Points;
+        int tempPlayer2Points;
+        if(newNewRound) {
+            tempPlayer1Points = 0;
+            tempPlayer2Points = 0;
+        }else{
+            tempPlayer1Points = player1.getPoints();
+            tempPlayer2Points = player2.getPoints();
+        }
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         player1.setPoints(tempPlayer1Points);

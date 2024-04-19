@@ -5,7 +5,9 @@ import view.ui.PlayerCustomizationPanel;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -19,7 +21,11 @@ public class Settings {
 
     private PlayerCustomizationPanel p1;
     private  PlayerCustomizationPanel p2;
+    private String player1Name;
+    private String player2Name;
+    private int[] keyBindings;
     private final String path = "src/control/control.txt";
+    boolean dummy=false;
 
     public Settings() {
         this.p1= new PlayerCustomizationPanel(1,this);
@@ -34,9 +40,43 @@ public class Settings {
         }
         load();
     }
-    public ArrayList<String> getSettings(){
-        try{
+
+    private int[] convertToEvent(ArrayList<String> settings) {
+        int[] events=new int[12];
+        int i=0;
+        for (String setting : settings) {
+
+            switch (setting){
+                case "DW":
+                    setting = "DOWN";
+                    break;
+                case "RG":
+                    setting = "RIGHT";
+                    break;
+                case "LF":
+                    setting = "LEFT";
+                    break;
+                default:
+                    break;
+            }
+            String code = "VK_" + setting.toUpperCase();
+            try {
+                Field f = KeyEvent.class.getField(code);
+                int keyEvent = f.getInt(null);
+                events[i]=keyEvent;
+                i++;
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        return events;
+    }
+    public void load(){
+        try {
             BufferedReader br = new BufferedReader(new FileReader(path));
+            if(dummy)System.out.println("?????");
+            else System.out.println("lllll");
             String[] line1=br.readLine().split(" ");
             String[] line2=br.readLine().split(" ");
             ArrayList<String> fileSettings=new ArrayList<>();
@@ -44,44 +84,37 @@ public class Settings {
                 fileSettings.add(line1[i]);
             }
             for (int i=1;i<7;i++){
-                //System.out.printf(line2[i]);
                 fileSettings.add(line2[i]);
             }
-            return fileSettings;
-        } catch (IOException e){
-            throw new RuntimeException(e);
-        }
 
-    }
-    private void load(){
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
-
-            String line=br.readLine();
-            String[] words=line.split(" ");
-            initialize(p1,words);
-
-            line=br.readLine();
-            words=line.split(" ");
-            initialize(p2,words);
+            player1Name=line2[0].replace("˘"," ");
+            player2Name=line1[0].replace("˘"," ");
+            keyBindings=convertToEvent(fileSettings);
+            initialize(p1,line1);
+            initialize(p2,line2);
             br.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
+
+
     private void initialize(PlayerCustomizationPanel p,String[] words){
         p.setPlayerName(words[0]);
         p.setControls(words);
     }
     public void write(int row,String[] settings) {
         try {
+             dummy=true;
             BufferedReader br = new BufferedReader(new FileReader(path));
             String line1= br.readLine();
             String line2= br.readLine();
             br.close();
             if(row==1){
-                line1=settings[0]+
+                line1=settings[0].replace(" ","˘")+
                         " "+
                         settings[1]+
                         " "+
@@ -95,7 +128,7 @@ public class Settings {
                         " "+
                         settings[6];
             }else{
-                line2=settings[0]+
+                line2=settings[0].replace(" ","˘")+
                         " "+
                         settings[1]+
                         " "+
@@ -151,5 +184,16 @@ public class Settings {
     }
     public PlayerCustomizationPanel getP2(){
         return p2;
+    }
+    public String getPlayer1Name() {
+        return player1Name;
+    }
+
+    public String getPlayer2Name() {
+        return player2Name;
+    }
+
+    public int[] getKeyBindings() {
+        return keyBindings;
     }
 }

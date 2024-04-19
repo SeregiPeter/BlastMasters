@@ -69,6 +69,7 @@ public class SemiIntelligentMonster extends Monster {
             this.currentDirection = closest != null ? closest : Direction.getDirectionExcept(this.currentDirection);
         }
 
+        //System.out.println(this.inIntersection() ? "IGEN" : "");
     }
 
     /**
