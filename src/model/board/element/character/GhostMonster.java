@@ -90,19 +90,11 @@ public class GhostMonster extends Monster {
         if(!hasToGoStraight) {
             changeDirectionRandomly();
         }
-
-
     }
 
-    /**
-     * Returns a string representation of the GhostMonster object.
-     *
-     * @return a string representing the ghost monster ("Gm")
-     */
-
     public boolean isThereEmptyField(Direction direction) {
-        int maxX = (Size.BOARD_WIDTH.getSize()-1)* Size.WALL_SIZE.getSize();
-        int maxY = (Size.BOARD_HEIGHT.getSize()-1)* Size.WALL_SIZE.getSize();
+        int maxX = (Size.BOARD_WIDTH.getSize()-1) * Size.WALL_SIZE.getSize();
+        int maxY = (Size.BOARD_HEIGHT.getSize()-1) * Size.WALL_SIZE.getSize();
 
         int checkPointX = this.x;
         int checkPointY = this.y;
@@ -118,7 +110,7 @@ public class GhostMonster extends Monster {
                     correct = false;
                 }
             }
-            if(correct) {
+            if (correct) {
                 emptyField = true;
                 break;
             }
@@ -129,6 +121,11 @@ public class GhostMonster extends Monster {
         return emptyField;
     }
 
+    /**
+     * Returns a string representation of the GhostMonster object.
+     *
+     * @return a string representing the ghost monster ("Gm")
+     */
     @Override
     public String toString() {
         return "Gm";

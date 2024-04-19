@@ -1,2 +1,2 @@
-fa 2 A S D R T
-bsdddd UP LF DW RG O P
+Player1 W A S D R T
+Player2 UP LF DW RG M P
