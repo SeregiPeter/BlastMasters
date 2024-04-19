@@ -3,7 +3,6 @@ package model.board.element.character;
 import control.Settings;
 import model.board.Board;
 import model.board.Direction;
-import model.board.Size;
 import model.board.Velocity;
 import model.board.element.Entity;
 import model.board.element.deposable.Bomb;
@@ -49,6 +48,7 @@ public class Player extends Entity {
     private boolean slowedDown;
     private boolean canPlaceBombs;
     private boolean rangeShrunk;
+    private boolean ghostPulsation;
     private int numberOfObstacles;
     private int bombRange;
     private Settings settings;
@@ -57,6 +57,8 @@ public class Player extends Entity {
     private ArrayList<Bomb> onBombs;
     private List<Image> images;
     private int imageChangeCounter = 0;
+    private int opacityChangeCounter = 0;
+    private float currentOpacity;
     // Define a threshold for image change frequency
     private int numberOfSlowDownBonuses = 0;
     private static final int IMAGE_CHANGE_THRESHOLD = 8;
@@ -64,6 +66,7 @@ public class Player extends Entity {
     private javax.swing.Timer coolDownTimerImmediately;
     private javax.swing.Timer coolDownTimerPacifist;
     private javax.swing.Timer coolDowmTimerGhost;
+    private javax.swing.Timer untilGhostPulsationTimer;
     private final javax.swing.Timer coolDownTimerSmallRange;
     boolean immediatelyHandicapActive;
 
@@ -103,11 +106,13 @@ public class Player extends Entity {
         this.settings = settings;
         this.immediatelyHandicapActive = false;
         this.rangeShrunk = false;
+        this.ghostPulsation = false;
         lastPlantedBomb = null;
         onBomb = false;
         bombRange = 2;
         this.explodable = true;
         onBombs = new ArrayList<>();
+        currentOpacity = 0.4f;
         callertimer = new javax.swing.Timer(100, new Caller());
         coolDownTimerImmediately = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDownTimerImmediately.setActionCommand("0");
@@ -121,6 +126,9 @@ public class Player extends Entity {
         coolDowmTimerGhost = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDowmTimerGhost.setActionCommand("3");
         coolDowmTimerGhost.setRepeats(false);
+        untilGhostPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
+        untilGhostPulsationTimer.setActionCommand("4");
+        untilGhostPulsationTimer.setRepeats(false);
     }
 
 
@@ -218,6 +226,7 @@ public class Player extends Entity {
     /* Így most folyamatosan tud lelépni a bombáról. Ha ugrásszerűen akarjuk,
     akkor overloadolni kéne a moveTowardsDirection-t úgy, hogy megkapja a visszalépés mértékét (a bomba méretét).*/
     public void move(Direction direction) {
+        if(!alive) return;
         imageChangeCounter++;
 
         if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
@@ -253,8 +262,8 @@ public class Player extends Entity {
         this.moveTowardsDirection(direction);
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         if (ghost) {
-            if (this.x < TILE_WIDTH.getSize() || this.x > ((BOARD_WIDTH.getSize()-1) * TILE_WIDTH.getSize())  || this.y < TILE_HEIGHT.getSize() ||
-                    this.y > ((BOARD_HEIGHT.getSize()-1) * TILE_HEIGHT.getSize())) {
+            if (this.x < TILE_WIDTH.getSize() || this.x + this.width > ((BOARD_WIDTH.getSize()-1) * TILE_WIDTH.getSize())  || this.y < TILE_HEIGHT.getSize() ||
+                    this.y + this.height > ((BOARD_HEIGHT.getSize()-1) * TILE_HEIGHT.getSize())) {
                 shouldBePlacedBack = true;
             }
             for (Entity entity : entities) {
@@ -475,6 +484,7 @@ public class Player extends Entity {
                     break;
                 case 3:                                     //Ghost bonus
                     ghost = false;
+                    ghostPulsation = false;
                     ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
                     for (Entity entity : entities) {
                         if (collides(entity)) {
@@ -485,6 +495,11 @@ public class Player extends Entity {
                             }
                         }
                     }
+                    break;
+                case 4:
+                    opacityChangeCounter = 0;
+                    ghostPulsation = true;
+                    break;
             }
         }
     }
@@ -499,10 +514,34 @@ public class Player extends Entity {
 
     public void useGhostBonus() {
         if (ghost) {
+            ghostPulsation = false;
             coolDowmTimerGhost.restart();
+            untilGhostPulsationTimer.restart();
         } else {
             ghost = true;
             coolDowmTimerGhost.start();
+            untilGhostPulsationTimer.start();
+        }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        if(this.visible) {
+            Graphics2D g2d = (Graphics2D) g.create();
+            if (this.ghost && !ghostPulsation) {
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+                opacityChangeCounter++;
+            } else if (this.ghost && ghostPulsation) {
+                opacityChangeCounter++;
+                g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, currentOpacity));
+                if (opacityChangeCounter >= 40) {
+                    float newOpacity = currentOpacity == 1f ? 0.4f : 1f;
+                    currentOpacity = newOpacity;
+                    opacityChangeCounter = 0;
+                }
+            }
+            g2d.drawImage(image, x, y, width, height, null);
+            g2d.dispose();
         }
     }
 
