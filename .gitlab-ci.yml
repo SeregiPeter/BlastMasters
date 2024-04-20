@@ -4,4 +4,4 @@ stages:
 build:
   stage: build
   script:
-    -mvn --version
+    - mvn run
