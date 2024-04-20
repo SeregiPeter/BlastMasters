@@ -1,11 +1,16 @@
 package view.ui;
+import control.Settings;
+
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.imageio.ImageIO;
 
 /**
@@ -13,7 +18,9 @@ import javax.imageio.ImageIO;
  * The PlayerCustomizationPanel class provides a panel where players can customize their character's name
  * and control keys.
  */
-public class PlayerCustomizationPanel extends JPanel {
+public class PlayerCustomizationPanel extends JPanel implements KeyListener {
+    private final int id;
+    private final Settings settings;
     private JTextField playerNameField;
     private JLabel characterPreviewLabel;
     private JTextField controlWTextField;
@@ -25,7 +32,7 @@ public class PlayerCustomizationPanel extends JPanel {
     private JButton editButton;
     private JButton saveButton;
     private String initialPlayerName;
-    private String initialControls;
+    private String[] initialControls;
 
     Color lighterBlue = new Color(51, 206, 250);
     private Border editableBorder = BorderFactory.createLineBorder(lighterBlue, 2);
@@ -34,8 +41,10 @@ public class PlayerCustomizationPanel extends JPanel {
      * Constructs a new PlayerCustomizationPanel with text fields and buttons for customization.
      * Initializes the panel with default player name and control keys.
      */
-    public PlayerCustomizationPanel() {
+    public PlayerCustomizationPanel(int id, Settings settings) {
 
+        this.id=id;
+        this.settings=settings;
         UIManager.put("Panel.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("Label.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("TextField.font", new Font("Trebuchet MS", Font.BOLD, 22));
@@ -43,6 +52,7 @@ public class PlayerCustomizationPanel extends JPanel {
 
 
         setLayout(new GridLayout(7, 1));
+        setPreferredSize(new Dimension(150,1000));
         setOpaque(false);
 
         playerNameField = new JTextField("Player 1");
@@ -50,6 +60,7 @@ public class PlayerCustomizationPanel extends JPanel {
         playerNameField.setHorizontalAlignment(JTextField.CENTER);
         playerNameField.setOpaque(false);
         playerNameField.setEditable(false);
+
 
         characterPreviewLabel = new JLabel();
         characterPreviewLabel.setOpaque(false);
@@ -97,6 +108,13 @@ public class PlayerCustomizationPanel extends JPanel {
         controlWallTextField.setHorizontalAlignment(JTextField.CENTER);
         controlWallTextField.setBorder(null);
 
+        controlWTextField.addKeyListener(this);
+        controlATextField.addKeyListener(this);
+        controlSTextField.addKeyListener(this);
+        controlDTextField.addKeyListener(this);
+        controlBoxTextField.addKeyListener(this);
+        controlWallTextField.addKeyListener(this);
+
         JLabel bombLabel = new JLabel("Bomb:");
         bombLabel.setFont(new Font("Trebuchet MS", Font.BOLD, 24));
         bombLabel.setHorizontalAlignment(JLabel.RIGHT);
@@ -114,9 +132,12 @@ public class PlayerCustomizationPanel extends JPanel {
         saveButton.setForeground(Color.white);
         saveButton.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
         editButton.setFont(new Font("Trebuchet MS", Font.BOLD, 16));
+        editButton.setPreferredSize(new Dimension(70, 50));
+        saveButton.setPreferredSize(new Dimension(70, 50));
 
         controlButtonsPanel.add(editButton);
         controlButtonsPanel.add(saveButton);
+        controlButtonsPanel.setSize(getWidth(),getHeight());
 
         moveControlsPanel.add(new JLabel());
         moveControlsPanel.add(controlWTextField);
@@ -138,7 +159,7 @@ public class PlayerCustomizationPanel extends JPanel {
         add(controlButtonsPanel);
 
         try {
-            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman1.png")));
+            ImageIcon bombermanIcon = new ImageIcon(ImageIO.read(new File("src/resources/assets/menu/bomberman2.png")));
             Image image = bombermanIcon.getImage().getScaledInstance(110, 110, Image.SCALE_SMOOTH);
             ImageIcon scaledIcon = new ImageIcon(image);
             characterPreviewLabel.setIcon(scaledIcon);
@@ -175,7 +196,7 @@ public class PlayerCustomizationPanel extends JPanel {
                     if (!playerNameField.getText().equals(initialPlayerName)) {
                         playerNameField.setText(initialPlayerName);
                     }
-                    if (!getControls().equals(initialControls)) {
+                    if (!Arrays.equals(getControls(), initialControls)) {
                         setControls(initialControls);
                     }
 
@@ -210,6 +231,10 @@ public class PlayerCustomizationPanel extends JPanel {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(settings.compare()){
+                    return;
+                }
+                settings.write(id,getControls());
                 playerNameField.setEditable(false);
                 controlWTextField.setEditable(false);
                 controlATextField.setEditable(false);
@@ -229,15 +254,23 @@ public class PlayerCustomizationPanel extends JPanel {
         });
     }
 
+
+
     /**
      * Retrieves the customized control keys as a concatenated string.
      *
      * @return A string representing the customized control keys.
      */
-    public String getControls() {
-        return controlWTextField.getText() + controlATextField.getText() +
-                controlSTextField.getText() + controlDTextField.getText() + controlBoxTextField.getText() +
-                controlWallTextField.getText();
+    public String[] getControls() {
+        return new String[]{
+                playerNameField.getText(),
+                controlWTextField.getText(),
+                controlATextField.getText(),
+                controlSTextField.getText(),
+                controlDTextField.getText(),
+                controlBoxTextField.getText(),
+                controlWallTextField.getText()
+        };
 
     }
 
@@ -268,12 +301,43 @@ public class PlayerCustomizationPanel extends JPanel {
      *
      * @param controls A string representing the customized control keys.
      */
-    public void setControls(String controls) {
-        controlWTextField.setText(controls.substring(0, 1));
-        controlATextField.setText(controls.substring(1, 2));
-        controlSTextField.setText(controls.substring(2, 3));
-        controlDTextField.setText(controls.substring(3, 4));
-        controlBoxTextField.setText(controls.substring(4, 5));
-        controlWallTextField.setText(controls.substring(5));
+    public void setControls(String[] controls) {
+        controlWTextField.setText(controls[1]);
+        controlATextField.setText(controls[2]);
+        controlSTextField.setText(controls[3]);
+        controlDTextField.setText(controls[4]);
+        controlBoxTextField.setText(controls[5]);
+        controlWallTextField.setText(controls[6]);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        JTextField source = (JTextField) e.getSource();
+
+        int keyCode = e.getKeyCode();
+        switch (keyCode){
+            case KeyEvent.VK_UP:
+                source.setText("UP");
+                break;
+            case KeyEvent.VK_DOWN:
+                source.setText("DW");
+                break;
+            case KeyEvent.VK_LEFT:
+                source.setText("LF");
+                break;
+            case KeyEvent.VK_RIGHT:
+                source.setText("RG");
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
     }
 }

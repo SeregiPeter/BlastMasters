@@ -1,8 +1,18 @@
 package model.board.element.character;
 
 import model.board.Board;
+import model.board.Direction;
+import model.board.Size;
+import model.board.element.Empty;
+import model.board.element.Entity;
+import model.board.element.deposable.Bomb;
+import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
+import model.board.element.field.Wall;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -35,7 +45,31 @@ public class SemiIntelligentMonster extends Monster {
      */
     @Override
     public void move() {
+        this.moveTowardsDirection(currentDirection);
+        ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
 
+        boolean needToChangeDirection = false;
+        for(Entity entity : entites) {
+            if(((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb)) && this.collides(entity)) {
+                needToChangeDirection = true;
+                break;
+            }
+            if(entity instanceof Flame && entity.collides(this)) {
+                this.alive = false;
+                this.removable=true;
+            }
+            if(entity instanceof Player && entity.collides(this)) {
+                entity.setAlive(false);                                     //may violate the oop
+            }
+        }
+
+        if(needToChangeDirection) {
+            this.moveTowardsDirection(Direction.getOppositeDirection(this.currentDirection));
+            Direction closest = getClosestPlayerDirection();
+            this.currentDirection = closest != null ? closest : Direction.getDirectionExcept(this.currentDirection);
+        }
+
+        //System.out.println(this.inIntersection() ? "IGEN" : "");
     }
 
     /**
@@ -43,6 +77,7 @@ public class SemiIntelligentMonster extends Monster {
      *
      * @return a string representation of the SemiIntelligentMonster ("Sm")
      */
+
     @Override
     public String toString() {
         return "Sm";

@@ -1,16 +1,14 @@
 package model.board;
 
+import model.board.element.Empty;
 import model.board.element.Entity;
 import model.board.element.character.*;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
-import model.board.element.powerup.benefit.BiggerRangeBonus;
-import model.board.element.powerup.benefit.DetonatorBonus;
-import model.board.element.powerup.benefit.MaxBombsBonus;
-import model.board.element.powerup.benefit.RollerBonus;
-import model.board.element.powerup.handicap.SlowDownBonus;
+import model.board.element.powerup.benefit.*;
+import model.board.element.powerup.handicap.*;
 import view.state.GameState;
 
 import javax.swing.*;
@@ -50,6 +48,7 @@ public class Board {
     private ArrayList<Box> boxes;
     private ArrayList<Bonus> bonuses;
     private ArrayList<Bomb> bombs;
+    private Entity[][] staticElements;
 
     /**
      * Constructs a game board with the specified size, path to the map file, and selected map index.
@@ -59,7 +58,7 @@ public class Board {
      * @param selectedMapIndex the index of the selected map
      * @throws IOException if an I/O error occurs
      */
-    public Board(int boardSize, String path, int selectedMapIndex) throws IOException {
+    public Board(int boardSize, String path, int selectedMapIndex, int numberOfRound) throws IOException {
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -68,15 +67,16 @@ public class Board {
         this.boardSize = boardSize;
         this.selectedMapIndex = selectedMapIndex;
         this.path=path;
-        this.numberOfRound=3;                       //temporary initialization!!!!
+        this.numberOfRound=numberOfRound;
         onlyOneAlive=false;
         player1Check=false;
         player2Check=false;
-        finalState= BOTH_ALIVE;
         state=BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
+        printCurrentStaticElements();
 
     }
 
@@ -90,6 +90,7 @@ public class Board {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
             boardElements = new ArrayList<>();
+            staticElements = new Entity[BOARD_HEIGHT.getSize()][BOARD_WIDTH.getSize()];
             int row = 0;
             String line;
             while ((line = br.readLine()) != null) {
@@ -103,59 +104,84 @@ public class Board {
                                     getWallImage(selectedMapIndex).getImage(), false, true);
                             boardElements.add(wall);
                             walls.add(wall);
+                            staticElements[row][col] = wall;
+                            break;
+                        case 'E':
+                            Empty empty = new Empty(x,y,TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            staticElements[row][col] = empty;
                             break;
                         case 'B':
                             Box box = new Box(x, y, BOX_SIZE.getSize(), BOX_SIZE.getSize(), BOX_VEL.getVelocity(),
                                     getBoxImage(selectedMapIndex).getImage(), false, true, null, this);
                             boardElements.add(box);
                             boxes.add(box);
+                            staticElements[row][col] = box;
                             break;
                         case 'M':
                             BasicMonster basicMonster = new BasicMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex), true, true, this);
                             boardElements.add(basicMonster);
                             monsters.add(basicMonster);
-                            break;
-                            /*
-                        case 'G':
-                            GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                            boardElements.add(ghostMonster);
-                            monsters.add(ghostMonster);
-                            break;
-                        case 'S':
-                            SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(),
-                                    MONSTER_SIZE.getSize(), MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                            boardElements.add(semiIntelligentMonster);
-                            monsters.add(semiIntelligentMonster);
-                            break;
-                        case 'I':
-                            IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    MONSTER_VEL.getVelocity(), getMonsterImage(selectedMapIndex).getImage(), true, true, this);
-                            boardElements.add(intelligentMonster);
-                            monsters.add(intelligentMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
 
-                             */
+                        case 'G':
+                            GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    GHOST_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(GHOST_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                            boardElements.add(ghostMonster);
+                            monsters.add(ghostMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            break;
+
+                        case 'S':
+                            SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    SEMI_INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(SEMI_INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                            boardElements.add(semiIntelligentMonster);
+                            monsters.add(semiIntelligentMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            break;
+
+
+                        case 'I':
+                            IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                                    INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                            boardElements.add(intelligentMonster);
+                            monsters.add(intelligentMonster);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                            break;
+
+
                         case '1':
                             List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
+                            List<String> player1ImmortalImgUrls = PLAYER1_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player1Images = new ArrayList<>();
+                            List<java.awt.Image> player1ImmortalImages = new ArrayList<>();
                             for (String url : player1ImageUrls) {
                                 player1Images.add(new ImageIcon(url).getImage());
                             }
+                            for (String url : player1ImmortalImgUrls) {
+                                player1ImmortalImages.add(new ImageIcon(url).getImage());
+                            }
                             player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player1Images, true, true, "Player1", this, null);
+                                    player1Images, player1ImmortalImages,true, true, "Player1", this, null);
                             boardElements.add(player1);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
                         case '2':
                             List<String> player2ImageUrls = Image.PLAYER2_IMG.getImageUrls();
+                            List<String> player2ImmortalImgUrls = PLAYER2_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player2Images = new ArrayList<>();
+                            List<java.awt.Image> player2ImmortalImages = new ArrayList<>();
                             for (String url : player2ImageUrls) {
                                 player2Images.add(new ImageIcon(url).getImage());
                             }
+                            for (String url : player2ImmortalImgUrls) {
+                                player2ImmortalImages.add(new ImageIcon(url).getImage());
+                            }
                             player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player2Images, true, true, "Player2", this, null);
+                                    player2Images, player2ImmortalImages, true, true, "Player2", this, null);
                             boardElements.add(player2);
+                            staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
                     }
                     col++;
@@ -303,12 +329,20 @@ public class Board {
         this.player1.plantBomb();
     }
 
+    public void player1PlantsBox() {
+        this.player1.plantBox();
+    }
+
     /**
      * Initiates the action of player 2 planting a bomb on the game board.
      * This method delegates the bomb planting action to the player 2 instance.
      */
     public void player2PlantsBomb() {
         this.player2.plantBomb();
+    }
+
+    public void player2PlantsBox() {
+        this.player2.plantBox();
     }
 
     /**
@@ -402,6 +436,10 @@ public class Board {
         bombs.add(bomb);
     }
 
+    public void addBox(Box box) {
+        boxes.add(box);
+    }
+
     /**
      * Adds an entity to the list of entities on the game board.
      *
@@ -426,7 +464,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(5); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(11); // Az eddig elkészült bónuszok száma
         Bonus bonus = null;
         switch(randomNumber) {
             case 0:
@@ -444,7 +482,24 @@ public class Board {
             case 4:
                 bonus = new DetonatorBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(DETONATOR_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
                 break;
-
+            case 5:
+                bonus = new PlaceBombsImmediatelyBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMEDIATELY_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 6:
+                bonus = new NoBombsBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(PACIFIST_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 7:
+                bonus = new SmallerRangeBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(SMALLERRANGE_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 8:
+                bonus = new GhostBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(GHOST_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 9:
+                bonus = new BoxBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(BOX_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
+            case 10:
+                bonus = new ImmortalityBonus(box.getX(), box.getY(), BONUS_SIZE.getSize(), BONUS_SIZE.getSize(), BONUS_VEL.getVelocity(), new ImageIcon(IMMORTALITY_BONUS_IMG.getImageUrl()).getImage(), false, false, null);
+                break;
         }
         box.setBonus(bonus);
         boardElements.add(bonus);
@@ -455,71 +510,78 @@ public class Board {
      * Removes entities marked as removable from the game board.
      */
     public void removeRemovableEntities() {
-        ArrayList<Entity> removables = new ArrayList<>();
+        ArrayList<Entity> removableElements = new ArrayList<>();
+        ArrayList<Monster> removableMonsters = new ArrayList<>();
         ArrayList<Entity> elements = new ArrayList<>(boardElements);
+        ArrayList<Monster> monsters2 = new ArrayList<>(monsters);
         for(Entity entity : elements) {
-            if(entity.isRemovable()) removables.add(entity);
+            if(entity.isRemovable()) {
+                removableElements.add(entity);
+                if(entity instanceof Box || entity instanceof Bomb || entity instanceof Player) {
+                    staticElements[entity.getRow()][entity.getColumn()] = new Empty(entity.getX(), entity.getY(), TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
+                }
+            }
+
         }
-        boardElements.removeAll(removables);
+        for(Monster monster : monsters2) {
+            if(monster.isRemovable()) removableMonsters.add(monster);
+        }
+        boardElements.removeAll(removableElements);
+        monsters.removeAll(removableMonsters);
     }
 
     /**
      * Checks the current status of the game, updating the state accordingly.
      */
     public void statusCheck() {
-        if(state==PLAYER1_FINAL_WIN||state==PLAYER2_FINAL_WIN)return;
-        if (finalState!=BOTH_ALIVE){
-            state=finalState;
-            return;
-        }
-        if (player1.isAlive() && player2.isAlive()) {
-            state=BOTH_ALIVE;
-        }else if (!player1.isAlive()) {
-            if (!onlyOneAlive){
-                player1Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }else if(!player2.isAlive()){
-            if (!onlyOneAlive){
-                player2Check=true;
-                onlyOneAlive = true;
-                afterDeathTimer.start();
-            }
-        }
-    }
-
-    /**
-     * Handles the end of a round, updating player points and determining the final winner.
-     */
-    public void roundEnd(){
-        if(state==PLAYER1_WON)player1.incrementPoints();
-        else player2.incrementPoints();
-
-        if(player1.getPoints()>numberOfRound/2 || player2.getPoints()>numberOfRound/2){
-            if(player1.getPoints()>player2.getPoints()) state=PLAYER1_FINAL_WIN;
-            else state=PLAYER2_FINAL_WIN;
-        }
+       if(state==BOTH_ALIVE) {
+           if (!player1.isAlive()) {
+               if (!onlyOneAlive) {
+                   player2Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+           if (!player2.isAlive()) {
+               if (!onlyOneAlive) {
+                   player1Check = true;
+                   onlyOneAlive = true;
+                   afterDeathTimer.start();
+               }
+           }
+       }
     }
 
     /**
      * Represents an ActionListener for the after death timer.
      */
-     class timerListener implements ActionListener {
+     class deathTimer implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if(player1Check&&!player2Check){
-                if(player2.isAlive()){
-                    finalState=PLAYER2_WON;
-                }else{
-                    finalState=DRAW;
+            if(player1Check){
+                if(!player1.isAlive()){
+                    state=DRAW;
+                }else {
+                    player1.incrementPoints();
+                    if(player1.getPoints()>numberOfRound/2){
+                       state=PLAYER1_FINAL_WIN;
+                    }else{
+                        state=PLAYER1_WON;
+                    }
+
                 }
-            }else if(!player1Check&&player2Check){
-                if(player1.isAlive()){
-                    finalState=PLAYER1_WON;
+            }
+            if(player2Check){
+                if (!player2.isAlive()){
+                    state=DRAW;
                 }else{
-                    finalState=DRAW;
+                    player2.incrementPoints();
+                    if(player2.getPoints()>numberOfRound/2){
+                        state=PLAYER2_FINAL_WIN;
+                    }else{
+                        state=PLAYER2_WON;
+                    }
                 }
             }
         }
@@ -566,8 +628,8 @@ public class Board {
     /**
      * Resets the game board to its initial state, including resetting elements and scores.
      */
-    public void reset() {
-        if(state!=PLAYER1_FINAL_WIN &&state!=PLAYER2_FINAL_WIN) state=BOTH_ALIVE;
+    public void reset(boolean newNewRound) {
+        state=BOTH_ALIVE;
         monsters = new ArrayList<>();
         walls = new ArrayList<>();
         boxes = new ArrayList<>();
@@ -577,12 +639,38 @@ public class Board {
         player1Check=false;
         player2Check=false;
         finalState= BOTH_ALIVE;
-        afterDeathTimer = new javax.swing.Timer(3*1000, new timerListener());
-        int tempPlayer1Points=player1.getPoints();
-        int tempPlayer2Points=player2.getPoints();
+        afterDeathTimer = new javax.swing.Timer(3*1000, new deathTimer());
+        afterDeathTimer.setRepeats(false);
+        int tempPlayer1Points;
+        int tempPlayer2Points;
+        if(newNewRound) {
+            tempPlayer1Points = 0;
+            tempPlayer2Points = 0;
+        }else{
+            tempPlayer1Points = player1.getPoints();
+            tempPlayer2Points = player2.getPoints();
+        }
         initialize(path, selectedMapIndex);
         putBonusesInBoxes();
         player1.setPoints(tempPlayer1Points);
         player2.setPoints(tempPlayer2Points);
+    }
+
+
+    public Entity[][] getStaticElements() {
+        return staticElements;
+    }
+
+    public void printCurrentStaticElements() {
+        for(Entity[] row : staticElements) {
+            for(Entity entity : row) {
+                System.out.print((entity != null ? entity : "E") + "\t");
+            }
+            System.out.println();
+        }
+    }
+
+    public void addStaticElement(Entity entity, int row, int col) {
+        staticElements[row][col] = entity;
     }
 }

@@ -7,6 +7,9 @@ import model.board.element.deposable.Bomb;
 import java.awt.*;
 import java.util.Objects;
 
+import static model.board.Size.TILE_HEIGHT;
+import static model.board.Size.TILE_WIDTH;
+
 /**
  * A base class representing entities on the game board.
  */
@@ -23,6 +26,7 @@ public abstract class Entity {
     protected int id;
     protected static int entityCounter = 0;
     protected boolean removable;
+    protected Direction dir;
 
     /**
      * Constructs an Entity with the specified parameters.
@@ -47,6 +51,7 @@ public abstract class Entity {
         this.visible = visible;
         this.id = ++entityCounter;
         this.removable = false;
+        this.dir = null;
     }
 
     /**
@@ -298,5 +303,40 @@ public abstract class Entity {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    /**
+     * Gets the center coordinate of the entity.
+     *
+     * @return the center coordinate as a Point object
+     */
+    public Point getCenterCoordinate() {
+        return new Point((x+(width/2)), (y+(height/2)));
+    }
+
+    /**
+     * Gets the column index of the entity on the game board.
+     *
+     * @return the column index of the entity
+     */
+    public int getColumn() {
+        return (int)getCenterCoordinate().getX()/TILE_WIDTH.getSize();
+    }
+
+    /**
+     * Gets the row index of the entity on the game board.
+     *
+     * @return the row index of the entity
+     */
+    public int getRow() {
+        return (int)getCenterCoordinate().getY()/TILE_HEIGHT.getSize();
+    }
+
+    public Direction getDir() {
+        return dir;
+    }
+
+    public void setDir(Direction dir) {
+        this.dir = dir;
     }
 }

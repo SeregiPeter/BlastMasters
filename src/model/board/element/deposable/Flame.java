@@ -9,7 +9,6 @@ import model.board.element.powerup.Bonus;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -62,31 +61,36 @@ public class Flame extends Entity {
         Bonus bonus = null;
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         for(Entity entity : entities) {
-            if(entity.collides(this)) {
-                if(entity.isExplodable()) {
-                    entity.setRemovable(true);
-                    System.out.println(entity);
-                    if(entity instanceof Box) {
-                        if(((Box) entity).getBonus() != null) {
-                            bonus = ((Box) entity).getBonus();
-                            bonus.setExplodable(true);
-                            bonus.setVisible(true);
-                            board.addEntity(bonus);
-                        }
-                        return false;
-                    }
-                    if(entity instanceof Player) {
-                        entity.setAlive(false);
-                    }
-                }
-                if(entity instanceof Wall) return false;
-                if(entity instanceof Bomb) {
-                    ((Bomb) entity).explode();
-                }
+            if (entity != null) {
+                if(entity.collides(this)) {
+                    if(entity.isExplodable()) {
+                        entity.setRemovable(true);
+                        System.out.println(entity);
+                        if(entity instanceof Box) {
+                            if(((Box) entity).getOwner() != null){
+                                ((Box) entity).giveBoxToPlayer();
+                            }
 
+                            if(((Box) entity).getBonus() != null) {
+                                bonus = ((Box) entity).getBonus();
+                                bonus.setExplodable(true);
+                                bonus.setVisible(true);
+                                board.addEntity(bonus);
+                            }
+                            return false;
+                        }
+                        if(entity instanceof Player) {
+                            entity.setAlive(false);
+                        }
+                    }
+                    if(entity instanceof Wall) return false;
+                    if(entity instanceof Bomb) {
+                        ((Bomb) entity).explode();
+                    }
+                }
             }
         }
-        //expandOneTile();
+
         return true;
     }
 
