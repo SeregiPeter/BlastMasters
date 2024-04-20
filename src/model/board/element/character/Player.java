@@ -313,7 +313,7 @@ public class Player extends Entity {
         } else {
             // Perform movement logic
             for (Entity entity : entities) {
-                if (((entity instanceof Wall) || (entity instanceof Box) || (entity instanceof Bomb && !onBombs.contains(entity))) && this.collides(entity)) {
+                if (((entity instanceof Wall) || (entity instanceof Box && !onBoxes.contains(entity))  || (entity instanceof Bomb && !onBombs.contains(entity))) && this.collides(entity)) {
                     shouldBePlacedBack = true;
                     break;
                 }
