@@ -36,10 +36,10 @@ public enum Velocity {
     /**
      * Represents the velocity of a monster.
      */
-    MONSTER_VEL(0),
-    SEMI_INTELLIGENT_MONSTER_VEL(0),
-    INTELLIGENT_MONSTER_VEL(0),
-    GHOST_MONSTER_VEL(0); // Todo az alap szörnynél lassabb kéne legyen, de 1-nél lassabbat nem lehet jelenleg beállítani :(
+    MONSTER_VEL(1),
+    SEMI_INTELLIGENT_MONSTER_VEL(1),
+    INTELLIGENT_MONSTER_VEL(1),
+    GHOST_MONSTER_VEL(1); // Todo az alap szörnynél lassabb kéne legyen, de 1-nél lassabbat nem lehet jelenleg beállítani :(
 
     private final double velocity;
 

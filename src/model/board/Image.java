@@ -33,21 +33,21 @@ public enum Image {
             "src/resources/assets/entities/bomberman1/bomberman1w4.png"
     )),
 
-    PLAYER1_GHOST_IMG(Arrays.asList(
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1e1.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1e2.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1e3.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1e4.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1n1.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1n2.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1n3.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1s1.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1s2.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1s3.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1w1.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1w2.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1w3.png",
-            "src/resources/assets/entities/bomberman1/ghostBonusActive/bomberman1w4.png"
+    PLAYER1_IMMORTAL_IMG(Arrays.asList(
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e1.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e2.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e3.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e4.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1n1.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1n2.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1n3.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1s1.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1s2.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1s3.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w1.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w2.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w3.png",
+            "src/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w4.png"
     )),
 
     /**
@@ -70,21 +70,21 @@ public enum Image {
             "src/resources/assets/entities/bomberman2/bomberman2w4.png"
     )),
 
-    PLAYER2_GHOST_IMG(Arrays.asList(
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2e1.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2e2.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2e3.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2e4.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2n1.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2n2.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2n3.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2s1.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2s2.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2s3.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2w1.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2w2.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2w3.png",
-            "src/resources/assets/entities/bomberman2/ghostBonusActive/bomberman2w4.png"
+    PLAYER2_IMMORTAL_IMG(Arrays.asList(
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2e1.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2e2.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2e3.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2e4.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2n1.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2n2.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2n3.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2s1.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2s2.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2s3.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w1.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w2.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w3.png",
+            "src/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w4.png"
     )),
 
     /**
@@ -211,6 +211,7 @@ public enum Image {
     SLOW_DOWN_BONUS_IMG("src/resources/assets/bonuses/slow_down.png"),
     DETONATOR_BONUS_IMG("src/resources/assets/bonuses/detonator.png"),
     GHOST_BONUS_IMG("src/resources/assets/bonuses/ghostbonus.png"),
+    IMMORTALITY_BONUS_IMG("src/resources/assets/bonuses/immortalitybonus.png"),
     FLAME_RIGHT_IMG("src/resources/assets/flame_right.png"),
     FLAME_DOWN_IMG("src/resources/assets/flame_down.png"),
     FLAME_UP_IMG("src/resources/assets/flame_up.png"),
