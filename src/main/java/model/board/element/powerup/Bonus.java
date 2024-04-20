@@ -31,7 +31,7 @@ public abstract class Bonus extends Entity {
      * @param visible the visibility status of the bonus
      * @param owner   the player who owns the bonus
      */
-    public Bonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public Bonus(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.owner = owner;
         this.explodable = false;

@@ -32,7 +32,7 @@ public class GhostMonster extends Monster {
      * @param visible  the status indicating if the monster is visible
      * @param board    the game board the monster belongs to
      */
-    public GhostMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
+    public GhostMonster(double x, double y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, images, alive, visible, board);
         hasToGoStraight = false;
     }
@@ -96,8 +96,8 @@ public class GhostMonster extends Monster {
         int maxX = (Size.BOARD_WIDTH.getSize()-1) * Size.WALL_SIZE.getSize();
         int maxY = (Size.BOARD_HEIGHT.getSize()-1) * Size.WALL_SIZE.getSize();
 
-        int checkPointX = this.x;
-        int checkPointY = this.y;
+        double checkPointX = this.x;
+        double checkPointY = this.y;
 
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
 

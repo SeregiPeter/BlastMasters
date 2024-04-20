@@ -25,7 +25,7 @@ public class BiggerRangeBonus extends Bonus {
      * @param visible the visibility status of the bonus
      * @param owner   the player who owns the bonus
      */
-    public BiggerRangeBonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public BiggerRangeBonus(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible, owner);
     }
 

@@ -41,7 +41,7 @@ public class Flame extends Entity {
      * @param numberOfExpansions The number of expansions the Flame should make.
      * @param bomb              The Bomb object that triggered the Flame.
      */
-    public Flame(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board, Direction direction, int numberOfExpansions, Bomb bomb) {
+    public Flame(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board, Direction direction, int numberOfExpansions, Bomb bomb) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.explodable = false;
         this.board = board;

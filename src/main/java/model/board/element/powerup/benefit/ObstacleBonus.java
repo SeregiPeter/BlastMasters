@@ -6,7 +6,7 @@ import model.board.element.powerup.Bonus;
 import java.awt.*;
 
 public class ObstacleBonus extends Bonus {
-    public ObstacleBonus(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
+    public ObstacleBonus(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Player owner) {
         super(x, y, width, height, velocity, image, alive, visible, owner);
     }
 
