@@ -46,7 +46,7 @@ public class Bomb extends Entity {
      * @param owner   The player who owns the bomb.
      * @param board   The game board where the bomb exists.
      */
-    public Bomb(int x, int y, int width, int height, double velocity, int range, List<Image> images, boolean alive, boolean visible, Player owner, Board board) {
+    public Bomb(double x, double y, int width, int height, double velocity, int range, List<Image> images, boolean alive, boolean visible, Player owner, Board board) {
         super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, images.get(0), alive, visible);
         this.images=images;
         this.owner = owner;
