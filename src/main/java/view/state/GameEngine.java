@@ -314,8 +314,17 @@ public class GameEngine extends JPanel {
      * ActionListener for updating the game state and rendering the frame.
      */
     class FrameListener implements ActionListener {
+        private final int TARGET_FPS = 120;
+        private final long OPTIMAL_TIME = 1000000000 / TARGET_FPS;
+
+        private long lastUpdateTime;
+
         @Override
         public void actionPerformed(ActionEvent ae) {
+            long now = System.nanoTime();
+            long updateLength = now - lastUpdateTime;
+            lastUpdateTime = now;
+            double delta = updateLength / ((double) OPTIMAL_TIME);
 
             repaint();
             board.statusCheck();
@@ -324,6 +333,15 @@ public class GameEngine extends JPanel {
                 return;
             }
             handleGameState(board.getGameState());
+
+            try {
+                long sleepTime = (lastUpdateTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
+                if (sleepTime > 0) {
+                    Thread.sleep(sleepTime);
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
