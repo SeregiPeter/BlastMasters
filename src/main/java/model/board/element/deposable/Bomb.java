@@ -9,6 +9,7 @@ import model.board.element.field.Wall;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +27,10 @@ public class Bomb extends Entity {
     private Player owner;
     private Board board;
     private int range;
+    private List<Image> images;
+    private int imageChangeCounter = 0;
+
+    private static final int IMAGE_CHANGE_THRESHOLD = 8;
 
     /**
      * Creates a new Bomb instance.
@@ -35,14 +40,15 @@ public class Bomb extends Entity {
      * @param width   The width of the bomb.
      * @param height  The height of the bomb.
      * @param velocity The velocity of the bomb.
-     * @param image   The image of the bomb.
+     * @param images   The image of the bomb.
      * @param alive   The status of the bomb's existence.
      * @param visible The visibility of the bomb.
      * @param owner   The player who owns the bomb.
      * @param board   The game board where the bomb exists.
      */
-    public Bomb(double x, double y, int width, int height, double velocity, int range, Image image, boolean alive, boolean visible, Player owner, Board board) {
-        super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, image, alive, visible);
+    public Bomb(int x, int y, int width, int height, double velocity, int range, List<Image> images, boolean alive, boolean visible, Player owner, Board board) {
+        super(x, y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), velocity, images.get(0), alive, visible);
+        this.images=images;
         this.owner = owner;
         this.board = board;
         this.explodable = true;
@@ -53,6 +59,8 @@ public class Bomb extends Entity {
      * Plants the bomb on the game board.
      * Initiates a timer for the bomb to explode after a set duration.
      */
+
+
     public void plant() {
         this.setVisible(true);
         board.addEntity(this);
@@ -70,10 +78,23 @@ public class Bomb extends Entity {
                 if (!detonated) {
                     explode();
                 }
-
             }
-        }, 3 * 1000);                   // after 4 sec the bomb explodes
+        }, 4 * 1000);
+
+        Timer imageTimer = new Timer();
+        imageTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if (imageChangeCounter >= images.size()) {
+                    imageChangeCounter = 0;
+                }
+
+                image = images.get(imageChangeCounter);
+                imageChangeCounter++;
+            }
+        }, 0, 4000 / images.size());
     }
+
 
     /**
      * Retrieves the entity at the specified coordinates on the board.
