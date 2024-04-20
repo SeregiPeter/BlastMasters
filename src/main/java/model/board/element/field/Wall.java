@@ -23,7 +23,7 @@ public class Wall extends Entity {
      * @param alive   the status indicating if the wall is alive
      * @param visible the status indicating if the wall is visible
      */
-    public Wall(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
+    public Wall(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.explodable = false;
     }

@@ -94,7 +94,7 @@ public class Player extends Entity {
      * @param board    the game board the player belongs to
      * @param settings the game settings
      */
-    public Player(int x, int y, int width, int height, double velocity, List<Image> images, List<Image> immortalImages, boolean alive, boolean visible, String name, Board board, Settings settings) {
+    public Player(double x, double y, int width, int height, double velocity, List<Image> images, List<Image> immortalImages, boolean alive, boolean visible, String name, Board board, Settings settings) {
         super(x, y, width, height, velocity, images.get(0), alive, visible);
         this.images = images;
         this.immortalImages = immortalImages;
@@ -661,7 +661,9 @@ public class Player extends Entity {
                     opacityChangeCounter = 0;
                 }
             }
-            g2d.drawImage(image, x, y, width, height, null);
+            int drawX = (int) Math.round(x);
+            int drawY = (int) Math.round(y);
+            g2d.drawImage(image, drawX, drawY, width, height, null);
             g2d.dispose();
         }
     }

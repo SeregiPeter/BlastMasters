@@ -43,7 +43,7 @@ public abstract class Monster extends Entity {
      * @param visible   the status indicating if the monster is visible
      * @param board     the game board the monster belongs to
      */
-    public Monster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
+    public Monster(double x, double y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, images.get(0), alive, visible);
         this.images = images;
         this.board = board;

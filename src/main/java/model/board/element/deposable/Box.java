@@ -32,7 +32,7 @@ public class Box extends Entity {
      * @param bonus   The bonus contained in the box.
      * @param board   The game board the box belongs to.
      */
-    public Box(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Bonus bonus, Board board) {
+    public Box(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Bonus bonus, Board board) {
         super(x, y, width, height, velocity, image, alive, visible);
         this.bonus = bonus;
         this.explodable = true;

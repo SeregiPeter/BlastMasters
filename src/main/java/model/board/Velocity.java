@@ -25,7 +25,7 @@ public enum Velocity {
      * Currently, only integer values are supported.
      */
     PLAYER_VEL(2),
-    PLAYER_WITH_ROLLER_VEL(3),
+    PLAYER_WITH_ROLLER_VEL(2.5),
     PLAYER_WITH_SLOWDOWN_VEL(1),
 
     /**
@@ -37,9 +37,9 @@ public enum Velocity {
      * Represents the velocity of a monster.
      */
     MONSTER_VEL(1),
-    SEMI_INTELLIGENT_MONSTER_VEL(1),
+    SEMI_INTELLIGENT_MONSTER_VEL(1.5),
     INTELLIGENT_MONSTER_VEL(1),
-    GHOST_MONSTER_VEL(1); // Todo az alap szörnynél lassabb kéne legyen, de 1-nél lassabbat nem lehet jelenleg beállítani :(
+    GHOST_MONSTER_VEL(0.5); // Todo az alap szörnynél lassabb kéne legyen, de 1-nél lassabbat nem lehet jelenleg beállítani :(
 
     private final double velocity;
 

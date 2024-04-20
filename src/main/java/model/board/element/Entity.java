@@ -5,6 +5,7 @@ import model.board.Direction;
 import model.board.element.deposable.Bomb;
 
 import java.awt.*;
+import java.awt.geom.Rectangle2D;
 import java.util.Objects;
 
 import static model.board.Size.TILE_HEIGHT;
@@ -14,8 +15,8 @@ import static model.board.Size.TILE_WIDTH;
  * A base class representing entities on the game board.
  */
 public abstract class Entity {
-    protected int x;
-    protected int y;
+    protected double x;
+    protected double y;
     protected int width;
     protected int height;
     protected double velocity;
@@ -40,7 +41,7 @@ public abstract class Entity {
      * @param alive    indicates if the entity is alive
      * @param visible  indicates if the entity is visible
      */
-    public Entity(int x, int y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
+    public Entity(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -61,8 +62,8 @@ public abstract class Entity {
      * @return true if this entity collides with the other, false otherwise
      */
     public boolean collides(Entity other) {
-        Rectangle rect = new Rectangle(x, y, width, height);
-        Rectangle otherRect = new Rectangle(other.x, other.y, other.width, other.height);
+        Rectangle2D.Double rect = new Rectangle2D.Double(x, y, width, height);
+        Rectangle2D.Double otherRect = new Rectangle2D.Double(other.x, other.y, other.width, other.height);
         return rect.intersects(otherRect);
     }
 
@@ -73,8 +74,10 @@ public abstract class Entity {
      */
     public void draw(Graphics g) {
         if(this.visible) {
+            int drawX = (int) Math.round(x);
+            int drawY = (int) Math.round(y);
             Graphics2D g2d = (Graphics2D) g.create();
-            g2d.drawImage(image, x, y, width, height, null);
+            g2d.drawImage(image, drawX, drawY, width, height, null);
             g2d.dispose();
         }
     }
@@ -84,7 +87,7 @@ public abstract class Entity {
      *
      * @return the x-coordinate
      */
-    public int getX() {
+    public double getX() {
         return x;
     }
 
@@ -93,7 +96,7 @@ public abstract class Entity {
      *
      * @param x the x-coordinate to set
      */
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -102,7 +105,7 @@ public abstract class Entity {
      *
      * @return the y-coordinate
      */
-    public int getY() {
+    public double getY() {
         return y;
     }
 
@@ -111,7 +114,7 @@ public abstract class Entity {
      *
      * @param y the y-coordinate to set
      */
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
     }
 
@@ -311,7 +314,7 @@ public abstract class Entity {
      * @return the center coordinate as a Point object
      */
     public Point getCenterCoordinate() {
-        return new Point((x+(width/2)), (y+(height/2)));
+        return new Point((int) (x+(width/2)), (int) (y+(height/2)));
     }
 
     /**
