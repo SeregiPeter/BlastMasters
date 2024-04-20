@@ -3,6 +3,5 @@ stages:
 
 build:
   stage: build
-  image: maven:3.8.4-openjdk-19 # Use an image with Maven installed
   script:
-    - mvn clean package
+    -mvn --version
