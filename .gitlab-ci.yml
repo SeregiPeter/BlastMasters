@@ -3,6 +3,6 @@ stages:
 
 build:
   stage: build
-  image: adoptopenjdk:21-jdk-hotspot  # Use an image with JDK 21 and Maven installed
+  image: maven:latest  # Use an image with JDK 21 and Maven installed
   script:
     - mvn clean package
