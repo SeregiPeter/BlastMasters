@@ -79,23 +79,20 @@ public class Bomb extends Entity {
                     explode();
                 }
             }
-        }, 4 * 1000); // 4 másodperc után a bomba felrobban
+        }, 4 * 1000);
 
-        // Kép változtatásának időzítése
         Timer imageTimer = new Timer();
         imageTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                // Ellenőrizze, hogy az imageChangeCounter a képek számának megfelelően van-e beállítva
                 if (imageChangeCounter >= images.size()) {
-                    imageChangeCounter = 0; // Visszaállítjuk az imageChangeCounter értékét 0-ra, ha elértük a határt
+                    imageChangeCounter = 0;
                 }
 
-                // Beállítjuk az aktuális képet az imageChangeCounter alapján
                 image = images.get(imageChangeCounter);
-                imageChangeCounter++; // Növeljük az imageChangeCounter értékét a következő képre való váltáshoz
+                imageChangeCounter++;
             }
-        }, 0, 4000 / images.size()); // Kép váltásának időzítése, úgy hogy 4 másodperc alatt vegye végig az összes képet
+        }, 0, 4000 / images.size());
     }
 
 
