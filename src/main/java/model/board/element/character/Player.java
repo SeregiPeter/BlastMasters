@@ -187,10 +187,20 @@ public class Player extends Entity {
             return;
         }
         Bomb bomb;
+
+        List<String> bombImageUrls = model.board.Image.BOMB_EXPLODE_IMG.getImageUrls();
+
+        List<java.awt.Image> bombImages = new ArrayList<>();
+
+        for (String url : bombImageUrls) {
+            bombImages.add(new ImageIcon(url).getImage());
+        }
+
+
         if (rangeShrunk) {
-            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), 1, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), 1, bombImages, false, false, this, this.board);
         } else {
-            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board);
+            bomb = new Bomb((int) getThePositionOfTheBombToBePlaced().getX(), (int) getThePositionOfTheBombToBePlaced().getY(), BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, bombImages, false, false, this, this.board);
         }
 
         for (Entity entity : board.getEntities()) {
@@ -221,9 +231,7 @@ public class Player extends Entity {
     /**
      * Adds a new bomb to the player's list of bombs.
      */
-    public void addBomb() {
-        bombs.add(new Bomb(this.x, this.y, BOMB_WIDTH.getSize(), BOMB_HEIGHT.getSize(), BOMB_VEL.getVelocity(), bombRange, new ImageIcon(BOMB_IMG.getImageUrl()).getImage(), false, false, this, this.board));
-    }
+
 
     public void removeBomb(Bomb bomb) {
         this.bombs.remove(bomb);

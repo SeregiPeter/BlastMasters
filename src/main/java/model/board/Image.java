@@ -13,6 +13,29 @@ public enum Image {
      */
     BOMB_IMG("src/main/resources/assets/bomb.png"),
 
+
+    BOMB_EXPLODE_IMG(Arrays.asList(
+            "src/main/resources/assets/bombexplode/be1.png",
+            "src/main/resources/assets/bombexplode/be2.png",
+            "src/main/resources/assets/bombexplode/be3.png",
+            "src/main/resources/assets/bombexplode/be4.png",
+            "src/main/resources/assets/bombexplode/be5.png",
+            "src/main/resources/assets/bombexplode/be6.png",
+            "src/main/resources/assets/bombexplode/be7.png",
+            "src/main/resources/assets/bombexplode/be8.png",
+            "src/main/resources/assets/bombexplode/be9.png",
+            "src/main/resources/assets/bombexplode/be10.png",
+            "src/main/resources/assets/bombexplode/be11.png",
+            "src/main/resources/assets/bombexplode/be12.png",
+            "src/main/resources/assets/bombexplode/be13.png",
+            "src/main/resources/assets/bombexplode/be14.png",
+            "src/main/resources/assets/bombexplode/be15.png"
+
+
+    )),
+
+
+
     /**
      * Represents the image URL for the first player character.
      */
