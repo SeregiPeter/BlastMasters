@@ -21,6 +21,9 @@ import java.util.List;
  */
 public class SemiIntelligentMonster extends Monster {
 
+    private int imageChangeCounter = 0;
+    private static final int IMAGE_CHANGE_THRESHOLD = 12;
+
     /**
      * Constructs a SemiIntelligentMonster with the specified parameters.
      *
@@ -45,6 +48,36 @@ public class SemiIntelligentMonster extends Monster {
      */
     @Override
     public void move() {
+        imageChangeCounter++;
+        if(!this.isAlive()) return;
+        if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
+            imageChangeCounter = 0;
+            switch (currentDirection) {
+                case UP:
+                    int currentIndex = images.indexOf(this.image);
+                    int nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 4);
+                    break;
+                case DOWN:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 3;
+                    this.image = images.get(nextIndex + 7);
+                    break;
+                case LEFT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex + 10);
+                    break;
+                case RIGHT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 4;
+                    this.image = images.get(nextIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         this.moveTowardsDirection(currentDirection);
         ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
 

@@ -20,7 +20,6 @@ import java.util.List;
  */
 public class BasicMonster extends Monster {
     private int imageChangeCounter = 0;
-    // Define a threshold for image change frequency
     private static final int IMAGE_CHANGE_THRESHOLD = 12;
 
     /**
