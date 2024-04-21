@@ -256,11 +256,75 @@ public enum Image {
     IMMEDIATELY_IMG("src/main/resources/assets/bonuses/immediately.png"),
     PACIFIST_IMG("src/main/resources/assets/bonuses/pacifist.png"),
     SMALLERRANGE_IMG("src/main/resources/assets/bonuses/smallerRange.png"),
-    GHOST_MONSTER_IMG("src/main/resources/assets/ghost.png"),
-    SEMI_INTELLIGENT_MONSTER_IMG("src/main/resources/assets/semi_intelligent_monster.gif"),
-    INTELLIGENT_MONSTER_IMG("src/main/resources/assets/intelligent_monster.png"),
     PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
-    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png");
+    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png"),
+
+    GHOST_MONSTER_IMG(Arrays.asList(
+            "src/main/resources/assets/ghost/ghost1.png",
+            "src/main/resources/assets/ghost/ghost2.png",
+            "src/main/resources/assets/ghost/ghost3.png",
+            "src/main/resources/assets/ghost/ghost4.png"
+
+    )),
+
+    SEMI_INTELLIGENT_MONSTER_IMG(Arrays.asList(
+            "src/main/resources/assets/semiintelligent/intelligent_monster_e1.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_e2.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_e3.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_e4.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_n1.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_n2.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_n3.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_s1.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_s2.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_s3.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_w1.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_w2.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_w3.png",
+            "src/main/resources/assets/semiintelligent/intelligent_monster_w4.png"
+
+
+            )),
+
+    INTELLIGENT_MONSTER_IMG(Arrays.asList(
+            "src/main/resources/assets/intelligentmonster/r1.png",
+            "src/main/resources/assets/intelligentmonster/r2.png",
+            "src/main/resources/assets/intelligentmonster/r3.png",
+            "src/main/resources/assets/intelligentmonster/r4.png",
+            "src/main/resources/assets/intelligentmonster/r5.png",
+            "src/main/resources/assets/intelligentmonster/r6.png",
+            "src/main/resources/assets/intelligentmonster/r7.png",
+            "src/main/resources/assets/intelligentmonster/r8.png",
+            "src/main/resources/assets/intelligentmonster/u1.png",
+            "src/main/resources/assets/intelligentmonster/u2.png",
+            "src/main/resources/assets/intelligentmonster/u3.png",
+            "src/main/resources/assets/intelligentmonster/u4.png",
+            "src/main/resources/assets/intelligentmonster/u5.png",
+            "src/main/resources/assets/intelligentmonster/u6.png",
+            "src/main/resources/assets/intelligentmonster/u7.png",
+            "src/main/resources/assets/intelligentmonster/u8.png",
+            "src/main/resources/assets/intelligentmonster/d1.png",
+            "src/main/resources/assets/intelligentmonster/d2.png",
+            "src/main/resources/assets/intelligentmonster/d3.png",
+            "src/main/resources/assets/intelligentmonster/d4.png",
+            "src/main/resources/assets/intelligentmonster/d5.png",
+            "src/main/resources/assets/intelligentmonster/d6.png",
+            "src/main/resources/assets/intelligentmonster/d7.png",
+            "src/main/resources/assets/intelligentmonster/d8.png",
+            "src/main/resources/assets/intelligentmonster/l1.png",
+            "src/main/resources/assets/intelligentmonster/l2.png",
+            "src/main/resources/assets/intelligentmonster/l3.png",
+            "src/main/resources/assets/intelligentmonster/l4.png",
+            "src/main/resources/assets/intelligentmonster/l5.png",
+            "src/main/resources/assets/intelligentmonster/l6.png",
+            "src/main/resources/assets/intelligentmonster/l7.png",
+            "src/main/resources/assets/intelligentmonster/l8.png"
+
+
+    ));
+
+
+    //INTELLIGENT_MONSTER_IMG("src/main/resources/assets/intelligent_monster.png");
 
     private final String url;
     private final List<String> urls;

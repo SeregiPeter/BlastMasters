@@ -127,16 +127,32 @@ public class Board {
                             break;
 
                         case 'G':
+                            List<String> ghostMonsterImageUrls = Image.GHOST_MONSTER_IMG.getImageUrls();
+                            List<java.awt.Image> ghostMonsterImages = new ArrayList<>();
+
+                            for (String url : ghostMonsterImageUrls) {
+                                ghostMonsterImages.add(new ImageIcon(url).getImage());
+                            }
+
+
                             GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    GHOST_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(GHOST_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                                    GHOST_MONSTER_VEL.getVelocity(), ghostMonsterImages, true, true, this);
                             boardElements.add(ghostMonster);
                             monsters.add(ghostMonster);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
 
                         case 'S':
+
+                            List<String> semiIntelligentMonsterImageUrls = Image.SEMI_INTELLIGENT_MONSTER_IMG.getImageUrls();
+                            List<java.awt.Image> semiIntelligentMonsterImages = new ArrayList<>();
+
+                            for (String url : semiIntelligentMonsterImageUrls) {
+                                semiIntelligentMonsterImages.add(new ImageIcon(url).getImage());
+                            }
+
                             SemiIntelligentMonster semiIntelligentMonster = new SemiIntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    SEMI_INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(SEMI_INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                                    SEMI_INTELLIGENT_MONSTER_VEL.getVelocity(), semiIntelligentMonsterImages, true, true, this);
                             boardElements.add(semiIntelligentMonster);
                             monsters.add(semiIntelligentMonster);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
@@ -144,8 +160,17 @@ public class Board {
 
 
                         case 'I':
+
+                            List<String> intelligentMonsterImgImageUrls = Image.INTELLIGENT_MONSTER_IMG.getImageUrls();
+                            List<java.awt.Image> intelligentMonsterImages = new ArrayList<>();
+
+                            for (String url : intelligentMonsterImgImageUrls) {
+                                intelligentMonsterImages.add(new ImageIcon(url).getImage());
+                            }
+
+
                             IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
-                                    INTELLIGENT_MONSTER_VEL.getVelocity(), new ArrayList<>(Collections.singletonList(new ImageIcon(INTELLIGENT_MONSTER_IMG.getImageUrl()).getImage())), true, true, this);
+                                    INTELLIGENT_MONSTER_VEL.getVelocity(), intelligentMonsterImages, true, true, this);
                             boardElements.add(intelligentMonster);
                             monsters.add(intelligentMonster);
                             staticElements[row][col] = new Empty(x,y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
@@ -154,8 +179,8 @@ public class Board {
 
                         case '1':
                             List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
-                            List<String> player1ImmortalImgUrls = PLAYER1_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player1Images = new ArrayList<>();
+                            List<String> player1ImmortalImgUrls = PLAYER1_IMMORTAL_IMG.getImageUrls();
                             List<java.awt.Image> player1ImmortalImages = new ArrayList<>();
                             for (String url : player1ImageUrls) {
                                 player1Images.add(new ImageIcon(url).getImage());

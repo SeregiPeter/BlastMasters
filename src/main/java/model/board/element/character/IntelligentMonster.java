@@ -19,6 +19,9 @@ import java.util.List;
  */
 public class IntelligentMonster extends Monster {
 
+    private int imageChangeCounter = 0;
+    private static final int IMAGE_CHANGE_THRESHOLD = 12;
+
     /**
      * Constructs an IntelligentMonster object with the specified parameters.
      *
@@ -52,6 +55,36 @@ public class IntelligentMonster extends Monster {
      */
     @Override
     public void move() {
+        imageChangeCounter++;
+        if(!this.isAlive()) return;
+        if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
+            imageChangeCounter = 0;
+            switch (currentDirection) {
+                case UP:
+                    int currentIndex = images.indexOf(this.image);
+                    int nextIndex = (currentIndex + 1) % 8;
+                    this.image = images.get(nextIndex + 8);
+                    break;
+                case DOWN:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 8;
+                    this.image = images.get(nextIndex + 16);
+                    break;
+                case LEFT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 8;
+                    this.image = images.get(nextIndex + 24);
+                    break;
+                case RIGHT:
+                    currentIndex = images.indexOf(this.image);
+                    nextIndex = (currentIndex + 1) % 8;
+                    this.image = images.get(nextIndex);
+                    break;
+                default:
+                    break;
+            }
+        }
+
         if(this.inIntersection()) {
             Direction closest = getClosestPlayerDirection();
             this.currentDirection = closest != null ? closest : this.currentDirection;
