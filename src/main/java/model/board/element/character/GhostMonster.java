@@ -19,6 +19,9 @@ import java.util.List;
 public class GhostMonster extends Monster {
     private boolean hasToGoStraight;
 
+    private int imageChangeCounter = 0;
+    private static final int IMAGE_CHANGE_THRESHOLD = 17;
+
     /**
      * Constructs a GhostMonster object with the specified parameters.
      *
@@ -44,7 +47,15 @@ public class GhostMonster extends Monster {
      */
     @Override
     public void move() {
+        imageChangeCounter++;
         if (!this.isAlive()) return;
+        if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
+            imageChangeCounter = 0;
+
+            int currentIndex = images.indexOf(this.image);
+            int nextIndex = (currentIndex + 1) % 4;
+            this.image = images.get(nextIndex);
+        }
         this.moveTowardsDirection(currentDirection);
 
         ArrayList<Entity> entites = new ArrayList<>(board.getEntities());
