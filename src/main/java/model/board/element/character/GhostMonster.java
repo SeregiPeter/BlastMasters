@@ -102,7 +102,7 @@ public class GhostMonster extends Monster {
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
 
         boolean emptyField = false;
-        while(this.x < maxX && this.x > 0 && this.y < maxY && this.y > 0) {
+        while(this.x < maxX && this.x > 0 && this.y < maxY && this.y > Size.WALL_SIZE.getSize()) {
             this.moveTowardsDirection(direction);
             boolean correct = true;
             for(Entity entity : entities) {

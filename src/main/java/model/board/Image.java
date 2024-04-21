@@ -228,6 +228,20 @@ public enum Image {
     /**
      * Represents the image URL for the bomb up bonus.
      */
+    STATIC_BONUSES_IMG(Arrays.asList(
+            "src/main/resources/assets/bonuses/roller.png",
+            "src/main/resources/assets/bonuses/detonator.png"
+
+    )),
+    DYNAMIC_BUNUSES_IMG(Arrays.asList(
+            "src/main/resources/assets/bonuses/slow_down.png",
+            "src/main/resources/assets/bonuses/ghostbonus.png",
+            "src/main/resources/assets/bonuses/immortalitybonus.png",
+            "src/main/resources/assets/bonuses/immediately.png",
+            "src/main/resources/assets/bonuses/pacifist.png",
+            "src/main/resources/assets/bonuses/smallerRange.png"
+
+    )),
     BOMB_UP_BONUS_IMG("src/main/resources/assets/bonuses/bomb_up.png"),
     BOX_BONUS_IMG("src/main/resources/assets/bonuses/box_bonus.png"),
     ROLLER_BONUS_IMG("src/main/resources/assets/bonuses/roller.png"),
@@ -244,7 +258,9 @@ public enum Image {
     SMALLERRANGE_IMG("src/main/resources/assets/bonuses/smallerRange.png"),
     GHOST_MONSTER_IMG("src/main/resources/assets/ghost.png"),
     SEMI_INTELLIGENT_MONSTER_IMG("src/main/resources/assets/semi_intelligent_monster.gif"),
-    INTELLIGENT_MONSTER_IMG("src/main/resources/assets/intelligent_monster.png");
+    INTELLIGENT_MONSTER_IMG("src/main/resources/assets/intelligent_monster.png"),
+    PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
+    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png");
 
     private final String url;
     private final List<String> urls;

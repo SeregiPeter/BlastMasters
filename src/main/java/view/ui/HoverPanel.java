@@ -46,6 +46,7 @@ public class HoverPanel extends JPanel {
         Graphics2D g2d = (Graphics2D) g;
 
         g.setColor(Color.WHITE);
+
         int cornerRadius = 60;
         g2d.fillRoundRect(0, 0, getWidth(), getHeight(), cornerRadius, cornerRadius);
 
