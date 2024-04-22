@@ -7,7 +7,6 @@ build:
   image: maven:latest  
   script:
     - mvn clean package
-    - mvn run
 
 test:
   stage: test
