@@ -7,36 +7,34 @@ import java.util.Objects;
 public class HoverPanel extends JPanel {
     private JLabel scoreLabel;
     private JLabel winLabel;
-    public HoverPanel(int score1,int score2,String winner) {
+
+    public HoverPanel(int score1, int score2, String winner) {
         setLayout(new BorderLayout());
         setOpaque(false);
         setPreferredSize(new Dimension(500, 200));
-
 
 
         JLabel titleLabel = new JLabel("Score");
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
         titleLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        winLabel=new JLabel();
+        winLabel = new JLabel();
         titleLabel.setFont(new Font("Arial", Font.BOLD, 40));
         winLabel.setHorizontalAlignment(JLabel.CENTER);
 
 
-
-
-        scoreLabel = new JLabel(score1+":"+score2);
+        scoreLabel = new JLabel(score1 + ":" + score2);
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 100));
         scoreLabel.setHorizontalAlignment(JLabel.CENTER);
 
-        add(titleLabel,BorderLayout.NORTH);
-        add(scoreLabel,BorderLayout.CENTER);
-        add(winLabel,BorderLayout.SOUTH);
+        add(titleLabel, BorderLayout.NORTH);
+        add(scoreLabel, BorderLayout.CENTER);
+        add(winLabel, BorderLayout.SOUTH);
 
     }
-    public void setScore(int score1,int score2,String winner){
 
-        scoreLabel.setText(score1+":"+score2);
+    public void setScore(int score1, int score2, String winner) {
+        scoreLabel.setText(score1 + ":" + score2);
         winLabel.setText(winner);
     }
 

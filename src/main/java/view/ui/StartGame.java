@@ -37,7 +37,7 @@ public class StartGame extends JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        roundsToWin=3;
+        roundsToWin = 3;
         setTitle("Blast Masters");
         setSize(1500, 807);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,7 +51,7 @@ public class StartGame extends JFrame {
         initializeMapImages();
 
         JPanel panelMain = createMainPanel(roundsToWin);
-        mainMenuButton=createMainMenuButton();
+        mainMenuButton = createMainMenuButton();
 
         setContentPane(panelMain);
 
@@ -95,7 +95,6 @@ public class StartGame extends JFrame {
         containerPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 25));
 
 
-
         return containerPanel;
     }
 
@@ -121,7 +120,7 @@ public class StartGame extends JFrame {
         JButton mainMenuButton = new JButton("Main Menu");
         mainMenuButton.setBackground(new Color(51, 206, 250));
         mainMenuButton.setForeground(Color.white);
-        mainMenuButton.setPreferredSize(new Dimension(300,50));
+        mainMenuButton.setPreferredSize(new Dimension(300, 50));
         mainMenuButton.setVisible(false);
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
@@ -154,8 +153,8 @@ public class StartGame extends JFrame {
                     System.out.println(Arrays.toString(settings.getKeyBindings()));
                     settings.load();
 
-                    mainMenuButton=createMainMenuButton();
-                    gameEngine = new GameEngine(board,settings,mainMenuButton);
+                    mainMenuButton = createMainMenuButton();
+                    gameEngine = new GameEngine(board, settings, mainMenuButton);
 
                     getContentPane().removeAll();
                     getContentPane().add(gameEngine);
