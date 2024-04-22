@@ -96,12 +96,12 @@ public class ButtonPanel extends JPanel {
     private void initializeRoundPanel(int value) {
         JPanel roundPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
         roundPanel.setOpaque(false);
-        JLabel roundsLabel = createLabel("First to");
+        JLabel roundsLabel = createLabel("Best of");
         roundSpinner = new JSpinner(new SpinnerNumberModel(value, 1, 10, 1));
         roundSpinner.setFont(new Font("Trebuchet MS", Font.PLAIN, 16));
         roundPanel.add(roundsLabel);
         roundPanel.add(roundSpinner);
-        roundPanel.add(createLabel("wins"));
+        roundPanel.add(createLabel("games"));
         add(roundPanel);
     }
 

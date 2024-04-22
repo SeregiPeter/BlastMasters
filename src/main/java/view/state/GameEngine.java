@@ -7,6 +7,7 @@ import model.board.Size;
 import model.board.element.Entity;
 import model.board.element.character.Monster;
 import model.board.element.character.Player;
+import view.ui.GameHUD;
 import view.ui.HoverPanel;
 import view.ui.PlayerDataPanel;
 
@@ -34,12 +35,13 @@ public class GameEngine extends JPanel {
     private Settings settings;
     private Timer frametimer;
     private Image background;
-    private Map<Direction,Boolean> Player1Movement;
-    private Map<Direction,Boolean> Player2Movement;
+    private Map<Direction, Boolean> Player1Movement;
+    private Map<Direction, Boolean> Player2Movement;
     private JButton nextRoundButton;
     private JButton mainMenuButton;
-
     private HoverPanel hoverPanel;
+    private GameHUD gameHUD;
+
     private PlayerDataPanel playe1Panel;
     private PlayerDataPanel playe2Panel;
     /**
@@ -47,27 +49,28 @@ public class GameEngine extends JPanel {
      *
      * @param board the game board
      */
-    public GameEngine(Board board, Settings settings,JButton mainMenuButton) {
+    public GameEngine(Board board, Settings settings, JButton mainMenuButton) {
         super();
 
-        paused=false;
-        Player1Movement= new HashMap<>();
-        Player2Movement= new HashMap<>();
-        this.mainMenuButton=mainMenuButton;
-        this.board=board;
-        this.settings=settings;
-        background=getBackgroundImage(board.getSelectedMapIndex()).getImage();
+        paused = false;
+        Player1Movement = new HashMap<>();
+        Player2Movement = new HashMap<>();
+        this.mainMenuButton = mainMenuButton;
+        this.board = board;
+        this.settings = settings;
+        background = getBackgroundImage(board.getSelectedMapIndex()).getImage();
         frametimer = new javax.swing.Timer(10, new FrameListener());
         frametimer.start();
 
         this.mainMenuButton.setVisible(false);
-
 
         add(mainMenuButton);
         handleKeyPresses();
         initializeHover();
         initializeNextRoundButton();
         initializePlayerDataPanel();
+        gameHUD = new GameHUD();
+        add(gameHUD);
     }
 
     private void initializePlayerDataPanel() {
@@ -84,13 +87,13 @@ public class GameEngine extends JPanel {
         nextRoundButton = new JButton("Next Round");
         nextRoundButton.setBackground(new Color(51, 206, 250));
         nextRoundButton.setForeground(Color.white);
-        nextRoundButton.setPreferredSize(new Dimension(300,50));
+        nextRoundButton.setPreferredSize(new Dimension(300, 50));
         nextRoundButton.setVisible(false);
         nextRoundButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                boolean newNewRound=false;
-                if(nextRoundButton.getText().equals("New Round")) newNewRound=true;
+                boolean newNewRound = false;
+                if (nextRoundButton.getText().equals("New Round")) newNewRound = true;
                 setHoverPanelInvisible();
                 restart(newNewRound);
             }
@@ -99,7 +102,7 @@ public class GameEngine extends JPanel {
     }
 
     private void initializeHover() {
-        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(),board.getPlayer1().getPoints(),"");
+        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(), board.getPlayer1().getPoints(), "");
         hoverPanel.setVisible(false);
         add(hoverPanel);
     }
@@ -131,6 +134,9 @@ public class GameEngine extends JPanel {
         for (Monster monster : monsters) {
             monster.draw(grphcs);
         }
+
+        gameHUD.setBounds(0,0, gameHUD.getWidth(), gameHUD.getHeight());
+
         playe2Panel.setBounds(20,660,playe2Panel.getWidth(), playe2Panel.getHeight());
         playe1Panel.setBounds(getWidth()/2+20,660,playe1Panel.getWidth(), playe1Panel.getHeight());
         playe1Panel.setOpacity(1);
@@ -148,10 +154,10 @@ public class GameEngine extends JPanel {
 
             hoverPanel.setBounds(hoverPanelX, hoverPanelY, hoverPanel.getWidth(), hoverPanel.getHeight());
 
-            if(board.getGameState()==PLAYER1_FINAL_WIN || board.getGameState()==PLAYER2_FINAL_WIN) {
-                nextRoundButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 , hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
-                mainMenuButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 - mainMenuButton.getWidth() , hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
-            }else{
+            if (board.getGameState() == PLAYER1_FINAL_WIN || board.getGameState() == PLAYER2_FINAL_WIN) {
+                nextRoundButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2, hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
+                mainMenuButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 - mainMenuButton.getWidth(), hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
+            } else {
                 nextRoundButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 - nextRoundButton.getWidth() / 2, hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
                 mainMenuButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 - mainMenuButton.getWidth() / 2, hoverPanelY + hoverPanel.getHeight(), mainMenuButton.getWidth(), mainMenuButton.getHeight());
             }
@@ -167,7 +173,7 @@ public class GameEngine extends JPanel {
      */
     public void handleKeyPresses() {
 
-        int[] events=settings.getKeyBindings();
+        int[] events = settings.getKeyBindings();
 
         this.getInputMap().put(KeyStroke.getKeyStroke(events[7], 0), "pressed left");
         this.getActionMap().put("pressed left", new AbstractAction() {
@@ -317,20 +323,18 @@ public class GameEngine extends JPanel {
         this.getActionMap().put("pressed esc", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                if(board.getGameState()!=BOTH_ALIVE) return;
+                if (board.getGameState() != BOTH_ALIVE) return;
                 if (paused) {
                     paused = false;
                     setHoverPanelInvisible();
                 } else {
                     paused = true;
-                    setHoverPanelVisible("", true,false);
+                    setHoverPanelVisible("", true, false);
                 }
             }
         });
 
     }
-
-
 
     /**
      * ActionListener for updating the game state and rendering the frame.
@@ -355,7 +359,6 @@ public class GameEngine extends JPanel {
                 return;
             }
             handleGameState(board.getGameState());
-
 
             try {
                 long sleepTime = (lastUpdateTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
@@ -395,7 +398,7 @@ public class GameEngine extends JPanel {
         switch (state) {
             case DRAW:
                 board.removeRemovableEntities();
-                setHoverPanelVisible("Draw", false,true);
+                setHoverPanelVisible("Draw", false, true);
                 break;
             case PAUSED:
 
@@ -414,12 +417,12 @@ public class GameEngine extends JPanel {
                 break;
             case PLAYER1_WON:
                 board.removeRemovableEntities();
-                setHoverPanelVisible(settings.getPlayer1Name()+" won the round",false,true);
+                setHoverPanelVisible(settings.getPlayer1Name() + " won the round", false, true);
 
                 break;
             case PLAYER2_WON:
                 board.removeRemovableEntities();
-                setHoverPanelVisible(settings.getPlayer2Name()+" won the round",false,true);
+                setHoverPanelVisible(settings.getPlayer2Name() + " won the round", false, true);
                 break;
             case BOTH_ALIVE:
                 board.removeRemovableEntities();
@@ -441,22 +444,22 @@ public class GameEngine extends JPanel {
         remove(playe1Panel);
         initializePlayerDataPanel();
     }
-    private void setHoverPanelVisible(String stateLabel, boolean showMainMenuButton, boolean showNextRoundButton){
+    private void setHoverPanelVisible(String stateLabel, boolean showMainMenuButton, boolean showNextRoundButton) {
         //stopRunningTimers();
-        hoverPanel.setScore(board.getPlayer2().getPoints(),board.getPlayer1().getPoints(),stateLabel);
+        hoverPanel.setScore(board.getPlayer2().getPoints(), board.getPlayer1().getPoints(), stateLabel);
         hoverPanel.setVisible(true);
         nextRoundButton.setText("Next Round");
 
-        if(showNextRoundButton)nextRoundButton.setVisible(true);
-        if(showMainMenuButton) {
+        if (showNextRoundButton) nextRoundButton.setVisible(true);
+        if (showMainMenuButton) {
             mainMenuButton.setVisible(true);
         }
 
-        if(showMainMenuButton&&showNextRoundButton){
-            int width=hoverPanel.getWidth()/2 -40;
-            int height=50;
-            nextRoundButton.setPreferredSize(new Dimension(width,height));
-            mainMenuButton.setPreferredSize(new Dimension(width,mainMenuButton.getHeight()));
+        if (showMainMenuButton && showNextRoundButton) {
+            int width = hoverPanel.getWidth() / 2 - 40;
+            int height = 50;
+            nextRoundButton.setPreferredSize(new Dimension(width, height));
+            mainMenuButton.setPreferredSize(new Dimension(width, mainMenuButton.getHeight()));
             nextRoundButton.setText("New Round");
         }
     }
@@ -478,9 +481,6 @@ public class GameEngine extends JPanel {
         mainMenuButton.setVisible(false);
         //startRunningTimers();
     }
-
-
-
 }
 
 
