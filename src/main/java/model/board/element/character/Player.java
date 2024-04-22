@@ -617,6 +617,10 @@ public class Player extends Entity {
         delayedTimers.clear();
     }
 
+    public int getNumberOfPlaceableBombs() {
+        return numberOfPlaceableBombs;
+    }
+
     class Caller implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
