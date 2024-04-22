@@ -162,7 +162,7 @@ public class Board {
                                 intelligentMonsterImages.add(new ImageIcon(url).getImage());
                             }
 
-                            IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
+                            IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, INTELLIGENTMONSTER_WIDTH.getSize(), INTELLIGENTMONSTER_HEIGHT.getSize(),
                                     INTELLIGENT_MONSTER_VEL.getVelocity(), intelligentMonsterImages, true, true, this);
                             boardElements.add(intelligentMonster);
                             monsters.add(intelligentMonster);

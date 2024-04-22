@@ -25,6 +25,10 @@ public enum Size {
      */
     MONSTER_SIZE(60),
 
+    INTELLIGENTMONSTER_HEIGHT(60),
+
+    INTELLIGENTMONSTER_WIDTH(30),
+
     /**
      * Represents the size of a wall.
      */
