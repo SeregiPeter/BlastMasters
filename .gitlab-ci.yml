@@ -1,8 +1,14 @@
 stages:
   - build
+  - test
 
 build:
   stage: build
   image: maven:latest  # Use an image with JDK 21 and Maven installed
   script:
     - mvn clean package
+
+test:
+  stage: test
+  script:
+    - mvn test
