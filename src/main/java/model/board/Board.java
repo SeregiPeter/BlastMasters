@@ -98,7 +98,7 @@ public class Board {
                 int col = 0;
                 for (char entityType : line.toCharArray()) {
                     int x = col * TILE_WIDTH.getSize();
-                    int y = row * TILE_HEIGHT.getSize()+TILE_HEIGHT.getSize();
+                    int y = row * TILE_HEIGHT.getSize();//+TILE_HEIGHT.getSize();
                     switch (entityType) {
                         case 'W':
                             Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
