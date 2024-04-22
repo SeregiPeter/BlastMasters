@@ -14,14 +14,14 @@ public class GameHUD extends JPanel {
     private Timer timer;
     private int seconds;
 
-    public GameHUD() {
+    public GameHUD(int score1, int score2) {
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1520, Size.TILE_HEIGHT.getSize()));
 
         // Score Labels
-        player2ScoreLabel = createScoreLabel("0");
+        player2ScoreLabel = createScoreLabel(Integer.toString(score2));
 
-        player1ScoreLabel = createScoreLabel("0");
+        player1ScoreLabel = createScoreLabel(Integer.toString(score1));
 
         // Timer Label
         elapsedTimeLabel = new JLabel("00:00");
@@ -32,9 +32,9 @@ public class GameHUD extends JPanel {
         elapsedTimeLabel.setBackground(Color.WHITE);
 
         JPanel centerPanel = new JPanel();
-        centerPanel.add(player1ScoreLabel, BorderLayout.WEST);
+        centerPanel.add(player2ScoreLabel, BorderLayout.WEST);
         centerPanel.add(elapsedTimeLabel, BorderLayout.CENTER);
-        centerPanel.add(player2ScoreLabel, BorderLayout.EAST);
+        centerPanel.add(player1ScoreLabel, BorderLayout.EAST);
 
         setOpaque(false);
 
@@ -80,6 +80,31 @@ public class GameHUD extends JPanel {
         return label;
     }
 
+    public void updateScores(int score1, int score2) {
+        player1ScoreLabel.setText(Integer.toString(score1));
+        player2ScoreLabel.setText(Integer.toString(score2));
+    }
+
+    public void stopTimer() {
+        if (timer != null && timer.isRunning()) {
+            timer.stop();
+        }
+    }
+
+    public void restartTimer() {
+        if (timer != null && !timer.isRunning()) {
+            seconds = 0; // Visszaállítjuk az eltelt másodperceket nullára
+            updateTimeLabel(); // Frissítjük az időt a JLabel-ben
+            timer.start(); // Újra elindítjuk a timert
+        }
+    }
+
+    public void restartStoppedTimer() {
+        if (timer != null && !timer.isRunning()) {
+            timer.start(); // Újra elindítjuk a timert
+        }
+    }
+
     private void updateTimeLabel() {
         int minutes = seconds / 60;
         int remainingSeconds = seconds % 60;
@@ -91,13 +116,13 @@ public class GameHUD extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        g.setColor(new Color(38, 108, 116));
-        g2d.fillRoundRect(player1ScoreLabel.getX()-5,player1ScoreLabel.getY()-5,player1ScoreLabel.getWidth()+10, player1ScoreLabel.getHeight()+10,3,3);
-        g.setColor(new Color(50, 152, 163));
-        g2d.fillRoundRect(player1ScoreLabel.getX(),player1ScoreLabel.getY(),player1ScoreLabel.getWidth(), player1ScoreLabel.getHeight(),3,3);
         g2d.setColor(new Color(152, 0, 0));
         g2d.fillRoundRect(player2ScoreLabel.getX()-5,player2ScoreLabel.getY()-5,player2ScoreLabel.getWidth()+10, player2ScoreLabel.getHeight()+10,3,3);
         g.setColor(new Color(214,0,0));
         g2d.fillRoundRect(player2ScoreLabel.getX(),player2ScoreLabel.getY(),player2ScoreLabel.getWidth(), player2ScoreLabel.getHeight(),3,3);
+        g.setColor(new Color(38, 108, 116));
+        g2d.fillRoundRect(player1ScoreLabel.getX()-5,player1ScoreLabel.getY()-5,player1ScoreLabel.getWidth()+10, player1ScoreLabel.getHeight()+10,3,3);
+        g.setColor(new Color(50, 152, 163));
+        g2d.fillRoundRect(player1ScoreLabel.getX(),player1ScoreLabel.getY(),player1ScoreLabel.getWidth(), player1ScoreLabel.getHeight(),3,3);
     }
 }

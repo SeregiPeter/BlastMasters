@@ -184,7 +184,7 @@ public enum Image {
             "src/main/resources/assets/bonuses/detonator.png"
 
     )),
-    DYNAMIC_BUNUSES_IMG(Arrays.asList(
+    DYNAMIC_BONUSES_IMG(Arrays.asList(
             "src/main/resources/assets/bonuses/slow_down.png",
             "src/main/resources/assets/bonuses/ghostbonus.png",
             "src/main/resources/assets/bonuses/immortalitybonus.png",
@@ -314,6 +314,8 @@ public enum Image {
     )),
 
     //FRAMES AND PANELS
+    PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
+    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png"),
     PAUSE_BUTTON_IMG("src/main/resources/assets/menu/pause_button.png");
 
 

@@ -69,7 +69,7 @@ public class GameEngine extends JPanel {
         initializeHover();
         initializeNextRoundButton();
         initializePlayerDataPanel();
-        gameHUD = new GameHUD();
+        gameHUD = new GameHUD(0, 0);
         add(gameHUD);
     }
 
@@ -93,7 +93,11 @@ public class GameEngine extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 boolean newNewRound = false;
-                if (nextRoundButton.getText().equals("New Round")) newNewRound = true;
+                if (nextRoundButton.getText().equals("New Round")) {
+                    newNewRound = true;
+                    gameHUD.updateScores(0,0);
+                    gameHUD.restartTimer();
+                }
                 setHoverPanelInvisible();
                 restart(newNewRound);
             }
@@ -401,24 +405,18 @@ public class GameEngine extends JPanel {
                 setHoverPanelVisible("Draw", false, true);
                 break;
             case PAUSED:
-
                 break;
             case PLAYER2_FINAL_WIN:
                 board.removeRemovableEntities();
                 setHoverPanelVisible(settings.getPlayer2Name()+" won the game", true,true);
-
-
                 break;
             case PLAYER1_FINAL_WIN:
                 board.removeRemovableEntities();
                 setHoverPanelVisible(settings.getPlayer1Name()+" won the game",true,true);
-
-
                 break;
             case PLAYER1_WON:
                 board.removeRemovableEntities();
                 setHoverPanelVisible(settings.getPlayer1Name() + " won the round", false, true);
-
                 break;
             case PLAYER2_WON:
                 board.removeRemovableEntities();
@@ -446,6 +444,8 @@ public class GameEngine extends JPanel {
     }
     private void setHoverPanelVisible(String stateLabel, boolean showMainMenuButton, boolean showNextRoundButton) {
         //stopRunningTimers();
+        gameHUD.stopTimer();
+        gameHUD.updateScores(board.getPlayer1().getPoints(), board.getPlayer2().getPoints());
         hoverPanel.setScore(board.getPlayer2().getPoints(), board.getPlayer1().getPoints(), stateLabel);
         hoverPanel.setVisible(true);
         nextRoundButton.setText("Next Round");
@@ -476,6 +476,7 @@ public class GameEngine extends JPanel {
     }*/
 
     private void setHoverPanelInvisible() {
+        gameHUD.restartStoppedTimer();
         hoverPanel.setVisible(false);
         nextRoundButton.setVisible(false);
         mainMenuButton.setVisible(false);

@@ -125,7 +125,6 @@ public class Board {
                             monsters.add(basicMonster);
                             staticElements[row][col] = new Empty(x, y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
-
                         case 'G':
                             List<String> ghostMonsterImageUrls = Image.GHOST_MONSTER_IMG.getImageUrls();
                             List<java.awt.Image> ghostMonsterImages = new ArrayList<>();
@@ -133,7 +132,6 @@ public class Board {
                             for (String url : ghostMonsterImageUrls) {
                                 ghostMonsterImages.add(new ImageIcon(url).getImage());
                             }
-
 
                             GhostMonster ghostMonster = new GhostMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     GHOST_MONSTER_VEL.getVelocity(), ghostMonsterImages, true, true, this);
@@ -143,7 +141,6 @@ public class Board {
                             break;
 
                         case 'S':
-
                             List<String> semiIntelligentMonsterImageUrls = Image.SEMI_INTELLIGENT_MONSTER_IMG.getImageUrls();
                             List<java.awt.Image> semiIntelligentMonsterImages = new ArrayList<>();
 
@@ -157,10 +154,7 @@ public class Board {
                             monsters.add(semiIntelligentMonster);
                             staticElements[row][col] = new Empty(x, y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
-
-
                         case 'I':
-
                             List<String> intelligentMonsterImgImageUrls = Image.INTELLIGENT_MONSTER_IMG.getImageUrls();
                             List<java.awt.Image> intelligentMonsterImages = new ArrayList<>();
 
@@ -168,15 +162,12 @@ public class Board {
                                 intelligentMonsterImages.add(new ImageIcon(url).getImage());
                             }
 
-
                             IntelligentMonster intelligentMonster = new IntelligentMonster(x, y, MONSTER_SIZE.getSize(), MONSTER_SIZE.getSize(),
                                     INTELLIGENT_MONSTER_VEL.getVelocity(), intelligentMonsterImages, true, true, this);
                             boardElements.add(intelligentMonster);
                             monsters.add(intelligentMonster);
                             staticElements[row][col] = new Empty(x, y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
-
-
                         case '1':
                             List<String> player1ImageUrls = Image.PLAYER1_IMG.getImageUrls();
                             List<java.awt.Image> player1Images = new ArrayList<>();
