@@ -3,12 +3,15 @@ package view.state;
 import control.Settings;
 import model.board.Board;
 import model.board.Direction;
+import model.board.Size;
 import model.board.element.Entity;
 import model.board.element.character.Monster;
 import model.board.element.character.Player;
 import view.ui.HoverPanel;
+import view.ui.PlayerDataPanel;
 
 import javax.swing.*;
+import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -37,6 +40,8 @@ public class GameEngine extends JPanel {
     private JButton mainMenuButton;
 
     private HoverPanel hoverPanel;
+    private PlayerDataPanel playe1Panel;
+    private PlayerDataPanel playe2Panel;
     /**
      * Constructs a GameEngine with the specified game board.
      *
@@ -56,12 +61,23 @@ public class GameEngine extends JPanel {
         frametimer.start();
 
         this.mainMenuButton.setVisible(false);
+
+
         add(mainMenuButton);
         handleKeyPresses();
         initializeHover();
         initializeNextRoundButton();
+        initializePlayerDataPanel();
     }
 
+    private void initializePlayerDataPanel() {
+        playe2Panel=new PlayerDataPanel(false);
+        playe1Panel=new PlayerDataPanel(true);
+        board.setPlayer2DataPanel(playe2Panel);
+        board.setPlayer1DataPanel(playe1Panel);
+        add(playe1Panel);
+        add(playe2Panel);
+    }
 
 
     private void initializeNextRoundButton() {
@@ -104,7 +120,7 @@ public class GameEngine extends JPanel {
     @Override
     protected void paintComponent(Graphics grphcs) {
         super.paintComponent(grphcs);
-        grphcs.drawImage(background, 0, 0, 1520, 747, null);
+        grphcs.drawImage(background, 0, 0, 1520, 807, null);
         ArrayList<Entity> entities = new ArrayList<>(board.getEntities());
         for (Entity entity : entities) {
             entity.draw(grphcs);
@@ -115,18 +131,24 @@ public class GameEngine extends JPanel {
         for (Monster monster : monsters) {
             monster.draw(grphcs);
         }
+        playe2Panel.setBounds(20,660,playe2Panel.getWidth(), playe2Panel.getHeight());
+        playe1Panel.setBounds(getWidth()/2+20,660,playe1Panel.getWidth(), playe1Panel.getHeight());
+        playe1Panel.setOpacity(1);
+        playe2Panel.setOpacity(1);
         if (hoverPanel.isVisible()) {
 
             Graphics2D g2d = (Graphics2D) grphcs;
             float hoverPanelOpacity = 0.7f;
+            playe1Panel.setOpacity(hoverPanelOpacity);
+            playe2Panel.setOpacity(hoverPanelOpacity);
             g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, hoverPanelOpacity));
-            g2d.fillRect(0, 0, getWidth(), getHeight());
+            g2d.fillRect(0,Size.TILE_HEIGHT.getSize(), 1500, 10*Size.TILE_HEIGHT.getSize() );
             int hoverPanelX = (getWidth() - hoverPanel.getWidth()) / 2;
             int hoverPanelY = (getHeight() - hoverPanel.getHeight()) / 2;
 
             hoverPanel.setBounds(hoverPanelX, hoverPanelY, hoverPanel.getWidth(), hoverPanel.getHeight());
 
-            if(board.getGameState()==PLAYER1_FINAL_WIN ||board.getGameState()==PLAYER2_FINAL_WIN) {
+            if(board.getGameState()==PLAYER1_FINAL_WIN || board.getGameState()==PLAYER2_FINAL_WIN) {
                 nextRoundButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 , hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
                 mainMenuButton.setBounds(hoverPanelX + hoverPanel.getWidth() / 2 - mainMenuButton.getWidth() , hoverPanelY + hoverPanel.getHeight(), nextRoundButton.getWidth(), nextRoundButton.getHeight());
             }else{
@@ -334,6 +356,7 @@ public class GameEngine extends JPanel {
             }
             handleGameState(board.getGameState());
 
+
             try {
                 long sleepTime = (lastUpdateTime - System.nanoTime() + OPTIMAL_TIME) / 1000000;
                 if (sleepTime > 0) {
@@ -377,7 +400,18 @@ public class GameEngine extends JPanel {
             case PAUSED:
 
                 break;
+            case PLAYER2_FINAL_WIN:
+                board.removeRemovableEntities();
+                setHoverPanelVisible(settings.getPlayer2Name()+" won the game", true,true);
 
+
+                break;
+            case PLAYER1_FINAL_WIN:
+                board.removeRemovableEntities();
+                setHoverPanelVisible(settings.getPlayer1Name()+" won the game",true,true);
+
+
+                break;
             case PLAYER1_WON:
                 board.removeRemovableEntities();
                 setHoverPanelVisible(settings.getPlayer1Name()+" won the round",false,true);
@@ -393,14 +427,6 @@ public class GameEngine extends JPanel {
                 handlePlayerMovement(board.getPlayer2(), Player2Movement);
                 board.moveMonsters();
                 break;
-            case PLAYER2_FINAL_WIN:
-                setHoverPanelVisible(settings.getPlayer2Name()+" won the game", true,true);
-
-                break;
-            case PLAYER1_FINAL_WIN:
-                setHoverPanelVisible(settings.getPlayer1Name()+" won the game", true,true);
-
-                break;
             default:
         }
 
@@ -411,27 +437,46 @@ public class GameEngine extends JPanel {
      */
     private void restart(boolean newNewRound) {
         board.reset(newNewRound);
+        remove(playe2Panel);
+        remove(playe1Panel);
+        initializePlayerDataPanel();
     }
     private void setHoverPanelVisible(String stateLabel, boolean showMainMenuButton, boolean showNextRoundButton){
+        //stopRunningTimers();
         hoverPanel.setScore(board.getPlayer2().getPoints(),board.getPlayer1().getPoints(),stateLabel);
         hoverPanel.setVisible(true);
         nextRoundButton.setText("Next Round");
 
         if(showNextRoundButton)nextRoundButton.setVisible(true);
-        if(showMainMenuButton) mainMenuButton.setVisible(true);
+        if(showMainMenuButton) {
+            mainMenuButton.setVisible(true);
+        }
 
         if(showMainMenuButton&&showNextRoundButton){
             int width=hoverPanel.getWidth()/2 -40;
-            int height=nextRoundButton.getHeight();
+            int height=50;
             nextRoundButton.setPreferredSize(new Dimension(width,height));
-            mainMenuButton.setPreferredSize(new Dimension(width,height));
+            mainMenuButton.setPreferredSize(new Dimension(width,mainMenuButton.getHeight()));
             nextRoundButton.setText("New Round");
         }
     }
+
+    /*private void stopRunningTimers() {
+        board.stopTimers();
+        playe2Panel.stopTimers();
+        playe2Panel.stopTimers();
+    }
+    private void startRunningTimers() {
+        board.startTimers();
+        playe2Panel.startTimers();
+        playe2Panel.startTimers();
+    }*/
+
     private void setHoverPanelInvisible() {
         hoverPanel.setVisible(false);
         nextRoundButton.setVisible(false);
         mainMenuButton.setVisible(false);
+        //startRunningTimers();
     }
 
 

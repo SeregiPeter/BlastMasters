@@ -10,6 +10,7 @@ import model.board.element.deposable.Box;
 import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
+import view.ui.PlayerDataPanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import java.util.*;
 
 
 import javax.swing.*;
+import javax.swing.Timer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +79,12 @@ public class Player extends Entity {
     private javax.swing.Timer untilGhostPulsationTimer;
     private javax.swing.Timer coolDowmTimerImmortality;
     private javax.swing.Timer untilImmortalityPulsationTimer;
-    private final javax.swing.Timer coolDownTimerSmallRange;
+    private javax.swing.Timer coolDownTimerSmallRange;
+    private javax.swing.Timer coolDownTimerSlowDown;
     boolean immediatelyHandicapActive;
+    private PlayerDataPanel panel;
+    private HashMap<javax.swing.Timer,Boolean> timers=new HashMap<>();
+    private HashMap<javax.swing.Timer,Integer> delayedTimers=new HashMap<>();
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -131,27 +137,50 @@ public class Player extends Entity {
         onBoxes = new ArrayList<>();
         currentOpacity = 0.4f;
         callertimer = new javax.swing.Timer(100, new Caller());
+        
+        initializeTimers();
+    }
+
+    private void initializeTimers() {
         coolDownTimerImmediately = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDownTimerImmediately.setActionCommand("0");
         coolDownTimerImmediately.setRepeats(false);
+        timers.put(coolDownTimerImmediately,false);
+        
         coolDownTimerPacifist = new javax.swing.Timer(1000 * 5, new Cooldown());
         coolDownTimerPacifist.setActionCommand("1");
         coolDownTimerPacifist.setRepeats(false);
+        timers.put(coolDownTimerPacifist,false);
+        
         coolDownTimerSmallRange = new javax.swing.Timer(1000 * 15, new Cooldown());
         coolDownTimerSmallRange.setActionCommand("2");
         coolDownTimerSmallRange.setRepeats(false);
+        timers.put(coolDownTimerSmallRange,false);
+        
         coolDowmTimerGhost = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDowmTimerGhost.setActionCommand("3");
         coolDowmTimerGhost.setRepeats(false);
+        timers.put(coolDowmTimerGhost,false);
+        
         untilGhostPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
         untilGhostPulsationTimer.setActionCommand("4");
         untilGhostPulsationTimer.setRepeats(false);
+        timers.put(untilGhostPulsationTimer,false);
+        
         coolDowmTimerImmortality = new javax.swing.Timer(1000 * 10, new Cooldown());
         coolDowmTimerImmortality.setActionCommand("5");
         coolDowmTimerImmortality.setRepeats(false);
+        timers.put(coolDowmTimerImmortality,false);
+        
         untilImmortalityPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
         untilImmortalityPulsationTimer.setActionCommand("6");
         untilImmortalityPulsationTimer.setRepeats(false);
+        timers.put(untilImmortalityPulsationTimer,false);
+
+        coolDownTimerSlowDown = new javax.swing.Timer(1000 * 5, new Cooldown());
+        coolDownTimerSlowDown.setActionCommand("7");
+        coolDownTimerSlowDown.setRepeats(false);
+        timers.put(coolDownTimerSlowDown,false);
     }
 
     @Override
@@ -209,6 +238,7 @@ public class Player extends Entity {
             }
         }
         numberOfPlaceableBombs--;
+        panel.refreshBombLabel(numberOfPlaceableBombs);
         bomb.plant();
         onBombs.add(bomb);
         onBomb = true;
@@ -372,7 +402,9 @@ public class Player extends Entity {
      * Increments the bomb range of the player.
      */
     public void incrementBombRange() {
+
         this.bombRange++;
+        panel.refreshRangeLabel(bombRange);
     }
 
     /**
@@ -386,12 +418,15 @@ public class Player extends Entity {
      * Increments the number of placeable bombs the player has.
      */
     public void incrementNumberOfPlaceableBombs() {
+
         this.numberOfPlaceableBombs++;
+        panel.refreshBombLabel(numberOfPlaceableBombs);
     }
 
     public void incrementNumberOfPlaceableBoxes() {
         this.numberOfPlaceableBoxes++;
         System.out.println("Number of placeable boxes: " + numberOfPlaceableBoxes);
+        panel.refreshBoxLabel(numberOfPlaceableBoxes);
     }
 
     /**
@@ -462,47 +497,42 @@ public class Player extends Entity {
     public void useRollerBonus() {
         this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
         this.hasRoller = true;
+        panel.showBonus("Roller");
     }
 
     public void useSlowDownBonus() {
-        this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
-        this.slowedDown = true;
-        int oldNumberOfSlowDownBonuses = ++numberOfSlowDownBonuses;
-
-        java.util.Timer timer = new java.util.Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                if (numberOfSlowDownBonuses == oldNumberOfSlowDownBonuses) {
-                    if (hasRoller) {
-                        velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
-                    } else {
-                        velocity = Velocity.PLAYER_VEL.getVelocity();
-                    }
-                    slowedDown = false;
-                    numberOfSlowDownBonuses = 0;
-                }
-            }
-        }, 5000);
+        if(slowedDown){
+            coolDownTimerSlowDown.restart();
+            panel.startLineTimer("SlowDown");
+        }else {
+            this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
+            this.slowedDown = true;
+            coolDownTimerSlowDown.start();
+            panel.startLineTimer("SlowDown");
+        }
 
     }
 
     public void pacifist() {
         if (!canPlaceBombs) { //clean code-hoz másik változónevet igényelnék...
             coolDownTimerPacifist.restart();
+            panel.startLineTimer("Pacifist");
         } else {
             canPlaceBombs = false;
             coolDownTimerPacifist.start();
+            panel.startLineTimer("Pacifist");
         }
     }
 
     public void plantBombImmediately() {
         if (immediatelyHandicapActive) {
             coolDownTimerImmediately.restart();
+            panel.startLineTimer("Immediately");
         } else {
             immediatelyHandicapActive = true;
             callertimer.start();
             coolDownTimerImmediately.start();
+            panel.startLineTimer("Immediately");
         }
 
     }
@@ -540,6 +570,7 @@ public class Player extends Entity {
             }
         }
         numberOfPlaceableBoxes--;
+        panel.refreshBoxLabel(numberOfPlaceableBoxes);
         box.plant();
         onBoxes.add(box);
         onBox = true;
@@ -548,10 +579,42 @@ public class Player extends Entity {
     public void smallerRange() {
         if (rangeShrunk) {
             coolDownTimerSmallRange.restart();
+            panel.startLineTimer("SmallRange");
         } else {
             rangeShrunk = true;
             coolDownTimerSmallRange.start();
+            panel.startLineTimer("SmallRange");
         }
+    }
+
+    public void setPlayerDataPanel(PlayerDataPanel panel) {
+        this.panel=panel;
+    }
+
+    public void stopTimers() {
+        for (Map.Entry<Timer, Boolean> timer : timers.entrySet()){
+            if (timer.getKey().isRunning()){
+                //int delay=timer.getKey().getDelay();
+                timer.getKey().stop();
+                //System.out.println(timer.getKey().getDelay()+"remaining");
+               //delayedTimers.put(timer.getKey(),delay);
+                timer.setValue(true);
+            }
+        }
+
+    }
+    public void startTimers(){
+        for (Map.Entry<Timer, Boolean> timer : timers.entrySet()){
+            if(timer.getValue()){
+                timer.getKey().start();
+            }
+            /*timer.getKey().start();
+            timer.getKey().stop();
+            System.out.println(timer.getKey().getDelay()-timer.getValue()+"start with delay");
+            timer.getKey().setInitialDelay(timer.getKey().getDelay()-timer.getValue());
+            timer.getKey().start();*/
+        }
+        delayedTimers.clear();
     }
 
     class Caller implements ActionListener {
@@ -605,12 +668,21 @@ public class Player extends Entity {
                     changeListOfImagesCounter = 0;
                     immortalityPulsation = true;
                     break;
+                case 7:                                 //slowdown
+                    slowedDown=false;
+                    if (hasRoller) {
+                        velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+                    } else {
+                        velocity = Velocity.PLAYER_VEL.getVelocity();
+                    }
             }
         }
     }
 
     public void useDetonatorBonus() {
+
         this.hasDetonator = true;
+        panel.showBonus("Detonator");
     }
 
     public boolean hasDetonator() {
@@ -622,7 +694,9 @@ public class Player extends Entity {
             ghostPulsation = false;
             coolDowmTimerGhost.restart();
             untilGhostPulsationTimer.restart();
+            panel.startLineTimer("Ghost");
         } else {
+            panel.startLineTimer("Ghost");
             ghost = true;
             coolDowmTimerGhost.start();
             untilGhostPulsationTimer.start();
@@ -635,7 +709,9 @@ public class Player extends Entity {
             immortalityPulsation = false;
             coolDowmTimerImmortality.restart();
             untilImmortalityPulsationTimer.restart();
+            panel.startLineTimer("Immortality");
         } else {
+            panel.startLineTimer("Immortality");
             immortal = true;
             coolDowmTimerImmortality.start();
             untilImmortalityPulsationTimer.start();

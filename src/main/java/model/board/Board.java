@@ -10,6 +10,7 @@ import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.*;
 import model.board.element.powerup.handicap.*;
 import view.state.GameState;
+import view.ui.PlayerDataPanel;
 
 import javax.swing.*;
 import javax.swing.Timer;
@@ -97,7 +98,7 @@ public class Board {
                 int col = 0;
                 for (char entityType : line.toCharArray()) {
                     int x = col * TILE_WIDTH.getSize();
-                    int y = row * TILE_HEIGHT.getSize();
+                    int y = row * TILE_HEIGHT.getSize()+TILE_HEIGHT.getSize();
                     switch (entityType) {
                         case 'W':
                             Wall wall = new Wall(x, y, WALL_SIZE.getSize(), WALL_SIZE.getSize(), WALL_VEL.getVelocity(),
@@ -218,7 +219,16 @@ public class Board {
             System.err.println("File not found");
         }
     }
-
+    public int boardSizeX(){
+        int lastRow = staticElements.length - 1;
+        int lastColumn = staticElements[0].length - 1;
+        return (int) staticElements[lastRow][lastColumn].getX();
+    }
+    public int boardSizeY(){
+        int lastRow = staticElements.length - 1;
+        int lastColumn = staticElements[0].length - 1;
+        return (int) staticElements[lastRow][lastColumn].getY();
+    }
     /**
      * Gets the ImageIcon for the wall based on the selected map index.
      *
@@ -577,6 +587,16 @@ public class Board {
        }
     }
 
+    public void stopTimers() {
+        player1.stopTimers();
+        player2.stopTimers();
+    }
+
+    public void startTimers() {
+        player1.startTimers();
+        player2.startTimers();
+    }
+
     /**
      * Represents an ActionListener for the after death timer.
      */
@@ -697,5 +717,11 @@ public class Board {
 
     public void addStaticElement(Entity entity, int row, int col) {
         staticElements[row][col] = entity;
+    }
+    public void setPlayer1DataPanel(PlayerDataPanel panel){
+        player1.setPlayerDataPanel(panel);
+    }
+    public void setPlayer2DataPanel(PlayerDataPanel panel){
+        player2.setPlayerDataPanel(panel);
     }
 }
