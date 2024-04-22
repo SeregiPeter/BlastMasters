@@ -132,6 +132,18 @@ public class GhostMonster extends Monster {
         return emptyField;
     }
 
+    @Override
+    public void draw(Graphics g) {
+        if(this.visible) {
+            int drawX = (int) Math.round(x);
+            int drawY = (int) Math.round(y);
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            g2d.drawImage(image, drawX, drawY, width, height, null);
+            g2d.dispose();
+        }
+    }
+
     /**
      * Returns a string representation of the GhostMonster object.
      *
