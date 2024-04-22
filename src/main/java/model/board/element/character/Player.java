@@ -747,7 +747,7 @@ public class Player extends Entity {
             }
             int drawX = (int) Math.round(x);
             int drawY = (int) Math.round(y);
-            g2d.drawImage(image, drawX, drawY, width, height, null);
+            g2d.drawImage(image, drawX, drawY + TILE_HEIGHT.getSize(), width, height, null);
             g2d.dispose();
         }
     }
