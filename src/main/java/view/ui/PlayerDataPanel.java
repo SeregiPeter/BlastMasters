@@ -1,12 +1,10 @@
 package view.ui;
 
 import model.board.Image;
-import model.board.element.character.Player;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.lang.constant.DynamicCallSiteDesc;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +24,13 @@ public class PlayerDataPanel extends JPanel {
 
     private JPanel tablePanel;
     private JPanel bonusesContainer;
-    private HashMap<LineTimerPanel,Boolean> timers=new HashMap<>();
-    private float opacity=1f;
+    private HashMap<LineTimerPanel, Boolean> timers = new HashMap<>();
+    private float opacity = 1f;
 
 
     public PlayerDataPanel(boolean mirror) {
         background = new ImageIcon(Image.PLAYER_DATA_BG_IMG.getImageUrl()).getImage();
-        tableBackground=new ImageIcon(Image.PLAYER_DATA_TABLE_IMG.getImageUrl()).getImage();
+        tableBackground = new ImageIcon(Image.PLAYER_DATA_TABLE_IMG.getImageUrl()).getImage();
         int[] dynamicBonusTime = new int[]{5, 10, 10, 10, 5, 15};                                             //clean code needed
         dynamicBonusName = new String[]{"SlowDown", "Ghost", "Immortality", "Immediately", "Pacifist", "SmallRange"};
         // Create sub-panels for clear organization
@@ -42,9 +40,9 @@ public class PlayerDataPanel extends JPanel {
         JPanel rangePanel = new JPanel(new GridLayout(2, 1));
         JPanel rowPanel = new JPanel();
         bonusesContainer = new JPanel(new BorderLayout());
-        tablePanel = new JPanel(new GridLayout(2, 3,8,8));
+        tablePanel = new JPanel(new GridLayout(2, 3, 8, 8));
 
-        bonusesContainer.setPreferredSize(new Dimension(330,120));
+        bonusesContainer.setPreferredSize(new Dimension(330, 120));
 
         bombPanel.setOpaque(false);
         Container.setOpaque(false);
@@ -65,7 +63,7 @@ public class PlayerDataPanel extends JPanel {
         bombNumberLabel.setForeground(Color.WHITE);
         bombNumberLabel.setHorizontalAlignment(JLabel.CENTER);
         bombPanel.add(bombNumberLabel);
-        bombPanel.setBorder(new EmptyBorder(0,0,0,20));
+        bombPanel.setBorder(new EmptyBorder(0, 0, 0, 20));
 
         ImageIcon imageIconRange = resizeImage(Image.BIGGER_RANGE_BONUS_IMG.getImageUrl());
         JLabel imageLabelRange = new JLabel(imageIconRange);
@@ -75,7 +73,7 @@ public class PlayerDataPanel extends JPanel {
         rangeNumberLabel.setForeground(Color.WHITE);
         rangeNumberLabel.setHorizontalAlignment(JLabel.CENTER);
         rangePanel.add(rangeNumberLabel);
-        rangePanel.setBorder(new EmptyBorder(0,0,0,10));
+        rangePanel.setBorder(new EmptyBorder(0, 0, 0, 10));
 
         ImageIcon imageIconBox = resizeImage(Image.BOX_IMG_MAP1.getImageUrl());
         JLabel imageLabelBox = new JLabel(imageIconBox);
@@ -100,7 +98,7 @@ public class PlayerDataPanel extends JPanel {
         }
         imageHeight = 40;
         imageWidth = 40;
-        for (String path : Image.DYNAMIC_BUNUSES_IMG.getImageUrls()) {
+        for (String path : Image.DYNAMIC_BONUSES_IMG.getImageUrls()) {
             JPanel dynamicContainer = new JPanel();
             dynamicContainer.setOpaque(false);
             dynamicContainer.setPreferredSize(new Dimension(100, 50));
@@ -118,25 +116,25 @@ public class PlayerDataPanel extends JPanel {
         setLayout(new BorderLayout());
 
         // Add sub-panels with appropriate alignment
-        Container.setBorder(new EmptyBorder(10,10,5,0));
+        Container.setBorder(new EmptyBorder(10, 10, 5, 0));
         Container.add(bombPanel);
         Container.add(rangePanel);
         Container.add(boxPanel);
-        if (mirror){
+        if (mirror) {
             add(Container, BorderLayout.EAST); // Align image and number to the left
-        }else {
+        } else {
             add(Container, BorderLayout.WEST); // Align image and number to the left
         }
 
 
         bonusesContainer.add(tablePanel, BorderLayout.CENTER);
-        bonusesContainer.setBorder(new EmptyBorder(5,0,5,0));
+        bonusesContainer.setBorder(new EmptyBorder(5, 0, 5, 0));
 
         rowPanel.setBorder(new EmptyBorder(25, 0, 0, 0));
         add(rowPanel, BorderLayout.CENTER);
-        if(mirror){
+        if (mirror) {
             add(bonusesContainer, BorderLayout.WEST);
-        }else {
+        } else {
             add(bonusesContainer, BorderLayout.EAST);
         }
 
@@ -150,7 +148,7 @@ public class PlayerDataPanel extends JPanel {
                 JPanel panel = (JPanel) component;
                 LineTimerPanel lineTimerPanel = new LineTimerPanel(this, (JLabel) Arrays.stream(panel.getComponents()).toArray()[0], dynamicBonusTime[i]);
                 lineTimerPanel.setPreferredSize(new Dimension(40, 10));
-                timers.put(lineTimerPanel,false);
+                timers.put(lineTimerPanel, false);
                 panel.add(lineTimerPanel);
 
                 lineTimers.put(dynamicBonusName[i], lineTimerPanel);
@@ -180,6 +178,7 @@ public class PlayerDataPanel extends JPanel {
     public void refreshRangeLabel(int value) {
         rangeNumberLabel.setText(String.valueOf(value));
     }
+
     public void setOpacity(float opacity) {
         this.opacity = opacity;
     }
@@ -206,7 +205,7 @@ public class PlayerDataPanel extends JPanel {
         for (Component component : tablePanel.getComponents()) {
             if (component instanceof JPanel) {
                 JPanel panel = (JPanel) component;
-                g.drawImage(tableBackground, panel.getX()+bonusesContainer.getX(), panel.getY()+3, panel.getWidth(), panel.getHeight(), null);
+                g.drawImage(tableBackground, panel.getX() + bonusesContainer.getX(), panel.getY() + 3, panel.getWidth(), panel.getHeight(), null);
             }
         }
 
@@ -224,17 +223,18 @@ public class PlayerDataPanel extends JPanel {
     }
 
     public void stopTimers() {
-        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()){
-            if (timer.getKey().getTimer().isRunning()){
+        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()) {
+            if (timer.getKey().getTimer().isRunning()) {
                 timer.getKey().getTimer().stop();
                 timer.setValue(true);
             }
         }
 
     }
-    public void startTimers(){
-        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()){
-            if (timer.getValue()){
+
+    public void startTimers() {
+        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()) {
+            if (timer.getValue()) {
                 timer.getKey().getTimer().start();
                 timer.setValue(false);
             }
