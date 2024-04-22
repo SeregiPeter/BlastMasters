@@ -148,6 +148,6 @@ public abstract class Monster extends Entity {
         if(staticElements[row][column-1] instanceof Empty) freeWays++;
         if(staticElements[row][column+1] instanceof Empty) freeWays++;
 
-        return freeWays >= 3 && (this.x % Size.TILE_WIDTH.getSize() == 0) && (this.y % Size.TILE_HEIGHT.getSize() == 0);
+        return freeWays >= 2 && (this.x % Size.TILE_WIDTH.getSize() == 0) && (this.y % Size.TILE_HEIGHT.getSize() == 0);
     }
 }
