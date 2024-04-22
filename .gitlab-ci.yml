@@ -10,5 +10,6 @@ build:
 
 test:
   stage: test
+  image: maven:latest 
   script:
     - mvn test
