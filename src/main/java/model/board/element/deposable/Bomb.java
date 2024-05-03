@@ -213,4 +213,9 @@ public class Bomb extends Entity {
     public String toString() {
         return Character.toString(128_163);
     }
+
+    public void stop() {
+        detonated=true;
+        removable=true;
+    }
 }
