@@ -5,6 +5,7 @@ import model.board.element.Entity;
 import model.board.element.character.*;
 import model.board.element.deposable.Bomb;
 import model.board.element.deposable.Box;
+import model.board.element.deposable.Flame;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
 import model.board.element.powerup.benefit.*;
@@ -38,7 +39,6 @@ public class Board {
     private boolean player1Check;
     private boolean player2Check;
     private String path;
-    private GameState finalState;
     private Timer afterDeathTimer;
     private GameState state;
     private Player player1;
@@ -593,6 +593,7 @@ public class Board {
 
         @Override
         public void actionPerformed(ActionEvent ae) {
+            stopBombs();
             if (player1Check) {
                 if (!player1.isAlive()) {
                     state = DRAW;
@@ -672,7 +673,6 @@ public class Board {
         onlyOneAlive = false;
         player1Check = false;
         player2Check = false;
-        finalState = BOTH_ALIVE;
         afterDeathTimer = new javax.swing.Timer(3 * 1000, new deathTimer());
         afterDeathTimer.setRepeats(false);
         int tempPlayer1Points;
@@ -712,5 +712,11 @@ public class Board {
     }
     public void setPlayer2DataPanel(PlayerDataPanel panel){
         player2.setPlayerDataPanel(panel);
+    }
+
+    private void stopBombs(){
+        for (Bomb bomb: bombs) {
+            bomb.stop();
+        }
     }
 }
