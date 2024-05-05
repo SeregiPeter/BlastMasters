@@ -117,10 +117,11 @@ public class StartGame extends JFrame {
     }
 
     private JButton createMainMenuButton() {
-        JButton mainMenuButton = new JButton("Main Menu");
+        JButton mainMenuButton = new JButton("\uD83C\uDFE0");
         mainMenuButton.setBackground(new Color(51, 206, 250));
         mainMenuButton.setForeground(Color.white);
-        mainMenuButton.setPreferredSize(new Dimension(300, 50));
+        mainMenuButton.setPreferredSize(new Dimension(50, 50));
+        mainMenuButton.setFont(new Font(Font.SANS_SERIF, Font.PLAIN, 20));
         mainMenuButton.setVisible(false);
         mainMenuButton.addActionListener(new ActionListener() {
             @Override
