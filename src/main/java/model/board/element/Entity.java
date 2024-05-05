@@ -77,7 +77,7 @@ public abstract class Entity {
             int drawX = (int) Math.round(x);
             int drawY = (int) Math.round(y);
             Graphics2D g2d = (Graphics2D) g.create();
-            g2d.drawImage(image, drawX, drawY, width, height, null);
+            g2d.drawImage(image, drawX, drawY + TILE_HEIGHT.getSize(), width, height, null);
             g2d.dispose();
         }
     }

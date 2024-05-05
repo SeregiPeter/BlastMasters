@@ -6,6 +6,7 @@ import model.board.element.Entity;
 import model.board.element.character.Player;
 import model.board.element.field.Wall;
 import model.board.element.powerup.Bonus;
+import view.state.GameState;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -153,6 +154,11 @@ public class Flame extends Entity {
 
             @Override
             public void run() {
+                if(board.getGameState()!= GameState.BOTH_ALIVE){
+                    removable = true;
+                    timer.cancel();
+                    timer.purge();
+                }
                 if (!mainConditionMet) {
                     if (expansions < numberOfExpansions && markEntitiesRemovable()) {
                         expansions++;

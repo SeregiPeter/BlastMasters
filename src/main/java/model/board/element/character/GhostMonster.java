@@ -12,6 +12,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static model.board.Size.TILE_HEIGHT;
+
 
 /**
  * The GhostMonster class represents a ghost monster entity on the game board.
@@ -130,6 +132,18 @@ public class GhostMonster extends Monster {
         this.x = checkPointX;
         this.y = checkPointY;
         return emptyField;
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        if(this.visible) {
+            int drawX = (int) Math.round(x);
+            int drawY = (int) Math.round(y);
+            Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+            g2d.drawImage(image, drawX, drawY + TILE_HEIGHT.getSize(), width, height, null);
+            g2d.dispose();
+        }
     }
 
     /**

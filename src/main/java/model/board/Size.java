@@ -7,7 +7,7 @@ public enum Size {
     /**
      * Represents the size of the game board.
      */
-    BOARD_HEIGHT(11),
+    BOARD_HEIGHT(10),
     BOARD_WIDTH(25),
 
     /**
@@ -24,6 +24,10 @@ public enum Size {
      * Represents the size of a monster.
      */
     MONSTER_SIZE(60),
+
+    INTELLIGENTMONSTER_HEIGHT(60),
+
+    INTELLIGENTMONSTER_WIDTH(30),
 
     /**
      * Represents the size of a wall.
