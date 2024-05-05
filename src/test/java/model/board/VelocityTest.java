@@ -1,9 +1,11 @@
 package model.board;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class VelocityTest extends TestCase {
+public class VelocityTest {
 
+    @Test
     public void testGetVelocity() {
         assertEquals("BOMB_VEL should be 0", 0.0, Velocity.BOMB_VEL.getVelocity(), 0.0001);
         assertEquals("WALL_VEL should be 0", 0.0, Velocity.WALL_VEL.getVelocity(), 0.0001);

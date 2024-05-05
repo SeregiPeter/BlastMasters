@@ -1,17 +1,20 @@
 package model.board;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ImageTest extends TestCase {
+public class ImageTest {
 
+    @Test
     public void testGetImageUrl() {
         assertEquals("BOMB_IMG should return the correct single URL", "src/main/resources/assets/bomb.png", Image.BOMB_IMG.getImageUrl());
         assertNull( "BOMB_EXPLODE_IMG should return null for getImageUrl", Image.BOMB_EXPLODE_IMG.getImageUrl());
     }
 
+    @Test
     public void testGetImageUrls() {
         assertNull("BOMB_IMG should return null for getImageUrls", Image.BOMB_IMG.getImageUrls());
         List<String> expectedUrls = Arrays.asList(
@@ -34,6 +37,7 @@ public class ImageTest extends TestCase {
         assertEquals("BOMB_EXPLODE_IMG should return the correct list of URLs", expectedUrls, Image.BOMB_EXPLODE_IMG.getImageUrls());
     }
 
+    @Test
     public void testPlayer1ImageUrls() {
         List<String> player1Urls = Arrays.asList(
                 "src/main/resources/assets/entities/bomberman1/bomberman1e1.png",

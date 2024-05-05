@@ -1,6 +1,6 @@
 package model.board;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -8,8 +8,9 @@ import java.util.Set;
 import static org.junit.Assert.*;
 
 
-public class DirectionTest extends TestCase {
+public class DirectionTest {
 
+    @Test
     public void testGetOppositeDirection() {
         assertEquals(Direction.DOWN, Direction.getOppositeDirection(Direction.UP));
         assertEquals(Direction.UP, Direction.getOppositeDirection(Direction.DOWN));
@@ -17,6 +18,7 @@ public class DirectionTest extends TestCase {
         assertEquals(Direction.LEFT, Direction.getOppositeDirection(Direction.RIGHT));
     }
 
+    @Test
     public void testGetDirectionExcept() {
         for (Direction original : Direction.values()) {
             Set<Direction> possibleResults = EnumSet.allOf(Direction.class);

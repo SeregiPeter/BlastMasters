@@ -1,9 +1,11 @@
 package model.board;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
-public class SizeTest extends TestCase {
+public class SizeTest{
 
+    @Test
     public void testGetSize() {
         assertEquals("BOARD_HEIGHT should be 10", 10, Size.BOARD_HEIGHT.getSize());
         assertEquals("BOARD_WIDTH should be 25", 25, Size.BOARD_WIDTH.getSize());
