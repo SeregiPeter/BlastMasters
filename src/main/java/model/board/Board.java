@@ -403,7 +403,7 @@ public class Board {
      * @return the list of monsters
      */
     public ArrayList<Monster> getMonsters() {
-        return monsters;
+        return new ArrayList<Monster>(this.monsters);
     }
 
     /**
@@ -703,6 +703,8 @@ public class Board {
             System.out.println();
         }
     }
+
+
 
     public void addStaticElement(Entity entity, int row, int col) {
         staticElements[row][col] = entity;
