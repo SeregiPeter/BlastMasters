@@ -726,6 +726,14 @@ public class Player extends Entity {
         }
     }
 
+    public int getNumberOfPlaceableBoxes() {
+        return numberOfPlaceableBoxes;
+    }
+
+    public boolean isCanPlaceObstacles() {
+        return canPlaceObstacles;
+    }
+
     @Override
     public void draw(Graphics g) {
         if(this.visible) {
@@ -758,6 +766,8 @@ public class Player extends Entity {
             g2d.drawImage(image, drawX, drawY + TILE_HEIGHT.getSize(), width, height, null);
             g2d.dispose();
         }
+
+
     }
 
 }
