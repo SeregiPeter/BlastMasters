@@ -150,4 +150,12 @@ public abstract class Monster extends Entity {
 
         return freeWays >= 2 && (this.x % Size.TILE_WIDTH.getSize() == 0) && (this.y % Size.TILE_HEIGHT.getSize() == 0);
     }
+
+    public Direction getCurrentDirection() {
+        return currentDirection;
+    }
+
+    public void setCurrentDirection(Direction currentDirection) {
+        this.currentDirection = currentDirection;
+    }
 }
