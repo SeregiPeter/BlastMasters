@@ -524,6 +524,10 @@ public class Player extends Entity {
         }
     }
 
+    public boolean isImmortal() {
+        return immortal;
+    }
+
     public void plantBombImmediately() {
         if (immediatelyHandicapActive) {
             coolDownTimerImmediately.restart();
