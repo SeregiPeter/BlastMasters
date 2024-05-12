@@ -40,11 +40,7 @@ public class GameEngine extends JPanel {
 
     private PlayerDataPanel playe1Panel;
     private PlayerDataPanel playe2Panel;
-    /**
-     * Constructs a GameEngine with the specified game board.
-     *
-     * @param board the game board
-     */
+
     public GameEngine(Board board, Settings settings, JButton mainMenuButton) {
         super();
         Player1Movement = new HashMap<>();
@@ -401,9 +397,6 @@ public class GameEngine extends JPanel {
 
     }
 
-    /**
-     * Restarts the game by resetting the board and entities.
-     */
     private void restart(boolean newNewRound) {
         board.reset(newNewRound);
         remove(playe2Panel);
@@ -424,23 +417,10 @@ public class GameEngine extends JPanel {
         }
     }
 
-    /*private void stopRunningTimers() {
-        board.stopTimers();
-        playe2Panel.stopTimers();
-        playe2Panel.stopTimers();
-    }
-    private void startRunningTimers() {
-        board.startTimers();
-        playe2Panel.startTimers();
-        playe2Panel.startTimers();
-    }*/
-
     private void setHoverPanelInvisible() {
         gameHUD.restartStoppedTimer();
         hoverPanel.setVisible(false);
         nextRoundButton.setVisible(false);
-
-        //startRunningTimers();
     }
 }
 

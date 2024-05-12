@@ -4,10 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.Objects;
 
+/**
+ * A custom JPanel for displaying scores and a winner label with a hovering effect.
+ */
 public class HoverPanel extends JPanel {
     private JLabel scoreLabel;
     private JLabel winLabel;
 
+    /**
+     * Constructs a HoverPanel with the given scores.
+     * Initializes the panel layout, size, and components for displaying scores and winner information.
+     * @param score1 The score of player 1
+     * @param score2 The score of player 2
+     */
     public HoverPanel(int score1, int score2) {
         setLayout(new BorderLayout());
         setOpaque(false);
@@ -38,6 +47,10 @@ public class HoverPanel extends JPanel {
         winLabel.setText(winner);
     }
 
+    /**
+     * Custom painting method to draw the panel with rounded corners and images.
+     * @param g The graphics context to paint on
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

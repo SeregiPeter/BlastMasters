@@ -8,10 +8,6 @@ import java.util.List;
  */
 public enum Image {
 
-
-    /**
-     * Represents the image URL for a bomb.
-     */
     BOMB_IMG("src/main/resources/assets/bomb.png"),
 
     BOMB_EXPLODE_IMG(Arrays.asList(
@@ -35,10 +31,6 @@ public enum Image {
     FLAME_DOWN_IMG("src/main/resources/assets/flame_down.png"),
     FLAME_UP_IMG("src/main/resources/assets/flame_up.png"),
     FLAME_LEFT_IMG("src/main/resources/assets/flame_left.png"),
-
-    /**
-     * Represents the image URL for the first player character.
-     */
     PLAYER1_IMG(Arrays.asList(
             "src/main/resources/assets/entities/bomberman1/bomberman1e1.png",
             "src/main/resources/assets/entities/bomberman1/bomberman1e2.png",
@@ -56,7 +48,6 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman1/bomberman1w4.png",
             "src/main/resources/assets/rip.png"
     )),
-
     PLAYER1_IMMORTAL_IMG(Arrays.asList(
             "src/main/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e1.png",
             "src/main/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1e2.png",
@@ -73,10 +64,6 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w3.png",
             "src/main/resources/assets/entities/bomberman1/immortalityBonusActive/bomberman1w4.png"
     )),
-
-    /**
-     * Represents the image URL for the second player character.
-     */
     PLAYER2_IMG(Arrays.asList(
             "src/main/resources/assets/entities/bomberman2/bomberman2e1.png",
             "src/main/resources/assets/entities/bomberman2/bomberman2e2.png",
@@ -111,62 +98,16 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w3.png",
             "src/main/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w4.png"
     )),
-
-    /**
-     * Represents the image URL for the background of map 1.
-     */
     BACKGROUND_IMG_MAP1("src/main/resources/assets/tiles/map1/grass2.png"),
-
-    /**
-     * Represents the image URL for a box in map 1.
-     */
     BOX_IMG_MAP1("src/main/resources/assets/tiles/map1/box_pixel.png"),
-
-    /**
-     * Represents the image URL for a wall in map 1.
-     */
     WALL_IMG_MAP1("src/main/resources/assets/tiles/map1/wall_pixel.png"),
-
-    //MAP2
-    /**
-     * Represents the image URL for the background of map 2.
-     */
     BACKGROUND_IMG_MAP2("src/main/resources/assets/tiles/map2/fire_background.png"),
-
-    /**
-     * Represents the image URL for a box in map 2.
-     */
     BOX_IMG_MAP2("src/main/resources/assets/tiles/map2/fire_box.png"),
-
-    /**
-     * Represents the image URL for a wall in map 2.
-     */
     WALL_IMG_MAP2("src/main/resources/assets/tiles/map2/fire_wall.png"),
-
-    //MAP3
-    /**
-     * Represents the image URL for the background of map 3.
-     */
     BACKGROUND_IMG_MAP3("src/main/resources/assets/tiles/map3/ice_background.png"),
-
-    /**
-     * Represents the image URL for a box in map 3.
-     */
     BOX_IMG_MAP3("src/main/resources/assets/tiles/map3/ice_box.png"),
-
-    /**
-     * Represents the image URL for a wall in map 3.
-     */
     WALL_IMG_MAP3("src/main/resources/assets/tiles/map3/ice_wall.png"),
-
-    //BONUSES
-    /**
-     * Represents the image URL for the bomb up bonus.
-     */
     BOMB_UP_BONUS_IMG("src/main/resources/assets/bonuses/bomb_up.png"),
-    /**
-     * Represents the image URL for the bigger range bonus.
-     */
     BIGGER_RANGE_BONUS_IMG("src/main/resources/assets/bonuses/bigger_range.png"),
     BOX_BONUS_IMG("src/main/resources/assets/bonuses/box_bonus.png"),
     ROLLER_BONUS_IMG("src/main/resources/assets/bonuses/roller.png"),
@@ -177,7 +118,6 @@ public enum Image {
     IMMEDIATELY_BONUS_IMG("src/main/resources/assets/bonuses/immediately.png"),
     PACIFIST_BONUS_IMG("src/main/resources/assets/bonuses/pacifist.png"),
     SMALLERRANGE_BONUS_IMG("src/main/resources/assets/bonuses/smallerRange.png"),
-
     STATIC_BONUSES_IMG(Arrays.asList(
             "src/main/resources/assets/bonuses/roller.png",
             "src/main/resources/assets/bonuses/detonator.png"
@@ -192,9 +132,6 @@ public enum Image {
             "src/main/resources/assets/bonuses/smallerRange.png"
 
     )),
-    /**
-     * Represents the image URL for a monster in map 1.
-     */
     MONSTER_IMG_MAP1(Arrays.asList(
             "src/main/resources/assets/entities/monster1/monstere1.png",
             "src/main/resources/assets/entities/monster1/monstere2.png",
@@ -211,10 +148,6 @@ public enum Image {
             "src/main/resources/assets/entities/monster1/monsterw3.png",
             "src/main/resources/assets/entities/monster1/monsterw4.png"
     )),
-
-    /**
-     * Represents the image URL for a monster in map 2.
-     */
     MONSTER_IMG_MAP2(Arrays.asList(
             "src/main/resources/assets/entities/monster2/monstere1.png",
             "src/main/resources/assets/entities/monster2/monstere2.png",
@@ -232,9 +165,7 @@ public enum Image {
             "src/main/resources/assets/entities/monster2/monsterw4.png"
     )),
 
-    /**
-     * Represents the image URL for a monster in map 3.
-     */
+
     MONSTER_IMG_MAP3(Arrays.asList(
             "src/main/resources/assets/entities/monster3/monstere1.png",
             "src/main/resources/assets/entities/monster3/monstere2.png",
@@ -310,7 +241,6 @@ public enum Image {
             "src/main/resources/assets/entities/intelligent/l7.png",
             "src/main/resources/assets/entities/intelligent/l8.png"
     )),
-    HEADER_IMG("src/main/resources/assets/menu/header.png"),
     PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
     PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png");
 

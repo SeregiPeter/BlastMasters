@@ -22,7 +22,6 @@ public enum Velocity {
 
     /**
      * Represents the velocity of a player character.
-     * Currently, only integer values are supported.
      */
     PLAYER_VEL(2),
     PLAYER_WITH_ROLLER_VEL(2.5),
@@ -34,7 +33,7 @@ public enum Velocity {
     BONUS_VEL(0),
 
     /**
-     * Represents the velocity of a monster.
+     * Represents the velocity of monsters.
      */
     MONSTER_VEL(1),
     SEMI_INTELLIGENT_MONSTER_VEL(1.5),
@@ -43,20 +42,12 @@ public enum Velocity {
 
     private final double velocity;
 
-    /**
-     * Constructs a Velocity enum with the specified velocity value.
-     *
-     * @param velocity the velocity value
-     */
+
     Velocity(double velocity) {
          this.velocity = velocity;
     }
 
-    /**
-     * Gets the velocity value associated with this enum constant.
-     *
-     * @return the velocity value
-     */
+
     public double getVelocity() {
         return velocity;
     }

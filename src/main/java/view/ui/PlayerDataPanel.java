@@ -26,7 +26,10 @@ public class PlayerDataPanel extends JPanel {
     private HashMap<LineTimerPanel, Boolean> timers = new HashMap<>();
     private float opacity = 1f;
 
-
+    /**
+     * A panel to display player data including bombs, range, boxes, and bonuses.
+     * Can be mirrored for multiple players display.
+     */
     public PlayerDataPanel(boolean mirror) {
         background = new ImageIcon(Image.PLAYER_DATA_BG_IMG.getImageUrl()).getImage();
         tableBackground = new ImageIcon(Image.PLAYER_DATA_TABLE_IMG.getImageUrl()).getImage();
@@ -134,7 +137,6 @@ public class PlayerDataPanel extends JPanel {
             add(bonusesContainer, BorderLayout.EAST);
         }
 
-        // Add some padding for aesthetics
         setBorder(new EmptyBorder(0, 0, 0, 0));
         setPreferredSize(new Dimension(700, 120));
 

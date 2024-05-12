@@ -251,12 +251,6 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
     }
 
 
-
-    /**
-     * Retrieves the customized control keys as a concatenated string.
-     *
-     * @return A string representing the customized control keys.
-     */
     public String[] getControls() {
         return new String[]{
                 playerNameField.getText(),
@@ -270,20 +264,11 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
 
     }
 
-    /**
-     * Sets the player's name in the text field.
-     *
-     * @param name The name to set for the player.
-     */
     public void setPlayerName(String name) {
         playerNameField.setText(name);
     }
 
-    /**
-     * Sets the player's character preview image.
-     *
-     * @param imageIcon The ImageIcon to set as the character preview.
-     */
+
     public void setPlayerImage(ImageIcon imageIcon) {
         characterPreviewLabel.setIcon(imageIcon);
 
@@ -291,12 +276,6 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
         int imageHeight = imageIcon.getIconHeight();
         characterPreviewLabel.setPreferredSize(new Dimension(imageWidth, imageHeight));
     }
-
-    /**
-     * Sets the customized control keys for the player.
-     *
-     * @param controls A string representing the customized control keys.
-     */
     public void setControls(String[] controls) {
         controlWTextField.setText(controls[1]);
         controlATextField.setText(controls[2]);
