@@ -211,12 +211,6 @@ public class Board {
         }
     }
 
-    /**
-     * Gets the ImageIcon for the wall based on the selected map index.
-     *
-     * @param mapIndex the index of the selected map
-     * @return the ImageIcon for the wall
-     */
     public ImageIcon getWallImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> new ImageIcon(WALL_IMG_MAP2.getImageUrl());
@@ -224,13 +218,6 @@ public class Board {
             default -> new ImageIcon(WALL_IMG_MAP1.getImageUrl());
         };
     }
-
-    /**
-     * Gets the ImageIcon for the box based on the selected map index.
-     *
-     * @param mapIndex the index of the selected map
-     * @return the ImageIcon for the box
-     */
     private ImageIcon getBoxImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> new ImageIcon(BOX_IMG_MAP2.getImageUrl());
@@ -239,12 +226,6 @@ public class Board {
         };
     }
 
-    /**
-     * Gets the ImageIcon for the monster based on the selected map index.
-     *
-     * @param mapIndex the index of the selected map
-     * @return the ImageIcon for the monster
-     */
     private List<java.awt.Image> getMonsterImage(int mapIndex) {
         return switch (mapIndex) {
             case 1 -> {
@@ -273,19 +254,9 @@ public class Board {
             }
         };
     }
-
-    /**
-     * Gets the selected map index.
-     *
-     * @return the selected map index
-     */
     public int getSelectedMapIndex() {
         return selectedMapIndex;
     }
-
-    /**
-     * Moves all monsters on the game board.
-     */
     public void moveMonsters() {
         for (Monster monster : monsters) {
             if (monster.isAlive()) {
@@ -293,23 +264,12 @@ public class Board {
             }
         }
     }
-
-    /**
-     * Initiates the action of player 1 planting a bomb on the game board.
-     * This method delegates the bomb planting action to the player 1 instance.
-     */
     public void player1PlantsBomb() {
         this.player1.plantBomb();
     }
-
     public void player1PlantsBox() {
         this.player1.plantBox();
     }
-
-    /**
-     * Initiates the action of player 2 planting a bomb on the game board.
-     * This method delegates the bomb planting action to the player 2 instance.
-     */
     public void player2PlantsBomb() {
         this.player2.plantBomb();
     }
@@ -317,48 +277,21 @@ public class Board {
     public void player2PlantsBox() {
         this.player2.plantBox();
     }
-
-    /**
-     * Gets the player 1 instance.
-     *
-     * @return the player 1 instance
-     */
     public Player getPlayer1() {
         return player1;
     }
-
-    /**
-     * Gets the player 2 instance.
-     *
-     * @return the player 2 instance
-     */
     public Player getPlayer2() {
         return player2;
     }
 
-    /**
-     * Gets the list of monsters on the game board.
-     *
-     * @return the list of monsters
-     */
     public ArrayList<Monster> getMonsters() {
         return new ArrayList<Monster>(this.monsters);
     }
 
-    /**
-     * Gets the list of all entities on the game board.
-     *
-     * @return the list of entities
-     */
     public ArrayList<Entity> getEntities() {
         return boardElements;
     }
 
-    /**
-     * Adds a bomb to the list of bombs on the game board.
-     *
-     * @param bomb the bomb to add
-     */
     public void addBomb(Bomb bomb) {
         bombs.add(bomb);
     }
@@ -367,18 +300,10 @@ public class Board {
         boxes.add(box);
     }
 
-    /**
-     * Adds an entity to the list of entities on the game board.
-     *
-     * @param entity the entity to add
-     */
     public void addEntity(Entity entity) {
         boardElements.add(entity);
     }
 
-    /**
-     * Puts bonuses into random boxes on the game board.
-     */
     public void putBonusesInBoxes() {
         int numberOfBonuses = boxes.size() / 2;
         Collections.shuffle(boxes);
@@ -388,6 +313,12 @@ public class Board {
         }
     }
 
+    /**
+     * Randomly assigns a bonus to the provided box. The bonus type is determined randomly from a predefined set of bonuses.
+     * Once the bonus is assigned to the box, it is added to the list of board elements and the list of bonuses.
+     *
+     * @param box The box to which the bonus will be assigned.
+     */
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
         int randomNumber = random.nextInt(11);
@@ -514,11 +445,6 @@ public class Board {
         }
     }
 
-    /**
-     * Returns a string representation of the game board, including its size, players, monsters, and other elements.
-     *
-     * @return a string representation of the game board
-     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -543,11 +469,6 @@ public class Board {
         return sb.toString();
     }
 
-    /**
-     * Gets the current game state.
-     *
-     * @return the current game state
-     */
     public GameState getGameState() {
         return state;
     }

@@ -5,11 +5,19 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * A custom JPanel for displaying a timer line that decreases over time.
+ */
 public class LineTimerPanel extends JPanel {
     private int lineLength;
     private final int length=40;
     private Timer timer;
 
+    /**
+     * Constructs a LineTimerPanel with the given duration in seconds.
+     * Initializes the line length and timer settings based on the duration.
+     * @param sec The duration of the timer in seconds
+     */
     public LineTimerPanel(int sec) {
         lineLength = length;
         int iteration= sec*1000/lineLength;

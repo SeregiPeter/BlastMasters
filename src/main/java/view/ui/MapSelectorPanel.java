@@ -63,20 +63,11 @@ public class MapSelectorPanel extends JPanel {
 
     }
 
-    /**
-     * Gets the index of the currently selected map in the combo box.
-     *
-     * @return the index of the currently selected map
-     */
+
     public int getCurrentMapIndex() {
         return mapComboBox.getSelectedIndex();
     }
 
-    /**
-     * Sets the preview image of the selected map.
-     *
-     * @param image the image to be displayed as the map preview
-     */
     public void setMapPreview(Image image) {
         mapPreviewLabel.setIcon(new ImageIcon(image));
     }

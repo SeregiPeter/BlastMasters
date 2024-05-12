@@ -21,7 +21,7 @@ public enum Size {
     PLAYER_WIDTH(35),
 
     /**
-     * Represents the size of a monster.
+     * Represents the size of monsters.
      */
     MONSTER_SIZE(60),
 
@@ -75,20 +75,10 @@ public enum Size {
     FLAME_WIDTH(60);
     private final int size;
 
-    /**
-     * Constructs a Size enum with the specified size value.
-     *
-     * @param size the size value
-     */
     Size(int size) {
         this.size = size;
     }
 
-    /**
-     * Gets the size value associated with this enum constant.
-     *
-     * @return the size value
-     */
     public int getSize() {
         return size;
     }

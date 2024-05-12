@@ -74,12 +74,6 @@ public class MainMenu extends JFrame {
         });
     }
 
-    /**
-     * Creates a new JButton with the specified text.
-     *
-     * @param text the text to be displayed on the button
-     * @return the created JButton
-     */
     private JButton createButton(String text) {
         return new JButton(text);
     }
@@ -96,11 +90,6 @@ public class MainMenu extends JFrame {
         button.setFont(new Font("Trebuchet MS", Font.BOLD, 25));
     }
 
-    /**
-     * Creates a JPanel with a background image.
-     *
-     * @return the created image panel
-     */
     private JPanel createImagePanel() {
         return new JPanel() {
             @Override

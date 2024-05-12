@@ -9,24 +9,10 @@ import java.util.Collections;
  */
 public enum Direction {
 
-    /**
-     * Represents the UP direction.
-     */
+
     UP,
-
-    /**
-     * Represents the DOWN direction.
-     */
     DOWN,
-
-    /**
-     * Represents the LEFT direction.
-     */
     LEFT,
-
-    /**
-     * Represents the RIGHT direction.
-     */
     RIGHT;
 
     /**

@@ -16,6 +16,10 @@ import javax.imageio.ImageIO;
 import static model.board.Size.BOARD_HEIGHT;
 import static model.board.Size.BOARD_WIDTH;
 
+/**
+ * The main window for starting the game, allowing players to configure settings,
+ * select maps, and start the game.
+ */
 public class StartGame extends JFrame {
 
     private int roundsToWin;
@@ -138,6 +142,10 @@ public class StartGame extends JFrame {
         return mainMenuButton;
     }
 
+    /**
+     * Adds an action listener to the start button. When the start button is clicked, this method initializes the game engine
+     * with the selected map and settings, and starts the game.
+     */
     private void addStartButtonActionListener() {
         buttonPanel.addStartButtonActionListener(new ActionListener() {
             @Override
