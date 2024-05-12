@@ -604,6 +604,10 @@ public class Player extends Entity {
         return new Point(BOMB_WIDTH.getSize() * getColumn(), BOMB_HEIGHT.getSize() * getRow());
     }
 
+    public boolean isGhost() {
+        return ghost;
+    }
+
     /**
      * Gets the position where the box will be placed by the player.
      *
