@@ -54,7 +54,8 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman1/bomberman1w1.png",
             "src/main/resources/assets/entities/bomberman1/bomberman1w2.png",
             "src/main/resources/assets/entities/bomberman1/bomberman1w3.png",
-            "src/main/resources/assets/entities/bomberman1/bomberman1w4.png"
+            "src/main/resources/assets/entities/bomberman1/bomberman1w4.png",
+            "src/main/resources/assets/rip.png"
     )),
 
     PLAYER1_IMMORTAL_IMG(Arrays.asList(
@@ -91,7 +92,8 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman2/bomberman2w1.png",
             "src/main/resources/assets/entities/bomberman2/bomberman2w2.png",
             "src/main/resources/assets/entities/bomberman2/bomberman2w3.png",
-            "src/main/resources/assets/entities/bomberman2/bomberman2w4.png"
+            "src/main/resources/assets/entities/bomberman2/bomberman2w4.png",
+            "src/main/resources/assets/rip.png"
     )),
 
     PLAYER2_IMMORTAL_IMG(Arrays.asList(
