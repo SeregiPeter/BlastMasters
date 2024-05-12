@@ -21,7 +21,6 @@ public class LineTimerPanel extends JPanel {
                     lineLength -= 1;
                     repaint();
                 } else {
-                    //parent.setOpacity(icon,1);
                     timer.stop();
 
                 }

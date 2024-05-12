@@ -162,8 +162,7 @@ public class Flame extends Entity {
                         expandOneTile();
                     } else {
                         markEntitiesRemovable();
-                        mainConditionMet = true; // Set the flag to true
-                        // Schedule the else branch to run after 5 milliseconds
+                        mainConditionMet = true;
                         timer.schedule(new TimerTask() {
                             @Override
                             public void run() {

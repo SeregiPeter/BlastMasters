@@ -120,20 +120,11 @@ public class Bomb extends Entity {
 
     }
 
-    /**
-     * Checks if the bomb has been detonated.
-     *
-     * @return true if the bomb has been detonated, false otherwise.
-     */
+
     public boolean isDetonated() {
         return detonated;
     }
 
-    /**
-     * Returns a string representation of the bomb.
-     *
-     * @return The bomb represented as a string.
-     */
     @Override
     public String toString() {
         return Character.toString(128_163);

@@ -62,15 +62,32 @@ public class Player extends Entity {
     private javax.swing.Timer callertimer;
     private javax.swing.Timer coolDownTimerImmediately;
     private javax.swing.Timer coolDownTimerPacifist;
-    private javax.swing.Timer coolDowmTimerGhost;
+    private javax.swing.Timer coolDownTimerGhost;
     private javax.swing.Timer untilGhostPulsationTimer;
-    private javax.swing.Timer coolDowmTimerImmortality;
+    private javax.swing.Timer coolDownTimerImmortality;
     private javax.swing.Timer untilImmortalityPulsationTimer;
     private javax.swing.Timer coolDownTimerSmallRange;
     private javax.swing.Timer coolDownTimerSlowDown;
     boolean immediatelyHandicapActive;
     private PlayerDataPanel panel;
 
+    /**
+     * Constructs a new Player entity with the specified attributes.
+     * Initializes the player's position, size, velocity, images, and other properties.
+     * Sets initial values for various flags indicating player abilities and status.
+     * Initializes player-related collections such as bombs and boxes.
+     * @param x The x-coordinate of the player's position
+     * @param y The y-coordinate of the player's position
+     * @param width The width of the player entity
+     * @param height The height of the player entity
+     * @param velocity The velocity of the player
+     * @param images The list of images representing the player
+     * @param immortalImages The list of images representing the player during immortality
+     * @param alive The initial alive status of the player
+     * @param visible The initial visibility status of the player
+     * @param name The name of the player
+     * @param board The board on which the player exists
+     */
     public Player(double x, double y, int width, int height, double velocity, List<Image> images, List<Image> immortalImages, boolean alive, boolean visible, String name, Board board) {
         super(x, y, width, height, velocity, images.get(0), alive, visible);
         this.images = images;
@@ -118,9 +135,9 @@ public class Player extends Entity {
         coolDownTimerSmallRange.setRepeats(false);
 
 
-        coolDowmTimerGhost = new javax.swing.Timer(1000 * 10, new Cooldown());
-        coolDowmTimerGhost.setActionCommand("3");
-        coolDowmTimerGhost.setRepeats(false);
+        coolDownTimerGhost = new javax.swing.Timer(1000 * 10, new Cooldown());
+        coolDownTimerGhost.setActionCommand("3");
+        coolDownTimerGhost.setRepeats(false);
 
 
         untilGhostPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
@@ -128,9 +145,9 @@ public class Player extends Entity {
         untilGhostPulsationTimer.setRepeats(false);
 
 
-        coolDowmTimerImmortality = new javax.swing.Timer(1000 * 10, new Cooldown());
-        coolDowmTimerImmortality.setActionCommand("5");
-        coolDowmTimerImmortality.setRepeats(false);
+        coolDownTimerImmortality = new javax.swing.Timer(1000 * 10, new Cooldown());
+        coolDownTimerImmortality.setActionCommand("5");
+        coolDownTimerImmortality.setRepeats(false);
 
 
         untilImmortalityPulsationTimer = new javax.swing.Timer(1000 * 7, new Cooldown());
@@ -322,48 +339,6 @@ public class Player extends Entity {
         }
     }
 
-    public void useRollerBonus() {
-        this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
-        this.hasRoller = true;
-        panel.showBonus("Roller");
-    }
-
-    public void useSlowDownBonus() {
-        if (slowedDown) {
-            coolDownTimerSlowDown.restart();
-            panel.startLineTimer("SlowDown");
-        } else {
-            this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
-            this.slowedDown = true;
-            coolDownTimerSlowDown.start();
-            panel.startLineTimer("SlowDown");
-        }
-
-    }
-
-    public void pacifist() {
-        if (!canPlaceBombs) {
-            coolDownTimerPacifist.restart();
-            panel.startLineTimer("Pacifist");
-        } else {
-            canPlaceBombs = false;
-            coolDownTimerPacifist.start();
-            panel.startLineTimer("Pacifist");
-        }
-    }
-
-    public void plantBombImmediately() {
-        if (immediatelyHandicapActive) {
-            coolDownTimerImmediately.restart();
-            panel.startLineTimer("Immediately");
-        } else {
-            immediatelyHandicapActive = true;
-            callertimer.start();
-            coolDownTimerImmediately.start();
-            panel.startLineTimer("Immediately");
-        }
-
-    }
     /**
      * Plants a box at the player's current position if conditions allow.
      * Checks if the player has available boxes and is alive.
@@ -410,6 +385,62 @@ public class Player extends Entity {
         onBoxes.add(box);
     }
 
+
+    public void useRollerBonus() {
+        this.velocity = Velocity.PLAYER_WITH_ROLLER_VEL.getVelocity();
+        this.hasRoller = true;
+        panel.showBonus("Roller");
+    }
+    public void useDetonatorBonus() {
+
+        this.hasDetonator = true;
+        panel.showBonus("Detonator");
+    }
+
+    /**
+     * Activates a bonus effect based on the specific bonus type.
+     * If the bonus is already active, restarts its cooldown timer.
+     * Otherwise, activates the bonus effect, starts its cooldown timer,
+     * and notifies the UI panel to display the corresponding timer.
+     * Supported bonus types include slowing down, becoming pacifist,
+     * immediate bomb placement, reducing bomb range, becoming a ghost,
+     * and gaining immortality.
+
+    /**=====================================================*/
+    public void useSlowDownBonus() {
+        if (slowedDown) {
+            coolDownTimerSlowDown.restart();
+            panel.startLineTimer("SlowDown");
+        } else {
+            this.velocity = Velocity.PLAYER_WITH_SLOWDOWN_VEL.getVelocity();
+            this.slowedDown = true;
+            coolDownTimerSlowDown.start();
+            panel.startLineTimer("SlowDown");
+        }
+
+    }
+    public void pacifist() {
+        if (!canPlaceBombs) {
+            coolDownTimerPacifist.restart();
+            panel.startLineTimer("Pacifist");
+        } else {
+            canPlaceBombs = false;
+            coolDownTimerPacifist.start();
+            panel.startLineTimer("Pacifist");
+        }
+    }
+    public void plantBombImmediately() {
+        if (immediatelyHandicapActive) {
+            coolDownTimerImmediately.restart();
+            panel.startLineTimer("Immediately");
+        } else {
+            immediatelyHandicapActive = true;
+            callertimer.start();
+            coolDownTimerImmediately.start();
+            panel.startLineTimer("Immediately");
+        }
+
+    }
     public void smallerRange() {
         if (rangeShrunk) {
             coolDownTimerSmallRange.restart();
@@ -420,49 +451,50 @@ public class Player extends Entity {
             panel.startLineTimer("SmallRange");
         }
     }
-    public void useDetonatorBonus() {
-
-        this.hasDetonator = true;
-        panel.showBonus("Detonator");
-    }
-
     public void useGhostBonus() {
         if (ghost) {
             ghostPulsation = false;
-            coolDowmTimerGhost.restart();
+            coolDownTimerGhost.restart();
             untilGhostPulsationTimer.restart();
             panel.startLineTimer("Ghost");
         } else {
             panel.startLineTimer("Ghost");
             ghost = true;
-            coolDowmTimerGhost.start();
+            coolDownTimerGhost.start();
             untilGhostPulsationTimer.start();
         }
     }
-
     public void useImmortalityBonus() {
         if (immortal) {
             usedImages = immortalImages;
             immortalityPulsation = false;
-            coolDowmTimerImmortality.restart();
+            coolDownTimerImmortality.restart();
             untilImmortalityPulsationTimer.restart();
             panel.startLineTimer("Immortality");
         } else {
             panel.startLineTimer("Immortality");
             immortal = true;
-            coolDowmTimerImmortality.start();
+            coolDownTimerImmortality.start();
             untilImmortalityPulsationTimer.start();
         }
     }
+    /**=====================================================*/
 
     class Caller implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
-            if (hasDetonator && numberOfPlaceableBombs == 0) return; // ha detonátor bonus alatt hivogatja egymás után
-            plantBomb();                                         // a plantbomb()-ot az biztos halált jelent
+            if (hasDetonator && numberOfPlaceableBombs == 0) return;
+            plantBomb();
         }
     }
 
+    /**
+     * ActionListener implementation for handling cooldown events of various bonuses.
+     * Manages the effects of activated bonuses upon their cooldown expiration.
+     * Supports multiple types of bonuses, including Immediately, Pacifist, SmallerRange,
+     * Ghost, Immortality, and Slowdown, by resetting corresponding flags or properties
+     * upon the cooldown completion.
+     */
     class Cooldown implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent ae) {
@@ -603,6 +635,14 @@ public class Player extends Entity {
     public boolean hasDetonator() {
         return hasDetonator;
     }
+
+    /**
+     * Draws the player entity on the graphics context.
+     * If the player is visible, renders the player image with appropriate effects
+     * based on current status, such as immortality or ghost mode.
+     * Manages image pulsation and opacity changes for visual effects.
+     * @param g The graphics context on which to draw the player
+     */
     @Override
     public void draw(Graphics g) {
         if (this.visible) {

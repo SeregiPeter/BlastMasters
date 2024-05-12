@@ -28,11 +28,6 @@ public class Wall extends Entity {
         this.explodable = false;
     }
 
-    /**
-     * Returns a string representation of the Wall object.
-     *
-     * @return a string representing the wall
-     */
     @Override
     public String toString() {
         return "\uD83E\uDDF1";

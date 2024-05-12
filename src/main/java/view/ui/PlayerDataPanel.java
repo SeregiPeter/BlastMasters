@@ -30,10 +30,10 @@ public class PlayerDataPanel extends JPanel {
     public PlayerDataPanel(boolean mirror) {
         background = new ImageIcon(Image.PLAYER_DATA_BG_IMG.getImageUrl()).getImage();
         tableBackground = new ImageIcon(Image.PLAYER_DATA_TABLE_IMG.getImageUrl()).getImage();
-        int[] dynamicBonusTime = new int[]{5, 10, 10, 10, 5, 15};                                             //clean code needed
+        int[] dynamicBonusTime = new int[]{5, 10, 10, 10, 5, 15};
         dynamicBonusName = new String[]{"SlowDown", "Ghost", "Immortality", "Immediately", "Pacifist", "SmallRange"};
-        // Create sub-panels for clear organization
-        JPanel bombPanel = new JPanel(new GridLayout(2, 1)); // Holds image and number
+
+        JPanel bombPanel = new JPanel(new GridLayout(2, 1));
         JPanel Container = new JPanel(new GridLayout(1, 3));
         JPanel boxPanel = new JPanel(new GridLayout(2, 1));
         JPanel rangePanel = new JPanel(new GridLayout(2, 1));
@@ -51,8 +51,6 @@ public class PlayerDataPanel extends JPanel {
         bonusesContainer.setOpaque(false);
         tablePanel.setOpaque(false);
 
-
-        // Load and display images with resizing
         ImageIcon imageIconBomb = resizeImage(Image.BOMB_IMG.getImageUrl());
         JLabel imageLabelBomb = new JLabel(imageIconBomb);
         imageLabelBomb.setVerticalAlignment(JLabel.CENTER);
@@ -84,7 +82,7 @@ public class PlayerDataPanel extends JPanel {
         boxNumberLabel.setHorizontalAlignment(JLabel.CENTER);
         boxPanel.add(boxNumberLabel);
 
-        String[] staticNames = new String[]{"Roller", "Detonator"};            //clean code
+        String[] staticNames = new String[]{"Roller", "Detonator"};
         int j = 0;
         for (String path : Image.STATIC_BONUSES_IMG.getImageUrls()) {
             ImageIcon rowImageIcon = resizeImage(path);
@@ -105,24 +103,23 @@ public class PlayerDataPanel extends JPanel {
 
             ImageIcon tableImageIcon = resizeImage(path);
             JLabel tableLabel = new JLabel(tableImageIcon);
-            //setOpacity(tableLabel,0.5f);
+
 
             dynamicContainer.add(tableLabel);
             tablePanel.add(dynamicContainer);
         }
 
-        // Create main layout using a GridLayout with 1 row and 2 columns
+
         setLayout(new BorderLayout());
 
-        // Add sub-panels with appropriate alignment
         Container.setBorder(new EmptyBorder(10, 10, 5, 0));
         Container.add(bombPanel);
         Container.add(rangePanel);
         Container.add(boxPanel);
         if (mirror) {
-            add(Container, BorderLayout.EAST); // Align image and number to the left
+            add(Container, BorderLayout.EAST);
         } else {
-            add(Container, BorderLayout.WEST); // Align image and number to the left
+            add(Container, BorderLayout.WEST);
         }
 
 

@@ -1,6 +1,6 @@
 package model.board.element;
 
-import java.awt.*;
+
 
 public class Empty extends Entity{
     public Empty(double x, double y, int width, int height) {

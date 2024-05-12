@@ -93,15 +93,15 @@ public class GameHUD extends JPanel {
 
     public void restartTimer() {
         if (timer != null && !timer.isRunning()) {
-            seconds = 0; // Visszaállítjuk az eltelt másodperceket nullára
-            updateTimeLabel(); // Frissítjük az időt a JLabel-ben
-            timer.start(); // Újra elindítjuk a timert
+            seconds = 0;
+            updateTimeLabel();
+            timer.start();
         }
     }
 
     public void restartStoppedTimer() {
         if (timer != null && !timer.isRunning()) {
-            timer.start(); // Újra elindítjuk a timert
+            timer.start();
         }
     }
 
