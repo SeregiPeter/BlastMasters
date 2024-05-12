@@ -76,17 +76,18 @@ public class Player extends Entity {
      * Initializes the player's position, size, velocity, images, and other properties.
      * Sets initial values for various flags indicating player abilities and status.
      * Initializes player-related collections such as bombs and boxes.
-     * @param x The x-coordinate of the player's position
-     * @param y The y-coordinate of the player's position
-     * @param width The width of the player entity
-     * @param height The height of the player entity
-     * @param velocity The velocity of the player
-     * @param images The list of images representing the player
+     *
+     * @param x              The x-coordinate of the player's position
+     * @param y              The y-coordinate of the player's position
+     * @param width          The width of the player entity
+     * @param height         The height of the player entity
+     * @param velocity       The velocity of the player
+     * @param images         The list of images representing the player
      * @param immortalImages The list of images representing the player during immortality
-     * @param alive The initial alive status of the player
-     * @param visible The initial visibility status of the player
-     * @param name The name of the player
-     * @param board The board on which the player exists
+     * @param alive          The initial alive status of the player
+     * @param visible        The initial visibility status of the player
+     * @param name           The name of the player
+     * @param board          The board on which the player exists
      */
     public Player(double x, double y, int width, int height, double velocity, List<Image> images, List<Image> immortalImages, boolean alive, boolean visible, String name, Board board) {
         super(x, y, width, height, velocity, images.get(0), alive, visible);
@@ -232,18 +233,18 @@ public class Player extends Entity {
     }
 
 
-
     /**
      * Moves the player in the specified direction.
      * Handles animation, collision detection with walls, boxes, bombs, flames, and bonuses,
      * and updates the player's position accordingly.
+     *
      * @param direction The direction in which to move the player
      */
     public void move(Direction direction) {
         List<Image> images = usedImages;
 
-        if(!alive){
-            this.image=images.get(14);
+        if (!alive) {
+            this.image = images.get(14);
 
             return;
         }
@@ -345,6 +346,7 @@ public class Player extends Entity {
      * Creates a box entity with the specified attributes based on the selected map.
      * Sets the player as the owner of the box and adds it to the board.
      * Updates the player's box count and the UI box label.
+     *
      * @see Box
      */
     public void plantBox() {
@@ -391,6 +393,7 @@ public class Player extends Entity {
         this.hasRoller = true;
         panel.showBonus("Roller");
     }
+
     public void useDetonatorBonus() {
 
         this.hasDetonator = true;
@@ -405,8 +408,9 @@ public class Player extends Entity {
      * Supported bonus types include slowing down, becoming pacifist,
      * immediate bomb placement, reducing bomb range, becoming a ghost,
      * and gaining immortality.
-
-    /**=====================================================*/
+     * <p>
+     * /**=====================================================
+     */
     public void useSlowDownBonus() {
         if (slowedDown) {
             coolDownTimerSlowDown.restart();
@@ -419,6 +423,7 @@ public class Player extends Entity {
         }
 
     }
+
     public void pacifist() {
         if (!canPlaceBombs) {
             coolDownTimerPacifist.restart();
@@ -429,6 +434,7 @@ public class Player extends Entity {
             panel.startLineTimer("Pacifist");
         }
     }
+
     public void plantBombImmediately() {
         if (immediatelyHandicapActive) {
             coolDownTimerImmediately.restart();
@@ -441,6 +447,7 @@ public class Player extends Entity {
         }
 
     }
+
     public void smallerRange() {
         if (rangeShrunk) {
             coolDownTimerSmallRange.restart();
@@ -451,6 +458,7 @@ public class Player extends Entity {
             panel.startLineTimer("SmallRange");
         }
     }
+
     public void useGhostBonus() {
         if (ghost) {
             ghostPulsation = false;
@@ -464,6 +472,7 @@ public class Player extends Entity {
             untilGhostPulsationTimer.start();
         }
     }
+
     public void useImmortalityBonus() {
         if (immortal) {
             usedImages = immortalImages;
@@ -478,7 +487,10 @@ public class Player extends Entity {
             untilImmortalityPulsationTimer.start();
         }
     }
-    /**=====================================================*/
+
+    /**
+     * =====================================================
+     */
 
     class Caller implements ActionListener {
         @Override
@@ -636,15 +648,19 @@ public class Player extends Entity {
     public boolean isImmortal() {
         return immortal;
     }
+
     public boolean hasDetonator() {
         return hasDetonator;
     }
+
+    public int getNumberOfPlaceableBombs() { return numberOfPlaceableBombs; }
 
     /**
      * Draws the player entity on the graphics context.
      * If the player is visible, renders the player image with appropriate effects
      * based on current status, such as immortality or ghost mode.
      * Manages image pulsation and opacity changes for visual effects.
+     *
      * @param g The graphics context on which to draw the player
      */
     @Override
@@ -653,8 +669,8 @@ public class Player extends Entity {
             Graphics2D g2d = (Graphics2D) g.create();
 
 
-            if(!alive){
-                image=usedImages.get(14);
+            if (!alive) {
+                image = usedImages.get(14);
             }
 
             if (this.immortal && !immortalityPulsation) {
