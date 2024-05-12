@@ -180,7 +180,7 @@ public class Board {
                                 player1ImmortalImages.add(new ImageIcon(url).getImage());
                             }
                             player1 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player1Images, player1ImmortalImages, true, true, "Player1", this, null);
+                                    player1Images, player1ImmortalImages, true, true, "Player1", this);
                             boardElements.add(player1);
                             staticElements[row][col] = new Empty(x, y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
@@ -196,7 +196,7 @@ public class Board {
                                 player2ImmortalImages.add(new ImageIcon(url).getImage());
                             }
                             player2 = new Player(x, y, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                                    player2Images, player2ImmortalImages, true, true, "Player2", this, null);
+                                    player2Images, player2ImmortalImages, true, true, "Player2", this);
                             boardElements.add(player2);
                             staticElements[row][col] = new Empty(x, y, TILE_WIDTH.getSize(), TILE_HEIGHT.getSize());
                             break;
@@ -210,16 +210,7 @@ public class Board {
             System.err.println("File not found");
         }
     }
-    public int boardSizeX(){
-        int lastRow = staticElements.length - 1;
-        int lastColumn = staticElements[0].length - 1;
-        return (int) staticElements[lastRow][lastColumn].getX();
-    }
-    public int boardSizeY(){
-        int lastRow = staticElements.length - 1;
-        int lastColumn = staticElements[0].length - 1;
-        return (int) staticElements[lastRow][lastColumn].getY();
-    }
+
     /**
      * Gets the ImageIcon for the wall based on the selected map index.
      *
@@ -293,48 +284,6 @@ public class Board {
     }
 
     /**
-     * Moves player 1 in the specified direction on the game board.
-     * This method delegates the movement action to the player 1 instance.
-     *
-     * @param d the direction in which player 1 should move
-     */
-    public void movePlayer1(Direction d) {
-        player1.move(d);
-    }
-
-    /**
-     * Moves player 1 in the specified direction with a custom velocity on the game board.
-     * This method delegates the movement action to the player 1 instance.
-     *
-     * @param d        the direction in which player 1 should move
-     * @param velocity the velocity at which player 1 should move
-     */
-    public void movePlayer1(Direction d, double velocity) {
-        player1.move(d, velocity);
-    }
-
-    /**
-     * Moves player 2 in the specified direction on the game board.
-     * This method delegates the movement action to the player 2 instance.
-     *
-     * @param d the direction in which player 2 should move
-     */
-    public void movePlayer2(Direction d) {
-        player2.move(d);
-    }
-
-    /**
-     * Moves player 2 in the specified direction with a custom velocity on the game board.
-     * This method delegates the movement action to the player 2 instance.
-     *
-     * @param d        the direction in which player 2 should move
-     * @param velocity the velocity at which player 2 should move
-     */
-    public void movePlayer2(Direction d, double velocity) {
-        player2.move(d, velocity);
-    }
-
-    /**
      * Moves all monsters on the game board.
      */
     public void moveMonsters() {
@@ -370,16 +319,6 @@ public class Board {
     }
 
     /**
-     * Gets the winner of the game.
-     * This method is currently not implemented and returns null.
-     *
-     * @return the winning player, or null if there is no winner yet
-     */
-    public Player getWinner() {
-        return null;
-    }
-
-    /**
      * Gets the player 1 instance.
      *
      * @return the player 1 instance
@@ -404,42 +343,6 @@ public class Board {
      */
     public ArrayList<Monster> getMonsters() {
         return new ArrayList<Monster>(this.monsters);
-    }
-
-    /**
-     * Gets the list of walls on the game board.
-     *
-     * @return the list of walls
-     */
-    public ArrayList<Wall> getWalls() {
-        return walls;
-    }
-
-    /**
-     * Gets the list of boxes on the game board.
-     *
-     * @return the list of boxes
-     */
-    public ArrayList<Box> getBoxes() {
-        return boxes;
-    }
-
-    /**
-     * Gets the list of bonuses on the game board.
-     *
-     * @return the list of bonuses
-     */
-    public ArrayList<Bonus> getBonuses() {
-        return bonuses;
-    }
-
-    /**
-     * Gets the list of bombs on the game board.
-     *
-     * @return the list of bombs
-     */
-    public ArrayList<Bomb> getBombs() {
-        return bombs;
     }
 
     /**
@@ -477,7 +380,6 @@ public class Board {
      * Puts bonuses into random boxes on the game board.
      */
     public void putBonusesInBoxes() {
-        Random random = new Random();
         int numberOfBonuses = boxes.size() / 2;
         Collections.shuffle(boxes);
         ArrayList<Box> boxesWithBonuses = new ArrayList<>(boxes.subList(0, numberOfBonuses));
@@ -488,7 +390,7 @@ public class Board {
 
     public void putRandomBonusInBox(Box box) {
         Random random = new Random();
-        int randomNumber = random.nextInt(11); // Az eddig elkészült bónuszok száma
+        int randomNumber = random.nextInt(11);
         Bonus bonus = null;
         switch (randomNumber) {
             case 0:
@@ -574,16 +476,6 @@ public class Board {
                 }
             }
         }
-    }
-
-    public void stopTimers() {
-        player1.stopTimers();
-        player2.stopTimers();
-    }
-
-    public void startTimers() {
-        player1.startTimers();
-        player2.startTimers();
     }
 
     /**

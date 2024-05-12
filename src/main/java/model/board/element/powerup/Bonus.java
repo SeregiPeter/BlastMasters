@@ -58,6 +58,7 @@ public abstract class Bonus extends Entity {
      *
      * @param owner the player who will become the owner of the bonus
      */
+
     public void setOwner(Player owner) {
         this.owner = owner;
     }

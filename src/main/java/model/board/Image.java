@@ -8,7 +8,7 @@ import java.util.List;
  */
 public enum Image {
 
-    //BOMB AND EXPLOSION
+
     /**
      * Represents the image URL for a bomb.
      */
@@ -36,7 +36,6 @@ public enum Image {
     FLAME_UP_IMG("src/main/resources/assets/flame_up.png"),
     FLAME_LEFT_IMG("src/main/resources/assets/flame_left.png"),
 
-    //PLAYERS
     /**
      * Represents the image URL for the first player character.
      */
@@ -113,8 +112,6 @@ public enum Image {
             "src/main/resources/assets/entities/bomberman2/immortalityBonusActive/bomberman2w4.png"
     )),
 
-    //BACKGROUND AND TILES
-    //MAP1
     /**
      * Represents the image URL for the background of map 1.
      */
@@ -195,7 +192,6 @@ public enum Image {
             "src/main/resources/assets/bonuses/smallerRange.png"
 
     )),
-    //MONSTERS
     /**
      * Represents the image URL for a monster in map 1.
      */
@@ -314,12 +310,9 @@ public enum Image {
             "src/main/resources/assets/entities/intelligent/l7.png",
             "src/main/resources/assets/entities/intelligent/l8.png"
     )),
-
-    //FRAMES AND PANELS
     HEADER_IMG("src/main/resources/assets/menu/header.png"),
     PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
-    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png"),
-    PAUSE_BUTTON_IMG("src/main/resources/assets/menu/pause_button.png");
+    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png");
 
 
     private final String url;
@@ -327,12 +320,12 @@ public enum Image {
 
     Image(List<String> envUrls) {
         this.urls = envUrls;
-        this.url = null; // Since this constructor is used only for list URLs, set single URL to null
+        this.url = null;
     }
 
     Image(String envUrl) {
         this.url = envUrl;
-        this.urls = null; // Since this constructor is used only for single URL, set list URLs to null
+        this.urls = null;
     }
 
     public List<String> getImageUrls() {

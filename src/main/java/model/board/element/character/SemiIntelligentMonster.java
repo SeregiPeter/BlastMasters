@@ -40,11 +40,12 @@ public class SemiIntelligentMonster extends Monster {
     public SemiIntelligentMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, images, alive, visible, board);
     }
-    public Player getClosestPlayer(){ return null;}
+
 
     /**
-     * Moves the semi-intelligent monster.
-     * This method defines the movement behavior of the semi-intelligent monster.
+     * Moves the entity.
+     * Handles movement, collision detection with walls, boxes, bombs, flames, and other players,
+     * and changes direction accordingly.
      */
     @Override
     public void move() {
@@ -92,7 +93,7 @@ public class SemiIntelligentMonster extends Monster {
                 this.removable=true;
             }
             if(entity instanceof Player && entity.collides(this)) {
-                entity.setAlive(false);                                     //may violate the oop
+                entity.setAlive(false);
             }
         }
 
@@ -101,16 +102,7 @@ public class SemiIntelligentMonster extends Monster {
             Direction closest = getClosestPlayerDirection();
             this.currentDirection = closest != null ? closest : Direction.getDirectionExcept(this.currentDirection);
         }
-
-        //System.out.println(this.inIntersection() ? "IGEN" : "");
     }
-
-    /**
-     * Returns a string representation of the SemiIntelligentMonster.
-     *
-     * @return a string representation of the SemiIntelligentMonster ("Sm")
-     */
-
     @Override
     public String toString() {
         return "Sm";

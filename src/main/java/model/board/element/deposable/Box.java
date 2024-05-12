@@ -41,25 +41,8 @@ public class Box extends Entity {
         this.gaveBack=false;
     }
 
-    /**
-     * Sets the bonus contained in the box.
-     *
-     * @param bonus The bonus to be set.
-     */
     public void setBonus(Bonus bonus) {
         this.bonus = bonus;
-    }
-
-    /**
-     * Activates when the box is exploded by a bomb.
-     * If the box contains a bonus, it becomes visible on the board.
-     */
-    public void explodedByBomb() {
-        if(this.bonus != null) {
-            this.bonus.setVisible(true);
-            this.bonus.setExplodable(true);
-            board.addEntity(bonus);
-        }
     }
 
     public void setOwner(Player owner){
@@ -69,6 +52,11 @@ public class Box extends Entity {
     public Player getOwner(){
         return owner;
     }
+    /**
+     * Plants the box on the game board.
+     * Sets the visibility of the box to true, adds it to the list of entities on the board,
+     * adds it as a static element at its current position on the board, and associates it with a player.
+     */
     public void plant() {
         this.setVisible(true);
         board.addEntity(this);
@@ -76,7 +64,10 @@ public class Box extends Entity {
         board.addBox(this);
 
     }
-
+    /**
+     * Gives the box back to its owner player.
+     * Increments the number of placeable boxes for the owner player if the box has not been previously returned.
+     */
     public void giveBoxToPlayer(){
         if(!gaveBack){
             owner.incrementNumberOfPlaceableBoxes();
@@ -84,20 +75,10 @@ public class Box extends Entity {
         }
     }
 
-    /**
-     * Gets the bonus contained in the box.
-     *
-     * @return The bonus contained in the box.
-     */
     public Bonus getBonus() {
         return bonus;
     }
 
-    /**
-     * Returns a string representation of the Box, which is a Unicode symbol for a box.
-     *
-     * @return The Unicode symbol for a box, representing the Box object.
-     */
     @Override
     public String toString() {
         return "\uD83D\uDCE6";

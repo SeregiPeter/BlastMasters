@@ -35,7 +35,7 @@ public class immortalityBonusTest {
             player1ImmortalImages.add(new ImageIcon(url).getImage());
         }
         player = new Player(0, 0, PLAYER_WIDTH.getSize(), PLAYER_HEIGHT.getSize(), PLAYER_VEL.getVelocity(),
-                player1Images, player1ImmortalImages, true, true, "Player1", null, null);
+                player1Images, player1ImmortalImages, true, true, "Player1", null);
 
         immortalityBonus = new ImmortalityBonus(0,0,0,0,0,null,false,false,player);
         playerDataPanel = new PlayerDataPanel(false);

@@ -18,7 +18,6 @@ public class PlayerDataPanel extends JPanel {
     private String[] dynamicBonusName;
     private HashMap<String, LineTimerPanel> lineTimers = new HashMap<>();
     private HashMap<String, JLabel> staticLabels = new HashMap<>();
-    private HashMap<JLabel, Float> opacityValues = new HashMap<>();
     private java.awt.Image background;
     private java.awt.Image tableBackground;
 
@@ -31,10 +30,10 @@ public class PlayerDataPanel extends JPanel {
     public PlayerDataPanel(boolean mirror) {
         background = new ImageIcon(Image.PLAYER_DATA_BG_IMG.getImageUrl()).getImage();
         tableBackground = new ImageIcon(Image.PLAYER_DATA_TABLE_IMG.getImageUrl()).getImage();
-        int[] dynamicBonusTime = new int[]{5, 10, 10, 10, 5, 15};                                             //clean code needed
+        int[] dynamicBonusTime = new int[]{5, 10, 10, 10, 5, 15};
         dynamicBonusName = new String[]{"SlowDown", "Ghost", "Immortality", "Immediately", "Pacifist", "SmallRange"};
-        // Create sub-panels for clear organization
-        JPanel bombPanel = new JPanel(new GridLayout(2, 1)); // Holds image and number
+
+        JPanel bombPanel = new JPanel(new GridLayout(2, 1));
         JPanel Container = new JPanel(new GridLayout(1, 3));
         JPanel boxPanel = new JPanel(new GridLayout(2, 1));
         JPanel rangePanel = new JPanel(new GridLayout(2, 1));
@@ -52,8 +51,6 @@ public class PlayerDataPanel extends JPanel {
         bonusesContainer.setOpaque(false);
         tablePanel.setOpaque(false);
 
-
-        // Load and display images with resizing
         ImageIcon imageIconBomb = resizeImage(Image.BOMB_IMG.getImageUrl());
         JLabel imageLabelBomb = new JLabel(imageIconBomb);
         imageLabelBomb.setVerticalAlignment(JLabel.CENTER);
@@ -85,7 +82,7 @@ public class PlayerDataPanel extends JPanel {
         boxNumberLabel.setHorizontalAlignment(JLabel.CENTER);
         boxPanel.add(boxNumberLabel);
 
-        String[] staticNames = new String[]{"Roller", "Detonator"};            //clean code
+        String[] staticNames = new String[]{"Roller", "Detonator"};
         int j = 0;
         for (String path : Image.STATIC_BONUSES_IMG.getImageUrls()) {
             ImageIcon rowImageIcon = resizeImage(path);
@@ -106,24 +103,23 @@ public class PlayerDataPanel extends JPanel {
 
             ImageIcon tableImageIcon = resizeImage(path);
             JLabel tableLabel = new JLabel(tableImageIcon);
-            //setOpacity(tableLabel,0.5f);
+
 
             dynamicContainer.add(tableLabel);
             tablePanel.add(dynamicContainer);
         }
 
-        // Create main layout using a GridLayout with 1 row and 2 columns
+
         setLayout(new BorderLayout());
 
-        // Add sub-panels with appropriate alignment
         Container.setBorder(new EmptyBorder(10, 10, 5, 0));
         Container.add(bombPanel);
         Container.add(rangePanel);
         Container.add(boxPanel);
         if (mirror) {
-            add(Container, BorderLayout.EAST); // Align image and number to the left
+            add(Container, BorderLayout.EAST);
         } else {
-            add(Container, BorderLayout.WEST); // Align image and number to the left
+            add(Container, BorderLayout.WEST);
         }
 
 
@@ -146,7 +142,7 @@ public class PlayerDataPanel extends JPanel {
         for (Component component : tablePanel.getComponents()) {
             if (component instanceof JPanel) {
                 JPanel panel = (JPanel) component;
-                LineTimerPanel lineTimerPanel = new LineTimerPanel(this, (JLabel) Arrays.stream(panel.getComponents()).toArray()[0], dynamicBonusTime[i]);
+                LineTimerPanel lineTimerPanel = new LineTimerPanel(dynamicBonusTime[i]);
                 lineTimerPanel.setPreferredSize(new Dimension(40, 10));
                 timers.put(lineTimerPanel, false);
                 panel.add(lineTimerPanel);
@@ -163,9 +159,6 @@ public class PlayerDataPanel extends JPanel {
         staticLabels.get(s).setVisible(true);
     }
 
-    public void setOpacity(JLabel l, float f) {
-        opacityValues.put(l, f);
-    }
 
     public void refreshBoxLabel(int value) {
         boxNumberLabel.setText(String.valueOf(value));
@@ -199,44 +192,13 @@ public class PlayerDataPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
-        Graphics2D g2d = (Graphics2D) g.create();
+
 
 
         for (Component component : tablePanel.getComponents()) {
             if (component instanceof JPanel) {
                 JPanel panel = (JPanel) component;
                 g.drawImage(tableBackground, panel.getX() + bonusesContainer.getX(), panel.getY() + 3, panel.getWidth(), panel.getHeight(), null);
-            }
-        }
-
-
-        /*for (Map.Entry<JLabel, Float> entry : opacityValues.entrySet()) {
-            JLabel component = entry.getKey();
-            float opacity = entry.getValue();
-
-            AlphaComposite alphaComposite = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, opacity);
-                g2d.setComposite(alphaComposite);
-                component.paint(g);
-                g2d.setComposite(AlphaComposite.SrcOver); // Reset to default composite
-            }*/
-
-    }
-
-    public void stopTimers() {
-        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()) {
-            if (timer.getKey().getTimer().isRunning()) {
-                timer.getKey().getTimer().stop();
-                timer.setValue(true);
-            }
-        }
-
-    }
-
-    public void startTimers() {
-        for (Map.Entry<LineTimerPanel, Boolean> timer : timers.entrySet()) {
-            if (timer.getValue()) {
-                timer.getKey().getTimer().start();
-                timer.setValue(false);
             }
         }
     }

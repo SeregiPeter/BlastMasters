@@ -39,7 +39,7 @@ public enum Velocity {
     MONSTER_VEL(1),
     SEMI_INTELLIGENT_MONSTER_VEL(1.5),
     INTELLIGENT_MONSTER_VEL(1),
-    GHOST_MONSTER_VEL(0.5); // Todo az alap szörnynél lassabb kéne legyen, de 1-nél lassabbat nem lehet jelenleg beállítani :(
+    GHOST_MONSTER_VEL(0.5);
 
     private final double velocity;
 
