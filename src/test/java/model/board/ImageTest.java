@@ -53,7 +53,8 @@ public class ImageTest {
                 "src/main/resources/assets/entities/bomberman1/bomberman1w1.png",
                 "src/main/resources/assets/entities/bomberman1/bomberman1w2.png",
                 "src/main/resources/assets/entities/bomberman1/bomberman1w3.png",
-                "src/main/resources/assets/entities/bomberman1/bomberman1w4.png"
+                "src/main/resources/assets/entities/bomberman1/bomberman1w4.png",
+                "src/main/resources/assets/rip.png"
         );
         assertEquals("PLAYER1_IMG should return the correct list of URLs for player 1", player1Urls, Image.PLAYER1_IMG.getImageUrls());
         assertNull( "PLAYER1_IMG should return null for getImageUrl", Image.PLAYER1_IMG.getImageUrl());
