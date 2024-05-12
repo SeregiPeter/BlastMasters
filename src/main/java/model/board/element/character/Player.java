@@ -435,6 +435,10 @@ public class Player extends Entity {
         }
     }
 
+    public boolean  getCanPlaceBombs(){
+        return canPlaceBombs;
+    }
+
     public void plantBombImmediately() {
         if (immediatelyHandicapActive) {
             coolDownTimerImmediately.restart();
