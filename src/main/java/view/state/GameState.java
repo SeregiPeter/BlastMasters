@@ -4,7 +4,7 @@ package view.state;
  * Represents the various states of the game.
  * The GameState enum defines different states that the game can be in,
  * such as both players alive, one player alive, a player winning, paused,
- * or a draw.
+ * or a draw
  */
 public enum GameState {
     /** Both players are alive and actively playing. */
