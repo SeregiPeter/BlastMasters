@@ -438,6 +438,7 @@ public class Player extends Entity {
     public boolean  getCanPlaceBombs(){
         return canPlaceBombs;
     }
+    public boolean hasToPlaceBombsImmediately() {  return immediatelyHandicapActive; }
 
     public void plantBombImmediately() {
         if (immediatelyHandicapActive) {
