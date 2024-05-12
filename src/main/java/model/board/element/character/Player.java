@@ -207,11 +207,14 @@ public class Player extends Entity {
      * @param velocity the velocity of the movement
      */
     public void move(Direction d, double velocity) {
+
         double oldVelocity = this.velocity;
         this.velocity = velocity;
         move(d);
         this.velocity = oldVelocity;
     }
+
+
 
     /**
      * Moves the player in the specified direction.
@@ -222,7 +225,11 @@ public class Player extends Entity {
     public void move(Direction direction) {
         List<Image> images = usedImages;
 
-        if (!alive) return;
+        if(!alive){
+            this.image=images.get(14);
+
+            return;
+        }
         imageChangeCounter++;
 
         if (imageChangeCounter >= IMAGE_CHANGE_THRESHOLD) {
@@ -285,6 +292,7 @@ public class Player extends Entity {
                 }
             }
         }
+
 
         ArrayList<Bomb> bombsToBeChecked = new ArrayList<>(onBombs);
         for (Bomb bomb : bombsToBeChecked) {
@@ -508,7 +516,7 @@ public class Player extends Entity {
             }
         }
     }
-    
+
     public void removeBomb(Bomb bomb) {
         this.bombs.remove(bomb);
     }
@@ -599,6 +607,12 @@ public class Player extends Entity {
     public void draw(Graphics g) {
         if (this.visible) {
             Graphics2D g2d = (Graphics2D) g.create();
+
+
+            if(!alive){
+                image=usedImages.get(14);
+            }
+
             if (this.immortal && !immortalityPulsation) {
                 usedImages = immortalImages;
                 changeListOfImagesCounter++;
