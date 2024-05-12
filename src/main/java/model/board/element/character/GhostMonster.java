@@ -43,9 +43,9 @@ public class GhostMonster extends Monster {
     }
 
     /**
-     * Moves the ghost monster on the game board.
-     * This method is currently empty and needs to be implemented
-     * based on the desired "ghost behavior".
+     * Moves the entity.
+     * Handles movement, collision detection with walls, boxes, bombs, flames, and other players,
+     * and changes direction accordingly.
      */
     @Override
     public void move() {
@@ -105,6 +105,12 @@ public class GhostMonster extends Monster {
         }
     }
 
+    /**
+     * Checks if there is an empty field in a specific direction.
+     * Used for deciding whether the entity can change direction.
+     * @param direction The direction to check for an empty field
+     * @return True if there is an empty field in the specified direction, otherwise false
+     */
     public boolean isThereEmptyField(Direction direction) {
         int maxX = (Size.BOARD_WIDTH.getSize()-1) * Size.WALL_SIZE.getSize();
         int maxY = (Size.BOARD_HEIGHT.getSize()-1) * Size.WALL_SIZE.getSize();
@@ -134,6 +140,7 @@ public class GhostMonster extends Monster {
         return emptyField;
     }
 
+
     @Override
     public void draw(Graphics g) {
         if(this.visible) {
@@ -146,11 +153,6 @@ public class GhostMonster extends Monster {
         }
     }
 
-    /**
-     * Returns a string representation of the GhostMonster object.
-     *
-     * @return a string representing the ghost monster ("Gm")
-     */
     @Override
     public String toString() {
         return "Gm";

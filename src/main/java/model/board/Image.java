@@ -316,8 +316,7 @@ public enum Image {
     //FRAMES AND PANELS
     HEADER_IMG("src/main/resources/assets/menu/header.png"),
     PLAYER_DATA_BG_IMG("src/main/resources/assets/PlayerDataPanel.png"),
-    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png"),
-    PAUSE_BUTTON_IMG("src/main/resources/assets/menu/pause_button.png");
+    PLAYER_DATA_TABLE_IMG("src/main/resources/assets/table.png");
 
 
     private final String url;

@@ -13,9 +13,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * Settings class for game configurations.
- * The Settings class allows for configuring various aspects of the game such as player controls, game difficulty,
- * sound settings, and more.
+ * Settings class manages player settings, including key bindings and player names.
  */
 public class Settings {
 
@@ -41,6 +39,11 @@ public class Settings {
         load();
     }
 
+    /**
+     * Converts settings from file to key events.
+     * @param settings ArrayList containing settings from file
+     * @return Array of key events
+     */
     private int[] convertToEvent(ArrayList<String> settings) {
         int[] events=new int[12];
         int i=0;
@@ -72,6 +75,9 @@ public class Settings {
         }
         return events;
     }
+    /**
+     * Loads settings from file.
+     */
     public void load(){
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -98,14 +104,15 @@ public class Settings {
             throw new RuntimeException(e);
         }
     }
-
-
-
-
     private void initialize(PlayerCustomizationPanel p,String[] words){
         p.setPlayerName(words[0]);
         p.setControls(words);
     }
+    /**
+     * Writes settings to file.
+     * @param row Row number in file to write settings
+     * @param settings Array containing player settings
+     */
     public void write(int row,String[] settings) {
         try {
              dummy=true;
@@ -154,7 +161,7 @@ public class Settings {
         String[] p1Settings= p1.getControls();
         String[] p2Settings= p2.getControls();
 
-        for (String p1Word:p1Settings) {    // 90%-ra jó lesz...
+        for (String p1Word:p1Settings) {
             int match=0;
             for(String p2Word:p2Settings){
                 if(p1Word.equalsIgnoreCase(p2Word)) return true;
@@ -179,6 +186,7 @@ public class Settings {
 
     }
 
+    // Getters
     public PlayerCustomizationPanel getP1() {
         return p1;
     }

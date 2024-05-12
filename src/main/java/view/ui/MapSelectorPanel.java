@@ -11,8 +11,6 @@ import java.awt.event.ActionListener;
 public class MapSelectorPanel extends JPanel {
     private JLabel mapPreviewLabel;
     private JComboBox<String> mapComboBox;
-    private final Image[] mapImages;
-    private final String[] mapNames;
 
     /**
      * Constructs a MapSelectorPanel with the given map names, map images, and an action listener.
@@ -22,8 +20,7 @@ public class MapSelectorPanel extends JPanel {
      * @param actionListener the ActionListener to handle events when selecting a map
      */
     public MapSelectorPanel(String[] mapNames, Image[] mapImages, ActionListener actionListener) {
-        this.mapNames = mapNames;
-        this.mapImages = mapImages;
+
 
         setBorder(BorderFactory.createEmptyBorder(0, 25, 0, 25));
         setOpaque(false);

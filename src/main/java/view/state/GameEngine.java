@@ -12,11 +12,9 @@ import view.ui.HoverPanel;
 import view.ui.PlayerDataPanel;
 
 import javax.swing.*;
-import javax.swing.plaf.synth.SynthOptionPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +22,6 @@ import java.util.Map;
 import static model.board.Direction.*;
 import static model.board.Direction.UP;
 import static model.board.Image.*;
-import static view.state.GameState.*;
 
 /**
  * The graphical engine for the game, responsible for rendering the game board and handling user input.
@@ -103,7 +100,7 @@ public class GameEngine extends JPanel {
     }
 
     private void initializeHover() {
-        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(), board.getPlayer1().getPoints(), "");
+        hoverPanel = new HoverPanel(board.getPlayer1().getPoints(), board.getPlayer1().getPoints());
         hoverPanel.setVisible(false);
         add(hoverPanel);
     }
@@ -331,9 +328,7 @@ public class GameEngine extends JPanel {
         @Override
         public void actionPerformed(ActionEvent ae) {
             long now = System.nanoTime();
-            long updateLength = now - lastUpdateTime;
             lastUpdateTime = now;
-            double delta = updateLength / ((double) OPTIMAL_TIME);
 
             repaint();
             board.statusCheck();

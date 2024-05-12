@@ -24,7 +24,6 @@ public class Flame extends Entity {
     private Board board;
     private Direction direction;
     private int numberOfExpansions;
-    private Bomb bomb;
 
     /**
      * Constructs a Flame entity with the specified parameters.
@@ -40,7 +39,6 @@ public class Flame extends Entity {
      * @param board             The Board object where the Flame exists.
      * @param direction         The Direction in which the Flame expands.
      * @param numberOfExpansions The number of expansions the Flame should make.
-     * @param bomb              The Bomb object that triggered the Flame.
      */
     public Flame(double x, double y, int width, int height, double velocity, Image image, boolean alive, boolean visible, Board board, Direction direction, int numberOfExpansions, Bomb bomb) {
         super(x, y, width, height, velocity, image, alive, visible);
@@ -49,7 +47,6 @@ public class Flame extends Entity {
         board.addEntity(this);
         this.direction = direction;
         this.numberOfExpansions = numberOfExpansions;
-        this.bomb = bomb;
     }
 
     /**

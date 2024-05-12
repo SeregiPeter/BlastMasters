@@ -10,7 +10,7 @@ public class LineTimerPanel extends JPanel {
     private final int length=40;
     private Timer timer;
 
-    public LineTimerPanel(PlayerDataPanel parent,JLabel icon,int sec) {
+    public LineTimerPanel(int sec) {
         lineLength = length;
         int iteration= sec*1000/lineLength;
 
@@ -38,7 +38,6 @@ public class LineTimerPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        int centerX =  getWidth()/2;
         int centerY = getHeight() / 2;
 
         int strokeWidth = 10;
@@ -48,18 +47,4 @@ public class LineTimerPanel extends JPanel {
         if(timer.isRunning() && lineLength>0) g2d.drawLine(0, centerY, lineLength, centerY);
 
     }
-
-    public Timer getTimer() {
-        return timer;
-    }
-    /*public static void main(String[] args) {
-        JFrame frame = new JFrame("Vanishing Line");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 400);
-        LineTimerPanel l=new LineTimerPanel(4,2,10);
-        frame.add(l);
-        l.startTimer();
-        frame.setVisible(true);
-    }*/
-
 }

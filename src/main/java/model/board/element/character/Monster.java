@@ -20,14 +20,8 @@ public abstract class Monster extends Entity {
     Direction currentDirection;
     Random random;
 
-    /**
-     * The game board where the monster resides.
-     */
     protected Board board;
 
-    /**
-     * The list of images representing the monster.
-     */
     protected List<Image> images;
 
     /**
@@ -67,6 +61,12 @@ public abstract class Monster extends Entity {
      */
     public abstract void move();
 
+
+    /**
+     * Determines the direction towards the closest player.
+     * Uses breadth-first search to find the closest player's direction.
+     * @return The direction towards the closest player, or null if no player is found
+     */
     public Direction getClosestPlayerDirection() {
         boolean[][] visited = new boolean[Size.BOARD_HEIGHT.getSize()][Size.BOARD_WIDTH.getSize()];
         for(boolean[] row : visited) {
@@ -135,6 +135,11 @@ public abstract class Monster extends Entity {
         return null;
     }
 
+    /**
+     * Checks if the entity is in an intersection.
+     * An intersection is a position where the entity has at least two possible directions to move.
+     * @return True if the entity is in an intersection, otherwise false
+     */
     public boolean inIntersection() {
         int row = this.getRow();
         int column = this.getColumn();
@@ -151,10 +156,7 @@ public abstract class Monster extends Entity {
         return freeWays >= 2 && (this.x % Size.TILE_WIDTH.getSize() == 0) && (this.y % Size.TILE_HEIGHT.getSize() == 0);
     }
 
-    public Direction getCurrentDirection() {
-        return currentDirection;
-    }
-
+    //Setter
     public void setCurrentDirection(Direction currentDirection) {
         this.currentDirection = currentDirection;
     }

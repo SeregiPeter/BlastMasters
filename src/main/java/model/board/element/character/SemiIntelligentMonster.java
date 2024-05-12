@@ -40,7 +40,7 @@ public class SemiIntelligentMonster extends Monster {
     public SemiIntelligentMonster(int x, int y, int width, int height, double velocity, List<Image> images, boolean alive, boolean visible, Board board) {
         super(x, y, width, height, velocity, images, alive, visible, board);
     }
-    public Player getClosestPlayer(){ return null;}
+
 
     /**
      * Moves the semi-intelligent monster.

@@ -8,7 +8,7 @@ public class HoverPanel extends JPanel {
     private JLabel scoreLabel;
     private JLabel winLabel;
 
-    public HoverPanel(int score1, int score2, String winner) {
+    public HoverPanel(int score1, int score2) {
         setLayout(new BorderLayout());
         setOpaque(false);
         setPreferredSize(new Dimension(500, 200));

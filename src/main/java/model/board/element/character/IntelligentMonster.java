@@ -40,18 +40,9 @@ public class IntelligentMonster extends Monster {
     }
 
     /**
-     * Gets the closest player to the intelligent monster.
-     *
-     * @return the closest Player object to the monster, or null if no player is found
-     */
-    public Player getClosestPlayer() {
-        return null;
-    }
-
-    /**
-     * Moves the intelligent monster on the game board.
-     * This method is currently empty and needs to be implemented
-     * based on the desired "intelligent behavior".
+     * Moves the entity.
+     * Handles movement, collision detection with walls, boxes, bombs, flames, and other players,
+     * and changes direction accordingly.
      */
     @Override
     public void move() {
@@ -104,7 +95,7 @@ public class IntelligentMonster extends Monster {
                 this.removable=true;
             }
             if(entity instanceof Player && entity.collides(this)) {
-                entity.setAlive(false);                                     //may violate the oop
+                entity.setAlive(false);
             }
         }
 
@@ -114,11 +105,6 @@ public class IntelligentMonster extends Monster {
         }
     }
 
-    /**
-     * Returns a string representation of the IntelligentMonster object.
-     *
-     * @return a string representing the intelligent monster ("Im")
-     */
     @Override
     public String toString() {
         return "Im";

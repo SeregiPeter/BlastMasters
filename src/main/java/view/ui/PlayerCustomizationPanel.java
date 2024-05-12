@@ -19,8 +19,6 @@ import javax.imageio.ImageIO;
  * and control keys.
  */
 public class PlayerCustomizationPanel extends JPanel implements KeyListener {
-    private final int id;
-    private final Settings settings;
     private JTextField playerNameField;
     private JLabel characterPreviewLabel;
     private JTextField controlWTextField;
@@ -43,8 +41,6 @@ public class PlayerCustomizationPanel extends JPanel implements KeyListener {
      */
     public PlayerCustomizationPanel(int id, Settings settings) {
 
-        this.id=id;
-        this.settings=settings;
         UIManager.put("Panel.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("Label.font", new Font("Trebuchet MS", Font.BOLD, 22));
         UIManager.put("TextField.font", new Font("Trebuchet MS", Font.BOLD, 22));

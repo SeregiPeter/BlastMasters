@@ -21,8 +21,6 @@ public class StartGame extends JFrame {
     private int roundsToWin;
     private GameEngine gameEngine;
     private Settings settings;
-    private PlayerCustomizationPanel playerPanel1;
-    private PlayerCustomizationPanel playerPanel2;
     private MapSelectorPanel mapSelectorPanel;
     private ButtonPanel buttonPanel;
     private JButton mainMenuButton;

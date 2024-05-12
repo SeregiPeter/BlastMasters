@@ -89,7 +89,7 @@ public class BasicMonster extends Monster {
                 this.removable=true;
             }
             if(entity instanceof Player && entity.collides(this)) {
-                entity.setAlive(false);                                     //may violate the oop
+                entity.setAlive(false);
             }
         }
 
@@ -100,14 +100,6 @@ public class BasicMonster extends Monster {
 
         changeDirectionRandomly();
     }
-
-
-
-    /**
-     * Returns a string representation of the BasicMonster object.
-     *
-     * @return a string representing the basic monster ("Bm")
-     */
     @Override
     public String toString() {
         return "Bm";

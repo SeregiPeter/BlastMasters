@@ -50,18 +50,6 @@ public class Box extends Entity {
         this.bonus = bonus;
     }
 
-    /**
-     * Activates when the box is exploded by a bomb.
-     * If the box contains a bonus, it becomes visible on the board.
-     */
-    public void explodedByBomb() {
-        if(this.bonus != null) {
-            this.bonus.setVisible(true);
-            this.bonus.setExplodable(true);
-            board.addEntity(bonus);
-        }
-    }
-
     public void setOwner(Player owner){
         this.owner=owner;
     }
