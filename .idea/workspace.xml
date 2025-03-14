@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="2ec410a2-017b-4d57-8479-404de4a46610" name="Changes" comment="SlowDownBonus osztály egységtesztelése">
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JUnit4 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="114-slowdownbonus-osztaly-egysegtesztelese" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2fMW1gk1oaDAI0phrda8eYPdbKz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.BlastMastersMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BasicMonsterTest.testMove.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BiggerRangeBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.BoxBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DetonatorBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DirectionTest.TestDirection.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.DirectionTest.testGetOppositeDirection.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GhostBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GhostMonsterTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GhostMonsterTest.testIsThereEmptyField.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.GhostMonsterTest.testMove.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MaxBombsBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MonsterTest.executor&quot;: &quot;Debug&quot;,
+    &quot;JUnit.MonsterTest.testGetClosestPlayerDirection.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MonsterTest.testIdk.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.MonsterTest.testInIntersection.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.PlaceBombsImmediatelyBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;JUnit.SlowDownBonusTest.useTest.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.blast-masters [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.blast-masters [compile].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.blast-masters [package].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit4&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/seregi.peter/Desktop/suli/4_felev/szofttech/blast-masters&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="model.board.element.powerup.benefit" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="main.BlastMastersMain" />
+      <module name="blast-masters" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BoxBonusTest.useTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="blast-masters" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.board.element.powerup.benefit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.board.element.powerup.benefit" />
+      <option name="MAIN_CLASS_NAME" value="model.board.element.powerup.benefit.BoxBonusTest" />
+      <option name="METHOD_NAME" value="useTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GhostBonusTest.useTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="blast-masters" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.board.element.powerup.benefit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.board.element.powerup.benefit" />
+      <option name="MAIN_CLASS_NAME" value="model.board.element.powerup.benefit.GhostBonusTest" />
+      <option name="METHOD_NAME" value="useTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MaxBombsBonusTest.useTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="blast-masters" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.board.element.powerup.benefit.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.board.element.powerup.benefit" />
+      <option name="MAIN_CLASS_NAME" value="model.board.element.powerup.benefit.MaxBombsBonusTest" />
+      <option name="METHOD_NAME" value="useTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PlaceBombsImmediatelyBonusTest.useTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="blast-masters" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.board.element.powerup.handicap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.board.element.powerup.handicap" />
+      <option name="MAIN_CLASS_NAME" value="model.board.element.powerup.handicap.PlaceBombsImmediatelyBonusTest" />
+      <option name="METHOD_NAME" value="useTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SlowDownBonusTest.useTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="blast-masters" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="model.board.element.powerup.handicap.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="model.board.element.powerup.handicap" />
+      <option name="MAIN_CLASS_NAME" value="model.board.element.powerup.handicap.SlowDownBonusTest" />
+      <option name="METHOD_NAME" value="useTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.SlowDownBonusTest.useTest" />
+        <item itemvalue="JUnit.PlaceBombsImmediatelyBonusTest.useTest" />
+        <item itemvalue="JUnit.MaxBombsBonusTest.useTest" />
+        <item itemvalue="JUnit.GhostBonusTest.useTest" />
+        <item itemvalue="JUnit.BoxBonusTest.useTest" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2ec410a2-017b-4d57-8479-404de4a46610" name="Changes" comment="" />
+      <created>1713611214781</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1713611214781</updated>
+      <workItem from="1713611217423" duration="11373000" />
+      <workItem from="1713691221623" duration="1286000" />
+      <workItem from="1713766840245" duration="7811000" />
+      <workItem from="1714977123638" duration="1006000" />
+      <workItem from="1715063129377" duration="3603000" />
+      <workItem from="1715329952307" duration="13812000" />
+      <workItem from="1715541985388" duration="3866000" />
+      <workItem from="1715579559858" duration="402000" />
+      <workItem from="1715589327122" duration="119000" />
+      <workItem from="1715667252248" duration="49000" />
+      <workItem from="1717322040164" duration="93000" />
+      <workItem from="1717495380349" duration="444000" />
+      <workItem from="1723616765099" duration="141000" />
+      <workItem from="1741944492811" duration="183000" />
+      <workItem from="1741944700553" duration="741000" />
+    </task>
+    <task id="LOCAL-00001" summary="Felgyorsulás megakadályozása">
+      <option name="closed" value="true" />
+      <created>1713615278252</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1713615278252</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Double sebesség értékek lehetővé tétele">
+      <option name="closed" value="true" />
+      <created>1713621850926</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1713621850926</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Double sebesség értékek lehetővé tétele">
+      <option name="closed" value="true" />
+      <created>1713621959667</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1713621959667</updated>
+    </task>
+    <task id="LOCAL-00004" summary="IntelligentMonster javítása.">
+      <option name="closed" value="true" />
+      <created>1713769158210</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1713769158210</updated>
+    </task>
+    <task id="LOCAL-00005" summary="IntelligentMonster javítása.">
+      <option name="closed" value="true" />
+      <created>1713770469255</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1713770469255</updated>
+    </task>
+    <task id="LOCAL-00006" summary="IntelligentMonster végleges javítása.">
+      <option name="closed" value="true" />
+      <created>1713771596055</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713771596055</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Kirajzolás pályamérethez igazítása.">
+      <option name="closed" value="true" />
+      <created>1713772205575</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713772205575</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Monster alap metódusainak egységtesztelése.">
+      <option name="closed" value="true" />
+      <created>1715066721636</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715066721637</updated>
+    </task>
+    <task id="LOCAL-00009" summary="misc">
+      <option name="closed" value="true" />
+      <created>1715330506831</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715330506831</updated>
+    </task>
+    <task id="LOCAL-00010" summary="BasicMonster osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715333466217</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1715333466217</updated>
+    </task>
+    <task id="LOCAL-00011" summary="BasicMonster osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715333724751</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1715333724751</updated>
+    </task>
+    <task id="LOCAL-00012" summary="GhostMonster osztály főbb metódusainak egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715349016175</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1715349016175</updated>
+    </task>
+    <task id="LOCAL-00013" summary="BoxBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715353765833</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1715353765833</updated>
+    </task>
+    <task id="LOCAL-00014" summary="DetonatorBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715355075944</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1715355075944</updated>
+    </task>
+    <task id="LOCAL-00015" summary="BoxBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715367539354</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1715367539354</updated>
+    </task>
+    <task id="LOCAL-00016" summary="GhostBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715542653514</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1715542653514</updated>
+    </task>
+    <task id="LOCAL-00017" summary="MaxBombsBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715543705067</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1715543705067</updated>
+    </task>
+    <task id="LOCAL-00018" summary="PlaceBombsImmediately osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715544742924</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1715544742924</updated>
+    </task>
+    <task id="LOCAL-00019" summary="SlowDownBonus osztály egységtesztelése">
+      <option name="closed" value="true" />
+      <created>1715545250729</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1715545250729</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Felgyorsulás megakadályozása" />
+    <MESSAGE value="Double sebesség értékek lehetővé tétele" />
+    <MESSAGE value="IntelligentMonster javítása." />
+    <MESSAGE value="IntelligentMonster végleges javítása." />
+    <MESSAGE value="Kirajzolás pályamérethez igazítása." />
+    <MESSAGE value="Monster alap metódusainak egységtesztelése." />
+    <MESSAGE value="misc" />
+    <MESSAGE value="BasicMonster osztály egységtesztelése" />
+    <MESSAGE value="GhostMonster osztály főbb metódusainak egységtesztelése" />
+    <MESSAGE value="DetonatorBonus osztály egységtesztelése" />
+    <MESSAGE value="BoxBonus osztály egységtesztelése" />
+    <MESSAGE value="GhostBonus osztály egységtesztelése" />
+    <MESSAGE value="MaxBombsBonus osztály egységtesztelése" />
+    <MESSAGE value="PlaceBombsImmediately osztály egységtesztelése" />
+    <MESSAGE value="SlowDownBonus osztály egységtesztelése" />
+    <option name="LAST_COMMIT_MESSAGE" value="SlowDownBonus osztály egységtesztelése" />
+  </component>
+</project>

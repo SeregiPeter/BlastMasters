@@ -1,0 +1,28 @@
+Index: src/test/java/DirectionTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import model.board.Board;\r\nimport model.board.Direction;\r\nimport model.board.Image;\r\nimport model.board.Size;\r\nimport model.board.element.character.Player;\r\nimport org.junit.Before;\r\nimport org.junit.Test;\r\n\r\nimport javax.swing.*;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\nimport static model.board.Image.PLAYER1_IMMORTAL_IMG;\r\nimport static model.board.Size.*;\r\nimport static model.board.Velocity.PLAYER_VEL;\r\nimport static org.junit.Assert.assertEquals;\r\n\r\npublic class DirectionTest {\r\n\r\n    @Test\r\n    public void TestDirection() {\r\n        assertEquals(Direction.getOppositeDirection(Direction.LEFT),Direction.RIGHT);\r\n    }\r\n\r\n}
+===================================================================
+diff --git a/src/test/java/DirectionTest.java b/src/test/java/DirectionTest.java
+--- a/src/test/java/DirectionTest.java	
++++ b/src/test/java/DirectionTest.java	
+@@ -1,19 +1,6 @@
+-import model.board.Board;
+ import model.board.Direction;
+-import model.board.Image;
+-import model.board.Size;
+-import model.board.element.character.Player;
+-import org.junit.Before;
+ import org.junit.Test;
+ 
+-import javax.swing.*;
+-import java.io.IOException;
+-import java.util.ArrayList;
+-import java.util.List;
+-
+-import static model.board.Image.PLAYER1_IMMORTAL_IMG;
+-import static model.board.Size.*;
+-import static model.board.Velocity.PLAYER_VEL;
+ import static org.junit.Assert.assertEquals;
+ 
+ public class DirectionTest {
